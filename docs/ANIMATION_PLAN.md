@@ -191,7 +191,7 @@ no protótipo web + revisão visual sua + QA no device.
 | Lote | Escopo | Entregável | Status |
 |---|---|---|---|
 | **0 — Fundação/POC** | 1 cena completa ponta-a-ponta (p1_01) + paleta/reference sheet + o `animations.json` + renderer do protótipo | prova de pipeline: 1 ação animando de verdade | ✅ **entregue** |
-| **1 — Deep Web** | p1_02..p1_10 (10 cenas) + refinamento da p1_01 | mapas rodando com 10 ações animadas | ⏳ |
+| **1 — Deep Web** | p1_02..p1_10 (10 cenas) + refinamento da p1_01 | mapas rodando com 10 ações animadas | ✅ **entregue** |
 | **2 — Democracia Relativa** | p2_01..p2_10 | +10 ações | ⏳ |
 | **3 — Ratanabá** | p3_01..p3_10 | +10 ações | ⏳ |
 | **4 — Religião** | p4_01..p4_10 | as 40 ações animadas | ⏳ |
@@ -200,6 +200,17 @@ no protótipo web + revisão visual sua + QA no device.
 
 **Ordem de prioridade** = ordem acima (core jogável primeiro; personagens por último —
 antes do conteúdo volumoso, provar o loop da economia/ritmo — regra MVP).
+
+### Status do Lote 1 (entregue) — Deep Web completa
+
+- Arte: `src/assets/anim/p1_01..p1_10/scene.svg` — cada missão vira um **dossiê
+  conspiratório ilustrado** (sala secreta + personagem "O Grifter" em pose temática
+  + objeto sob holofote + plaqueta com a piada + olho vigiando), paleta ART_BIBLE.
+- Spec: `src/content/animations.json` **v2** — cenas por id com `accent` + `loops`.
+- Gerador: `tools/gen_animations.py` + kit procedural `tools/art_kit.py`
+  (arte 100% original, sem assets externos).
+- Renderizador: estados `off/idle/running`; loops por classe (`char`, `spot-*`,
+  `prop-*`, `eye`, `lamp`); moldura de dossiê (scanlines + carimbo "CONFIDENCIAL").
 
 ### Status do Lote 0 (entregue)
 

@@ -173,47 +173,72 @@ html, body {
   display: flex; flex-direction: column;
 }
 .prod-frame {
-  height: 66px; background: linear-gradient(160deg, #123A24, #0B1F15);
+  /* proporção fixa = viewBox da cena (320x88) → arte sempre preenche sem cortar */
+  aspect-ratio: 320 / 88; width: 100%;
+  background: linear-gradient(160deg, #123A24, #0B1F15);
   position: relative; overflow: hidden;
   border-bottom: 1px solid var(--gold);
 }
-/* palco da cena (camadas bg/ator/fx) — docs/ANIMATION_PLAN.md */
+/* palco da cena (dossiê conspiratório) — docs/ANIMATION_PLAN.md */
 .anim-stage { position: absolute; inset: 0; }
 .anim-scene { position: absolute; inset: 0; }
 .anim-scene svg { width: 100%; height: 100%; display: block; }
 .anim-fallback {
   position: absolute; inset: 0; display: flex; align-items: center;
-  justify-content: center; font-size: 34px; opacity: .9;
+  justify-content: center; font-size: 40px; opacity: .9;
   filter: drop-shadow(0 3px 5px rgba(0,0,0,.5));
+}
+/* moldura de dossiê: scanlines + vinheta (não atrapalham o toque) */
+.prod-frame::before {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: repeating-linear-gradient(180deg, rgba(0,0,0,.10) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+}
+.prod-frame::after {
+  content: "CONFIDENCIAL"; position: absolute; z-index: 2; pointer-events: none;
+  top: 14px; right: -30px; transform: rotate(-24deg); transform-origin: center;
+  font-family: monospace; font-weight: 900; font-size: 10px; letter-spacing: 1.5px;
+  color: rgba(179,38,30,.85); border: 1.5px solid rgba(179,38,30,.85);
+  border-radius: 4px; padding: 2px 8px; background: rgba(251,245,230,.28);
 }
 /* estados */
 .anim-stage.off .anim-fallback { animation: bobbing 1.6s ease-in-out infinite; }
-.anim-stage.off svg { filter: saturate(.25) brightness(.7); }
-.anim-stage.idle svg { filter: saturate(.9); animation: scene-idle 3.2s ease-in-out infinite; }
-.anim-stage.running svg { filter: none; animation: none; }
-.anim-stage.running svg { box-shadow: inset 0 0 16px var(--accent, rgba(57,255,156,.28)); }
+.anim-stage.off svg { filter: saturate(.15) brightness(.62) contrast(.9); }
+.anim-stage.idle svg { filter: saturate(.85); }
+.anim-stage.idle .char { animation: char-breathe 3.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center bottom; }
+.anim-stage.running svg { filter: none; }
+.anim-stage.running { box-shadow: inset 0 0 18px var(--accent, rgba(57,255,156,.30)); }
 
-/* loops de camada (driven por estado) */
-.anim-stage.running #bars rect,
-.anim-stage.running .coin,
-.anim-stage.running #coins > * { animation: pump 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center bottom; }
-.anim-stage.running #hand { animation: press 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-.anim-stage.running #lamp { animation: blink 1.1s steps(2, end) infinite; }
-.anim-stage.running #ticker g { animation: ticker-scroll 6s linear infinite; }
-.anim-stage.running .coin { animation: rise-coin 1.5s ease-in-out infinite; transform-box: fill-box; }
-
-/* idle: só respiração sutil */
-.anim-stage.idle #bars rect,
-.anim-stage.idle .coin { animation: pump 3.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center bottom; }
+/* ---- loops (estado running) ---- */
+/* personagem: paira / fica alerta */
+.anim-stage.running .char { animation: hover 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center bottom; }
+/* objetos de cena */
+.anim-stage.running .spot-throb { animation: throb 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.anim-stage.running .spot-sway    { animation: sway 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center top; }
+.anim-stage.running .spot-levitate{ animation: levitate 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.anim-stage.running .spot-spin    { animation: spin360 3.2s linear infinite; transform-box: fill-box; transform-origin: center; }
+/* partículas */
+.anim-stage.running .prop-rise > * { animation: riseFade 2.0s ease-in-out infinite; transform-box: fill-box; }
+.anim-stage.running .prop-drop > * { animation: dropBounce 1.6s ease-in-out infinite; transform-box: fill-box; }
+.anim-stage.running .prop-rain > * { animation: rainloop 1.4s ease-in-out infinite; transform-box: fill-box; }
+/* atmosfera */
+.anim-stage.running .lamp { animation: flicker 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.anim-stage.running .eye  { animation: eyeblink 4.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.anim-stage.running .dust > * { animation: dustfloat 6s ease-in-out infinite; transform-box: fill-box; }
 
 @keyframes bobbing { 0%,100% { transform: translateY(-3px); } 50% { transform: translateY(3px); } }
-@keyframes churning { 0%,100% { transform: translateY(-2px) scale(1); } 50% { transform: translateY(2px) scale(1.06); } }
-@keyframes scene-idle { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
-@keyframes pump { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.22); } }
-@keyframes press { 0%,100% { transform: translate(0,0) scale(1); } 45% { transform: translate(2px,3px) scale(.9); } }
-@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
-@keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-196px); } }
-@keyframes rise-coin { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-14px); opacity: 0; } }
+@keyframes char-breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.025); } }
+@keyframes hover { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes throb { 0%,100% { transform: scale(1); } 50% { transform: scale(1.07); } }
+@keyframes sway { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes levitate { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes spin360 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes riseFade { 0% { transform: translateY(4px); opacity: 0; } 35% { opacity: 1; } 70% { transform: translateY(-5px); opacity: 1; } 100% { transform: translateY(-8px); opacity: 0; } }
+@keyframes dropBounce { 0%,100% { transform: translateY(0); } 40% { transform: translateY(5px); } }
+@keyframes rainloop { 0%,100% { transform: translateY(0); opacity: .9; } 70% { transform: translateY(9px); opacity: .5; } }
+@keyframes flicker { 0%,100% { opacity: .9; } 12% { opacity: .55; } 20% { opacity: .85; } 44% { opacity: .6; } 60% { opacity: .9; } }
+@keyframes eyeblink { 0%,94%,100% { transform: scaleY(1); } 96% { transform: scaleY(.12); } 98% { transform: scaleY(1); } }
+@keyframes dustfloat { 0%,100% { transform: translate(0,0); } 50% { transform: translate(2px,-3px); } }
 .prod-body { padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; }
 .prod-line1 { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; }
 .producer-name { font-weight: 800; font-size: 13.5px; }

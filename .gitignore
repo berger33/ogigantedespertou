@@ -68,3 +68,7 @@ Desktop.ini
 /target/
 *.log
 sim/report.html
+
+# ---- Python ----
+__pycache__/
+*.pyc

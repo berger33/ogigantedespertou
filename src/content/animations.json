@@ -1,48 +1,129 @@
 {
-  "_comment": "Especificação de animação das missões (docs/ANIMATION_PLAN.md). Renderizador: app.js (AnimStage). Cena = camadas bg/ator/fx; estados off/idle/running. Lote 0 = cena completa p1_01; demais plugáveis.",
-  "version": 1,
+  "_comment": "Especificação de animação das missões (docs/ANIMATION_PLAN.md). Renderizador: app.js (AnimStage). Cena = dossiê conspiratório em camadas (sala secreta + Grifter + objeto sob holofote + plaqueta + efeitos). Estados: off/idle/running. Loops por classe no appendix de app.css.",
+  "version": 2,
   "stage": {
     "width": 320,
     "height": 88
   },
   "scenes": {
     "p1_01": {
-      "label": "Comprar as maiores empresas com cripto",
+      "label": "COMPRAR COM CRIPTO",
       "accent": "#B57BFF",
       "src": "assets/anim/p1_01/scene.svg",
-      "layers": [
-        {
-          "id": "bars",
-          "loop": "pump",
-          "dur": 1.8,
-          "child": true,
-          "delay": 0.12
-        },
-        {
-          "id": "hand",
-          "loop": "press",
-          "dur": 1.2
-        },
-        {
-          "id": "lamp",
-          "loop": "blink",
-          "dur": 1.1,
-          "fx": true
-        },
-        {
-          "id": "ticker",
-          "loop": "scroll",
-          "dur": 6.0,
-          "fx": true
-        },
-        {
-          "id": "coins",
-          "loop": "rise",
-          "dur": 1.5,
-          "child": true,
-          "delay": 0.18,
-          "fx": true
-        }
+      "loops": [
+        "throb",
+        "hover",
+        "rise",
+        "bob",
+        "blink"
+      ]
+    },
+    "p1_02": {
+      "label": "PLANTAR FAKE NEWS",
+      "accent": "#39FF9C",
+      "src": "assets/anim/p1_02/scene.svg",
+      "loops": [
+        "throb",
+        "hover",
+        "rise",
+        "bob",
+        "blink"
+      ]
+    },
+    "p1_03": {
+      "label": "AMIGOS REPTILIANOS",
+      "accent": "#39FF9C",
+      "src": "assets/anim/p1_03/scene.svg",
+      "loops": [
+        "sway",
+        "hover",
+        "rise",
+        "bob",
+        "blink"
+      ]
+    },
+    "p1_04": {
+      "label": "INFORMANTE NO GOVERNO",
+      "accent": "#B57BFF",
+      "src": "assets/anim/p1_04/scene.svg",
+      "loops": [
+        "levitate",
+        "hover",
+        "rise",
+        "bob",
+        "blink"
+      ]
+    },
+    "p1_05": {
+      "label": "TEORIAS DA CONSPIRAÇÃO",
+      "accent": "#D4AF37",
+      "src": "assets/anim/p1_05/scene.svg",
+      "loops": [
+        "throb",
+        "hover",
+        "drop",
+        "bob",
+        "blink"
+      ]
+    },
+    "p1_06": {
+      "label": "LAVAR CÉREBROS POP",
+      "accent": "#B57BFF",
+      "src": "assets/anim/p1_06/scene.svg",
+      "loops": [
+        "spin",
+        "hover",
+        "rise",
+        "bob",
+        "blink"
+      ]
+    },
+    "p1_07": {
+      "label": "GUERRA POR LUCRO",
+      "accent": "#B3261E",
+      "src": "assets/anim/p1_07/scene.svg",
+      "loops": [
+        "throb",
+        "hover",
+        "rise",
+        "bob",
+        "blink"
+      ]
+    },
+    "p1_08": {
+      "label": "CONTROLAR PELO WI-FI",
+      "accent": "#39FF9C",
+      "src": "assets/anim/p1_08/scene.svg",
+      "loops": [
+        "throb",
+        "hover",
+        "rise",
+        "bob",
+        "blink"
+      ]
+    },
+    "p1_09": {
+      "label": "GOVERNANTES FANTOCHES",
+      "accent": "#B57BFF",
+      "src": "assets/anim/p1_09/scene.svg",
+      "loops": [
+        "sway",
+        "hover",
+        "rise",
+        "bob",
+        "blink"
+      ]
+    },
+    "p1_10": {
+      "label": "CONTROLAR O CLIMA",
+      "accent": "#39FF9C",
+      "src": "assets/anim/p1_10/scene.svg",
+      "loops": [
+        "throb",
+        "hover",
+        "rain",
+        "bob",
+        "blink"
       ]
     }
   }
