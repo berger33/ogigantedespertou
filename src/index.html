@@ -9,36 +9,50 @@
 </head>
 <body>
   <div id="app">
-    <!-- ===== TOP HUD (§65/§66) ===== -->
+    <!-- ===================== HUD (estilo referência) ===================== -->
     <header id="hud">
-      <div class="chip currency big" title="Crédulos (moeda principal)">
-        <span class="ico">👁</span><span id="credits">0</span>
+      <!-- canto sup. esquerdo: CONFIG (sempre disponível, §76) -->
+      <button id="settings-btn" class="hud-ico" title="Config">
+        <span class="gear">⚙️</span>
+      </button>
+
+      <!-- barra de moedas -->
+      <div id="currency-bar">
+        <div class="chip currency big" title="Crédulos (moeda principal)">
+          <span class="ico">👁</span><span id="credits">0</span>
+        </div>
+        <div class="chip currency" title="Faltaeys (prestígio)">
+          <span class="ico">🙇</span><span id="convictos">0</span>
+        </div>
+        <div class="chip currency" title="Chumbo (moeda premium)">
+          <span class="ico">🥫</span><span id="chumbo">0</span>
+        </div>
       </div>
-      <div class="chip currency" title="Chumbo (moeda premium)">
-        <span class="ico">🥫</span><span id="chumbo">0</span>
-      </div>
-      <div class="chip currency" title="Convictos (prestígio)">
-        <span class="ico">👁‍🗨</span><span id="convictos">0</span>
-      </div>
-      <div class="chip stat" title="produção por segundo">
-        <span id="pps">0 👁/s</span>
-      </div>
+
+      <!-- canto sup. direito: FONE (notificações de bônus + Zap Vazado) -->
+      <button id="phone-btn" class="hud-ico" title="Notificações">
+        <span class="phone-ring">📳</span>
+        <span id="phone-badge" class="badge hidden">1</span>
+      </button>
     </header>
 
-    <!-- ===== TELAS (§74) ===== -->
+    <!-- ===================== TELAS (§74) ===================== -->
     <main id="screens">
       <!-- 1. Sede Secreta -->
       <section id="screen-sede" class="screen active">
         <div id="click-panel">
+          <div id="brain-bg" class="brain-bg"></div>
           <button id="click-zone" aria-label="Compartilhar no Zap">
             <span class="phone-ico">📱</span>
             <span class="click-title">COMPARTILHAR NO ZAP</span>
             <span class="click-sub">encaminhar → convencer → dominar</span>
           </button>
-          <div id="combo" class="combo-chip">viral ×1,0</div>
+        </div>
+        <div id="pps-line" class="pps-line hidden">
+          <span id="pps">0 👁/s</span>
+          <span id="combo" class="combo-chip">viral ×1,0</span>
         </div>
         <div id="click-upgrade" class="upgrade-strip hidden">
-          <div class="up-expand"></div>
           <div class="upgrade-current">
             <span id="click-lvl-name">Dedo Cansado</span>
             <span id="click-lvl-power">poder: 1 👁</span>
@@ -50,8 +64,8 @@
         </div>
         <div id="sede-producers">
           <div class="list-head">
-            <span>PRODUTORES</span>
-            <button id="buy-all-btn" class="mini-btn" title="Comprar tudo (Zé do Chapéu de Alumínio)">👔 comprar tudo</button>
+            <span>👁 PRODUTORES</span>
+            <span id="buy-all-holder"><button id="buy-all-btn" class="mini-btn hidden">👔 comprar tudo</button></span>
           </div>
           <div id="producers" aria-label="Produtores"></div>
         </div>
@@ -60,15 +74,15 @@
       <!-- 2. Coordenadores -->
       <section id="screen-managers" class="screen">
         <h2 class="screen-title">🧑‍💼 COORDENADORES</h2>
-        <p class="screen-sub">Automatizam seus produtores. Sem eles, o lucro fica pronto para você coletar.</p>
+        <p class="screen-sub">Automatizam seus produtores — inclusive quando você está dormindo.</p>
         <div id="managers-list" class="list"></div>
-        <button id="buy-zé" class="btn-accent block" onclick="window.__buyZe()">👔 Zé do Chapéu de Alumínio — comprar tudo (10 Convictos)</button>
+        <button id="buy-zé" class="btn-accent block">👔 Zé do Chapéu de Alumínio — comprar tudo (10 Convictos)</button>
       </section>
 
       <!-- 3. Laboratório de Sósias -->
       <section id="screen-clones" class="screen">
         <h2 class="screen-title">🧪 LABORATÓRIO DE SÓSIAS</h2>
-        <p class="screen-sub">Cada sósia multiplica um produtor. Duplicatas viram Puxa-Sacos (+1% global cada).</p>
+        <p class="screen-sub">Um tanque caricato para cada produtor. Sósia multiplica a produção; duplicata vira Puxa-Saco (+1% global).</p>
         <div id="clone-rates" class="rates"></div>
         <button id="clone-open" class="btn-accent block">🧬 ABRIR TANQUE — <span id="clone-cost">15</span> 🥫</button>
         <div id="clone-pity" class="pity">Pity: Raro garantido a cada 25 aberturas</div>
@@ -78,7 +92,7 @@
       <!-- 4. Zap Vazado -->
       <section id="screen-zap" class="screen">
         <h2 class="screen-title">🕵️ ZAP VAZADO</h2>
-        <p class="screen-sub">Notícias duvidosas caem na sua mesa. Aprove as úteis e negue as que queimam o filme. Recompensa em Crédulos e Chumbo.</p>
+        <p class="screen-sub">Intercepte mensagens e decida: útil ou queimação de filme. Recompensa em Crédulos e Chumbo.</p>
         <div class="zap-meter"><div id="zap-desconfianca" style="width:0%"></div></div>
         <div class="zap-card" id="zap-card">
           <div id="zap-sender" class="zap-sender"></div>
@@ -90,26 +104,32 @@
         </div>
       </section>
 
-      <!-- 5. Maçonaria Nacional -->
+      <!-- 5. Círculo Interno (prestígio) -->
       <section id="screen-lodge" class="screen">
-        <h2 class="screen-title">🏛️ MAÇONARIA NACIONAL</h2>
-        <p class="screen-sub">Onde o Chefe mede seus lucros e decide se já pode acordar o Gigante.</p>
-        <div class="stats-card">
-          <div class="stat-row"><span>Crédulos na vida</span><b id="stat-life">0</b></div>
-          <div class="stat-row"><span>Crédulos agora</span><b id="stat-credits">0</b></div>
-          <div class="stat-row"><span>Produção / segundo</span><b id="stat-pps">0</b></div>
-          <div class="stat-row"><span>Convictos acumulados</span><b id="stat-convictos">0</b></div>
-          <div class="stat-row"><span>Poder do toque</span><b id="stat-power">1</b></div>
-          <div class="stat-row"><span>Puxa-Sacos</span><b id="stat-puxasacos">0</b></div>
+        <h2 class="screen-title">🌋 CÍRCULO INTERNO</h2>
+        <p class="screen-sub">Tem certeza que quer acordar esse negócio? Seus lucros viram Convictos (faltaeys), cada um +3% global.</p>
+        <div id="giant-stage" class="giant-stage">
+          <div id="giant-ico" class="giant-ico">🌎</div>
         </div>
-        <div class="upgrades-head">MELHORIAS GLOBAIS</div>
+        <div class="stats-card">
+          <div class="stat-row"><span>Lucro nesta operação</span><b id="stat-credits">0</b></div>
+          <div class="stat-row"><span>Convictos se acordar agora</span><b id="lodge-gain">+0</b></div>
+          <div class="stat-row"><span>Convictos acumulados</span><b id="stat-convictos">0</b></div>
+          <div class="stat-row"><span>Produção / segundo</span><b id="stat-pps">0</b></div>
+          <div class="stat-row"><span>Puxa-Sacos (+1% cada)</span><b id="stat-puxasacos">0</b></div>
+        </div>
+        <div class="lodge-actions">
+          <button id="giant-bomb" class="btn-accent">💣 BOMBA DO DESPERTAR (grátis)</button>
+          <button id="giant-loyalty" class="btn-ghost">💎 Comprar lealdade — 10 🥫 (mantém tudo)</button>
+        </div>
+        <div class="upgrades-head">MELHORIAS GLOBAIS (Deep Web)</div>
         <div id="global-upgrades" class="list"></div>
       </section>
 
       <!-- 6. Loja de Melhorias -->
       <section id="screen-shop" class="screen">
-        <h2 class="screen-title">🛒 LOJA DE MELHORIAS</h2>
-        <p class="screen-sub">Compre melhorias para um produtor e veja sua produção explodir (×3 por nível).</p>
+        <h2 class="screen-title">⬆️ MELHORIAS</h2>
+        <p class="screen-sub">Melhore um produtor (×3 por nível) ou o poder do toque. O botão "comprar tudo" aparece quando o Zé é contratado.</p>
         <div id="shop-charge" class="shop-charge hidden">
           <span>MELHORANDO:</span> <b id="shop-target">—</b>
         </div>
@@ -121,14 +141,14 @@
       <!-- 7. Mapa da Dominação -->
       <section id="screen-map" class="screen">
         <h2 class="screen-title">🗺️ MAPA DA DOMINAÇÃO</h2>
-        <p class="screen-sub">Quatro fases de pura teoria. Progrida por lucro vitalício.</p>
+        <p class="screen-sub">Quatro fases de dominação mundial. Progrida por lucro vitalício. (Sátira; sem vitória fixa.)</p>
         <div id="map-list" class="grid"></div>
       </section>
 
       <!-- 8. Loja de Chumbo -->
       <section id="screen-lead" class="screen">
         <h2 class="screen-title">🥫 LOJA DE CHUMBO</h2>
-        <p class="screen-sub">Moeda premium para o Laboratório e benefícios. (IAP simulado — ambiente de desenvolvimento.)</p>
+        <p class="screen-sub">Moeda premium para o Laboratório e a "comprar lealdade". IAP simulado — ambiente de desenvolvimento.</p>
         <div id="lead-packs" class="list"></div>
       </section>
 
@@ -140,51 +160,112 @@
       </section>
     </main>
 
-    <!-- ===== DOCK (§75) ===== -->
-    <nav id="dock">
-      <button class="dock-btn active" data-screen="screen-sede"><span class="d-ico">🏢</span><span>HQ</span></button>
-      <button class="dock-btn" data-screen="screen-managers"><span class="d-ico">🧑‍💼</span><span>Chefes</span></button>
-      <button class="dock-btn" data-screen="screen-clones"><span class="d-ico">🧪</span><span>Sósias</span></button>
-      <button class="dock-btn" data-screen="screen-zap"><span class="d-ico">🕵️</span><span>Zap</span></button>
-      <button class="dock-btn" data-screen="screen-lodge"><span class="d-ico">🌋</span><span>Gigante</span></button>
-      <button class="dock-btn more" data-screen="screen-menu"><span class="d-ico">☰</span><span>Mais</span></button>
+    <!-- ===================== NAVEGAÇÃO INFERIOR (§75) ===================== -->
+    <!-- registro esq: cronômetro (boost ×2). central: telefone (clicar). dir: botões de menu -->
+    <nav id="bottom-bar">
+      <button id="stopwatch-btn" class="nav-ico" title="Boost ×2 (1 🥫) — empilhável">
+        <span>⏱️</span>
+        <span id="stopwatch-timer" class="sw-timer">×2</span>
+      </button>
+      <div id="bottom-main">
+        <button id="click-phone" class="big-round" aria-label="Compartilhar no Zap">
+          <span class="phone-ico">📱</span>
+        </button>
+      </div>
+      <div id="bottom-btns">
+        <button class="nav-btn active" data-screen="screen-sede"><span>🏛️</span><span>HQ</span></button>
+        <button class="nav-btn" data-screen="screen-managers"><span>🕴️</span><span>Chefes</span></button>
+        <button class="nav-btn" data-screen="screen-clones"><span>🧪</span><span>Sósias</span></button>
+        <button class="nav-btn" data-screen="screen-lodge"><span>🌋</span><span>Gigante</span></button>
+        <button class="nav-btn" data-screen="screen-zap"><span>🕵️</span><span>Zap</span></button>
+        <button class="nav-btn" data-screen="screen-map"><span>🗺️</span><span>Mapa</span></button>
+        <button class="nav-btn" data-screen="screen-shop"><span>⬆️</span><span>Melhorias</span></button>
+        <button class="nav-btn" data-screen="screen-lead"><span>🥫</span><span>Chumbo</span></button>
+        <button class="nav-btn" data-screen="screen-commercial"><span>🚀</span><span>Anúncios</span></button>
+        <button class="nav-btn" data-screen="screen-archive"><span>🗄️</span><span>Arquivo</span></button>
+      </div>
     </nav>
 
-    <!-- ===== MENU "MAIS" (§76) ===== -->
-    <div id="menu-sheet" class="sheet hidden">
-      <div class="sheet-head"><span>MAIS</span><button id="menu-close" class="mini-btn">✕</button></div>
+    <!-- ===================== TELA "ANÚNCIOS" (§92) ===================== -->
+    <section id="screen-commercial" class="screen-commercial hidden">
+      <div class="comm-card">
+        <button id="comm-close" class="mini-btn">✕</button>
+        <h2 class="screen-title">📺 PATROCÍNIO SUSPEITO</h2>
+        <p>Bônus simulados (sem anúncios reais em desenvolvimento).</p>
+        <button id="ad-warp2" class="comm-row"><span>⏩</span><div><b>Buraco de Minhoca</b><small>+2h de produção instantânea</small></div></button>
+        <button id="ad-warp4" class="comm-row"><span>🌀</span><div><b>Buraco de Minhoca XL</b><small>+4h de produção instantânea</small></div></button>
+        <button id="ad-x5" class="comm-row"><span>⚡</span><div><b>Viral de 5×</b><small>+5× de produção por 260s</small></div></button>
+        <button id="ad-double" class="comm-row"><span>👥</span><div><b>Convittes Dobrados</b><small>+50% de Convictos no próximo Despertar</small></div></button>
+      </div>
+    </section>
+
+    <!-- ===================== CONFIG SHEET ===================== -->
+    <div id="settings-sheet" class="sheet hidden">
+      <div class="sheet-head"><span>CONFIG</span><button id="settings-close" class="mini-btn">✕</button></div>
       <div class="sheet-grid">
-        <button class="sheet-btn" data-screen="screen-shop"><span>🛒</span>Melhorias</button>
-        <button class="sheet-btn" data-screen="screen-map"><span>🗺️</span>Mapa</button>
-        <button class="sheet-btn" data-screen="screen-lead"><span>🥫</span>Chumbo</button>
-        <button class="sheet-btn" data-screen="screen-archive"><span>🗄️</span>Arquivo</button>
-        <button class="sheet-btn" id="sound-toggle"><span id="sound-ico">🔊</span>Som</button>
         <button class="sheet-btn" id="format-btn"><span>🔢</span><span id="format-label">abrev.</span></button>
-        <button class="sheet-btn" id="prestige-btn"><span>🌋</span>Despertar</button>
+        <button class="sheet-btn" id="sound-toggle"><span id="sound-ico">🔊</span>Som</button>
+        <button class="sheet-btn" id="notif-toggle"><span id="notif-ico">🔔</span>Lembretes</button>
         <button class="sheet-btn danger" id="reset-btn"><span>🗑️</span>Resetar</button>
+      </div>
+      <p class="settings-note">Idioma: pt-BR · Restaurar compras: simulado · <b>Privacidade</b>: sem coleta de dados pessoais (ver política).</p>
+    </div>
+
+    <!-- ===================== SHEET DE NOTIFICAÇÕES (fone) ===================== -->
+    <div id="phone-sheet" class="sheet hidden">
+      <div class="sheet-head"><span>📳 NÃO PERCA ISSO</span><button id="phone-close" class="mini-btn">✕</button></div>
+      <div id="phone-sheet-body"></div>
+    </div>
+
+    <!-- ===================== MODAIS ===================== -->
+    <div id="bonus-modal" class="modal hidden">
+      <div class="modal-card center">
+        <div id="bonus-icon" class="reveal-icon">🎁</div>
+        <h2 id="bonus-title">Bônus!</h2>
+        <p id="bonus-desc"></p>
+        <p id="bonus-sub" class="warn"></p>
+        <div class="modal-actions">
+          <button id="bonus-accept" class="btn-accent">ASSISTIR (simulado)</button>
+          <button id="bonus-decline" class="btn-ghost">agora não</button>
+        </div>
       </div>
     </div>
 
-    <!-- ===== MODAIS ===== -->
     <div id="offline-report" class="modal hidden">
-      <div class="modal-card">
-        <h2>📄 Enquanto você sumiu…</h2>
+      <div class="modal-card center">
+        <div class="reveal-icon">📄</div>
+        <h2>Bem-vindo de volta!</h2>
         <p id="offline-text"></p>
+        <p id="offline-dbl-hint" class="warn">Assistir um anúncio (simulado) duplica o relatório.</p>
         <div class="modal-actions">
-          <button id="offline-double" class="btn-accent">DUPLICAR RELATÓRIO</button>
+          <button id="offline-double" class="btn-accent">DUPLICAR (simulado)</button>
           <button id="offline-close" class="btn-ghost">fechar</button>
         </div>
       </div>
     </div>
 
     <div id="prestige-modal" class="modal hidden">
-      <div class="modal-card">
-        <h2>🌋 Despertar o Gigante</h2>
-        <p class="warn">Você perderá crédulos, produtores, coordenadores e melhorias desta operação. Sósias, Chumbo e Convictos são preservados.</p>
+      <div class="modal-card center">
+        <div class="reveal-icon">🌋</div>
+        <h2>Despertar o Gigante?</h2>
+        <p class="warn">Grátis: você perde crédulos, produtores, coordenadores e melhorias desta operação.</p>
         <p class="gain" id="prestige-gain">+0 Convictos</p>
         <div class="modal-actions">
-          <button id="prestige-confirm" class="btn-accent" onclick="window.__confirmPrestige()">DESPERTAR</button>
+          <button id="prestige-confirm" class="btn-accent" onclick="window.__confirmPrestige()">💣 ACORDAR</button>
           <button class="btn-ghost" onclick="window.__closePrestige()">ainda não</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="loyalty-modal" class="modal hidden">
+      <div class="modal-card center">
+        <div class="reveal-icon">💎</div>
+        <h2>Comprar Lealdade</h2>
+        <p>Ganhe <b id="loyalty-gain">+0 Convictos</b> mantendo TODO o progresso.</p>
+        <p class="warn">Custo: 10 🥫 (Chumbo)</p>
+        <div class="modal-actions">
+          <button id="loyalty-confirm" class="btn-accent" onclick="window.__confirmLoyalty()">COMPRAR</button>
+          <button class="btn-ghost" onclick="window.__closeLoyalty()">cancelar</button>
         </div>
       </div>
     </div>
@@ -202,11 +283,19 @@
       </div>
     </div>
 
+    <!-- camada de "acordar" (animação de prestígio) -->
+    <div id="giant-wake" class="wake hidden">
+      <div class="wake-inner">
+        <div class="wake-burst">💥</div>
+        <div class="wake-text">O GIGANTE DESPERTOU</div>
+      </div>
+    </div>
+
     <div id="toast" class="toast"></div>
     <div id="save-flash" class="save-flash">● salvo</div>
 
     <footer id="satire-note">
-      Este jogo é uma obra de ficção e sátira. Nomes, organizações, teorias e acontecimentos aqui retratados são fictícios e humorísticos; não devem ser interpretados como fatos.
+      Obra de ficção e sátira. Nomes, organizações, teorias e acontecimentos aqui retratados são fictícios e humorísticos; não devem ser interpretados como fatos.
     </footer>
   </div>
   <script type="module" src="app.js"></script>
