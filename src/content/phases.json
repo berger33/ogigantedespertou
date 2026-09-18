@@ -1,9 +1,0 @@
-{
-  "_comment": "Mapa da Dominação (spec §81-§84). Limiares = lifetimeCredits (sátira; sem vitória fixa, igual à referência).",
-  "phases": [
-    { "id": "P1", "name": "Deep Web",        "icon": "🕳️", "threshold": "0",     "flavor": "A internet que ninguém admite frequentar.", "color": "#14532D" },
-    { "id": "P2", "name": "Ditadura Secreta","icon": "🚩", "threshold": "1e21",  "flavor": "Um país sem nome, com bandeira sem símbolo.", "color": "#B3261E" },
-    { "id": "P3", "name": "Área 51 BR",       "icon": "🛸", "threshold": "7.5e27","flavor": "Há um hangar do tamanho de uma fazenda, dizem.", "color": "#39FF9C" },
-    { "id": "P4", "name": "Bancos",           "icon": "🏦", "threshold": "2.5e32","flavor": "Onde o dinheiro dorme e ninguém acorda.", "color": "#D4AF37" }
-  ]
-}
