@@ -73,11 +73,11 @@ COMPARTILHAR (clique) → GERAR CRÉDULOS → COMPRAR PRODUTORES
 
 | Moeda | Emoji | Obtida por | Usada para |
 |---|---|---|---|
-| **Crédulos** | 👁 | clique, produtores, eventos, bônus, offline | produtores, upgrades, automação, expansão |
+| **Mentes** | 🧠 | clique, produtores, eventos, bônus, offline | produtores, upgrades, automação, expansão |
 | **Chumbo** | 🛸 | recompensas raras, achievements, Zap Vazado, eventos, rewarded, IAP | Laboratório de Sósias, cosméticos, conveniência |
-| **Convictos** | 👁‍🗨 | **Despertar o Gigante** (prestígio) | bônus permanentes (aquém/entre resets) |
+| **Convictos** | 🙇 | **Despertar o Gigante** (prestígio) | bônus permanentes (aquém/entre resets) |
 
-- Crédulos = pessoas convencidas pela organização.
+- Mentes = gente convencida pela organização (contador com desenho de cérebro ao lado).
 - Chumbo faz referência visual ao Mistério das Máscaras de Chumbo (contexto
   cultural, tratado como ficção — ver CONTENT_BIBLE).
 - Convictos permanecem após reset e aplicam **bônus global permanente**.
@@ -97,7 +97,7 @@ Implementação: `src/core/BigNumber.js` + espelho `unity/`.
 
 ## 7. Ação principal — Compartilhar no Zap (§22–§26)
 
-Botão **COMPARTILHAR NO ZAP** (celular → mensagem encaminhada → contatos → Crédulos).
+Botão **COMPARTILHAR NO ZAP** (celular → mensagem encaminhada → contatos → Mentes).
 
 - **Feedback do clique:** bounce, contador, partículas (celulares voando),
   vibração leve, som de notificação, multiplicador flutuante.
@@ -111,88 +111,91 @@ Botão **COMPARTILHAR NO ZAP** (celular → mensagem encaminhada → contatos �
 
 ---
 
-## 8. Produtores (§27–§30)
+## 8. Produtores = missões por mapa (§27–§30)
 
-- **12 slots por fase × 4 fases = 48 produtores temáticos.** Slots mantêm
-  posição lógica; tema e produção evoluem por fase.
+- **10 missões únicas × 4 mapas = 40 missões temáticas.** Os 4 mapas operam
+  **em paralelo**: produção, ciclos e melhorias enxergam o conjunto todo; a
+  Sede exibe o mapa ativo selecionável na faixa.
 - **Fórmula base (§28):**
   - `Cost(n) = BaseCost × GrowthRate^Owned`
   - `Production = BaseProduction × Owned × Multipliers`
-- **Buy modes (§29):** `x1 x10 x25 x100 MAX` (custo sempre exibido).
-- **Milestones (§30)** por produtor em `10, 25, 50, 100, 250, 500, 1000`
+- **Buy modes (§29):** `x1 x10 MAX` (custo sempre exibido).
+- **Milestones (§30)** por missão em `10, 25, 50, 100, 250, 500, 1000`
   (bônus ex.: ×2 produção; mudanças maiores em milestones específicos).
+- **Progressão entre mapas:** a 1ª missão do mapa seguinte custa mais que a
+  última do anterior (Deep Web 25,8 B → Democracia Relativa 309,6 B → Ratanabá
+  19,17 Se → Religião 1,187 Vg); razão ×12 contínua, fluida como a referência.
 
-### Fase 1 — Deep Web (§31, imagem: porão improvisado, CRTs, cabos, quadros de barbante)
+### Mapa 1 — Deep Web (§31, imagem: porão improvisado, CRTs, cabos, quadros de barbante)
 
-1. Comprar Big Techs com cripto
-2. Barriga Viral Misteriosa
-3. Amizade com Reptilianos
-4. Profeta Autoproclamado como Informante
-5. Espalhar Lenda de Ratanabá
-6. Mensagens Subliminares em Clipes
-7. Venda da Copa de 98
-8. Internacionalizar a Amazônia pelo Wi-Fi
-9. Controlar Prefeitos e Governadores Fictícios
-10. Controle do Clima no Carnaval
-11. Clonar Celebridades Fictícias
-12. Capturar o ET de Varginha
+Custos na faixa da referência: 12 → 25,8 B.
 
-### Fase 2 — Ditadura Secreta (§32, universo 100% fictício, sem regime real específico)
+1. Comprar as maiores empresas com cripto
+2. Plantar fake news na mídia
+3. Fazer amizade com os reptilianos
+4. Colocar um informante no governo
+5. Fomentar teorias da conspiração
+6. Lavar o cérebro de artistas pop
+7. Começar guerras por lucro
+8. Controlar mentes através do Wi-Fi
+9. Manipular governantes fantoches
+10. Gerenciar sistemas de controle do clima
 
-1. Estatizar Corporações Globais
-2. Propaganda Estatal com Sósia Viral
-3. Elite Reptiliana Militar
-4. Culto ao Líder Fictício
-5. Ratanabá como Território Militar
-6. Hinos Nacionais por Artistas Cooptados
-7. Conflitos de Fronteira Inventados
-8. Guerra dos Mapas
-9. Controle Demográfico Absurdo
-10. Vigilância por Espelhos
-11. Apagar Personagens Fictícios da História
-12. Toque de Recolher em Varginha
+### Mapa 2 — Democracia Relativa (§32, sátira fictícia, sem candidatos reais)
 
-### Fase 3 — Área 51 BR (§33, Varginha + FC + alienígenas)
+Política é show: pesquisas encomendadas, sósias eleitos e a Constituição do Zap.
 
-1. Ações de Federações Intergalácticas
-2. Abduzir Gestantes Fictícias
-3. Braço Direito dos Illuminati Supremos
-4. Embaixador Pleiadiano
-5. Portais de Ratanabá
-6. Shows em Marte
-7. Copa 98 como Experimento Alienígena
-8. Amazônia no Império Galáctico
-9. Clones Alienígenas no Poder
-10. Motor de Dobra Climática
-11. Frotas de OVNIs em Museus
-12. Super-Soldados com DNA do ET
+1. Comprar o voto do tio do grupo
+2. Encomendar a pesquisa que prova o que a gente quer
+3. Fundar o partido do meio-termo
+4. Espalhar a emenda "totalmente pública"
+5. Sessão plenária com robôs no contra-turno
+6. Cabo eleitoral com megafone na praça
+7. Comício com promessas em formato de dupla
+8. Escrever a "Constituição do Zap"
+9. Eleger um sósia por procuração
+10. Proclamar a Democracia Relativa™
 
-### Fase 4 — Bancos (§34, luxo absurdo + Wall Street + burocracia intergaláctica)
+### Mapa 3 — Ratanabá (§33, a cidade secreta que todo mundo já viu no mapa)
 
-1. Bancos Centrais e FMI
-2. Seguro Contra Golpe de Barriga
-3. Dinastia Reptiliana
-4. Banco Central Intergaláctico
-5. Ouro de Ratanabá
-6. Megaeventos de Lavagem Cósmica
-7. Dívida Eterna da Copa
-8. Securitizar a Amazônia
-9. Parlamento Global Fictício
-10. Privatizar Oxigênio e Clima
-11. Clonar Bilionários Fictícios
-12. Patentes Médicas Alienígenas
+1. Escavar a entrada da cidade subterrânea
+2. Ativar o Wi-Fi da cidade invisível
+3. Contratar o cartógrafo que viu o mapa
+4. Comprar terreno na capital oculta
+5. Vender excursão para o subsolo
+6. Abrir o consulado de Ratanabá
+7. Exportar ouro dos incas por Sedex
+8. Eleger o prefeito do nada
+9. Imprimir a moeda de Ratanabá
+10. Revelar a entrada oficial (com catraca)
+
+### Mapa 4 — Religião (§34, sátira de vigaristas, sem ofender a fé de ninguém)
+
+1. Fundar o templo da fé com cashback
+2. Transmitir o sermão em 8K com IA
+3. Autenticar a relíquia "do milênio"
+4. Vender a água da torneira abençoada
+5. Adiar o apocalipse (de novo)
+6. Bingo solidário do juízo final
+7. Restaurar a imagem que "chora" xarope
+8. Comandar o retiro do arrepio garantido
+9. Redescobrir o 13º mandamento (no áudio)
+10. Abrir a filial no céu
 
 ---
 
-## 9. Fases e transições (§35–§37)
+## 9. Mapas e transições (§35–§37)
 
-| Fase | Nome | Desbloqueio (calibrado no simulador) | Transição cinematográfica |
+| Mapa | Nome | Desbloqueio (missão final do anterior) | Transição cinematográfica |
 |---|---|---|---|
 | 1 | Deep Web | Inicial | — |
-| 2 | Ditadura Secreta | Primeiro GRANDE milestone | arquivos sendo carimbados |
-| 3 | Área 51 BR | escala econômica colossal | portal alienígena abre |
-| 4 | Bancos | endgame | cofre gigante abre |
+| 2 | Democracia Relativa | concluir "Gerenciar sistemas de controle do clima" | urna confete estourando |
+| 3 | Ratanabá | concluir "Proclamar a Democracia Relativa™" | mapa se redesenha sozinho |
+| 4 | Religião | concluir "Revelar a entrada oficial" | catraca dourada se abre |
 
+- Navegação por **faixa horizontal** no topo (nome do mapa ao centro, ◀/▶ nas
+  pontas); revisitar mapas concluídos é permitido. Navegação linear: cada mapa
+  abre ao concluir a missão final do anterior.
 - Desbloqueio deve parecer **monumental**, não um número arbitrário (§35).
 - A Sede muda por completo de fundo/iluminação/objetos/VFX/sons/produtores,
   preservando a UX (§37).
@@ -201,21 +204,10 @@ Botão **COMPARTILHAR NO ZAP** (celular → mensagem encaminhada → contatos �
 
 ## 10. Coordenadores (automação) (§38–§42)
 
-**12 Coordenadores** (um por slot), com silhueta, personalidade, expressão,
-idle anim, descrição, **frase de contratação** e **frase de upgrade** próprias (§39):
-
-1. CEO Invisível
-2. Repórter Sensacionalista
-3. Embaixador Escamoso
-4. Estagiário Infiltrado
-5. Guru do Grupo de Zap
-6. Produtor Musical Hipnótico
-7. General de Aluguel
-8. Técnico do Roteador Suspeito
-9. Assessor Sombra
-10. Meteorologista Sinistro
-11. Cirurgião de Sósias
-12. Veterinário da Área 51
+**40 Coordenadores** (um por missão; 4 mapas × 10), com silhueta, personalidade,
+expressão, idle anim, descrição, **frase de contratação** e **frase de upgrade**
+próprias (§39). Definidos data-driven em `src/content/managers.json` (ex.: CEO
+Invisível, Editor de Manchetes, Embaixador Escamoso, Pastor do Cashback…).
 
 **Zé do Chapéu de Alumínio** (§40): Coordenador especial que desbloqueia
 **COMPRAR TUDO**. Frase: *"Eu já sabia que você ia clicar."*
@@ -252,7 +244,7 @@ velocidade/produção/milestones — progressão simples no início.
 - **Medidor de Desconfiança Pública:** escolhas ruins aumentam; cheio = pequena
   penalidade temporária; baixo = bônus; nada de perda irrecuperável (§53).
 - **Streak:** acertos consecutivos (1/2/3/5/10…) aumentam recompensa (§54).
-- **Recompensas:** Crédulos, Chumbo, boost temporário, fragmentos de Sósia (§55).
+- **Recompensas:** Mentes, Chumbo, boost temporário, fragmentos de Sósia (§55).
 - **Data model (§56):** `id, headline, body, categoria, fase, respostaCertagurada,
   recompensa, raridade, tags` → centenas sem código novo.
 
@@ -262,8 +254,11 @@ velocidade/produção/milestones — progressão simples no início.
 
 - Reseta a run e entrega **Convictos**.
 - Confirmação clara (nunca reset acidental); preview de Convictos e do bônus.
-- **Fórmula (§59):** `Convictos = floor((LifetimeCrédulos / Limiar)^Expoente)`
+- **Fórmula (§59):** `Convictos = floor((LifetimeMentes / Limiar)^Expoente)`
   → calibrada em `sim/`.
+- **Nota de nomenclatura:** o "lifetime" da fórmula corresponde às Mentes
+  acumuladas na vida (antiga denominação "Crédulos" foi substituída; saves
+  continuam compatíveis).
 - **Bônus hipótese (§60):** `+3% produção global por Convicto` (multiplicativo),
   validado no simulador para evitar runaway impossível.
 - **Maçonaria Nacional (§61–§63):** tela de árvore de prestígio — sociedade
@@ -275,14 +270,14 @@ velocidade/produção/milestones — progressão simples no início.
 
 ## 14. As 9 telas principais (§64–§75)
 
-1. **Sede Secreta** — Home: Crédulos, Chumbo, produção/seg, botão Compartilhar,
-   produtores, fase atual, atalhos, eventos.
-2. **Coordenadores** — 12 dossiês (portrait, nome, produtor, status, nível, bônus, custo).
+1. **Sede Secreta** — Home: Mentes, Chumbo, produção/seg, botão Compartilhar,
+   produtores do mapa ativo, faixa de mapas no topo, atalhos, eventos.
+2. **Coordenadores** — dossiês das missões do mapa ativo (portrait, nome, produtor, status, nível, bônus, custo).
 3. **Laboratório de Sósias** — tanque central, Chumbo, abrir, coleção, probabilidades.
 4. **Zap Vazado** — smartphone fictício, conversa, APROVAR/NEGAR.
 5. **Maçonaria Nacional** — sala secreta, mesa, arquivos, símbolos fictícios.
 6. **Loja de Melhorias** — categorias: Clique, Global, Produtores, Offline, Eventos.
-7. **Mapa da Dominação** — estilizado: Deep Web → Ditadura → Área 51 BR → Bancos (+ próxima misteriosa).
+7. **Mapa da Dominação** — estilizado: Deep Web → Democracia Relativa → Ratanabá → Religião. A troca rápida de mapa ativo vive na **faixa horizontal** no topo (◀/▶).
 8. **Loja de Chumbo** — compra de premium, clara/rápida/não manipulativa.
 9. **Arquivo Secreto** — achievements, lore, coleção, estatísticas (pasta confidencial).
 
@@ -301,7 +296,7 @@ via menus contextuais. Sede sempre a 1 tap. Modais ≠ telas principais.
 - Proteção de relógio: detectar manipulação grosseira, sem punir falso positivo.
 
 ### Daily/Streak (§90–§91)
-- Maleta secreta de 7 dias (Crédulos → boost → Chumbo → … → dossiê no dia 7).
+- Maleta secreta de 7 dias (Mentes → boost → Chumbo → … → dossiê no dia 7).
 - Streak com **1 recuperação semanal** (nunca zerar bruto).
 
 ### Missões (§92–§93)
@@ -324,7 +319,7 @@ via menus contextuais. Sede sempre a 1 tap. Modais ≠ telas principais.
 - **AGÊNCIA DO ÓBVIO**: rival fictícia que tenta desmentir tudo.
 
 ### Endgame & New Game+ (§84–§85)
-- Após Bancos, twist: **A VERDADEIRA CONSPIRAÇÃO ERA VOCÊ** — a organização
+- Após a Religião, twist: **A VERDADEIRA CONSPIRAÇÃO ERA VOCÊ** — a organização
   descobre estar dentro de um idle game (quebra da 4ª parede).
 - Desbloqueia **ARQUIVO Ω** (multiplicador/endless mode) sem apagar conteúdo.
 
@@ -347,7 +342,7 @@ Detalhamento do simulador e resultados atuais: `ECONOMY.md`.
 ## 17. FTUE & disclosure progressivo (§123–§128)
 
 - **Primeiros 60s:** sem loja, sem anúncio, sem excesso de menus.
-- **1º minuto:** Compartilhar → Crédulos → 1º produtor → gera → 2º produtor → recompensa grande.
+- **1º minuto:** Compartilhar → Mentes → 1º produtor → gera → 2º produtor → recompensa grande.
 - **5 min:** click, producer, upgrade, produção/seg. (sem Sósias ainda).
 - **1ª hora:** Coordenador, Zap Vazado, offline.
 - **1º dia:** Prestige, Laboratório de Sósias.
@@ -359,10 +354,10 @@ Detalhamento do simulador e resultados atuais: `ECONOMY.md`.
 
 | Milestone | Conteúdo | Status |
 |---|---|---|
-| M0 — Playable Core | Sede, Zap, Crédulos, produção/s, 4 produtores, x1/x10/MAX, milestones, save, offline, UI, SFX, analytics básico | ✅ |
-| M1 — Vertical Slice | 12 produtores F1, Coordenadores, Zap completo, 1 fluxo de Sósia, prestige, Arquivo, arte quase final, áudio, VFX | ⏳ |
-| M2 — Alpha | Fases 1–2, collection, achievements, offline, ads test | ⏳ |
-| M3 — Beta | 4 fases, 9 telas, economia completa, LiveOps | ⏳ |
+| M0 — Playable Core | Sede, Zap, Mentes, produção/s, 4 produtores, x1/x10/MAX, milestones, save, offline, UI, SFX, analytics básico | ✅ |
+| M1 — Vertical Slice | 10 missões Deep Web, Coordenadores, Zap completo, 1 fluxo de Sósia, prestige, Arquivo, arte quase final, áudio, VFX | ✅ |
+| M2 — Alpha | campanha por mapas (Deep Web → Democracia Relativa → Ratanabá → Religião), collection, achievements, offline, ads test | ✅ |
+| M3 — Beta | 4 mapas rodando em paralelo, 9 telas, economia completa, LiveOps | ⏳ |
 | M4 — Soft Launch | dados reais; sem spec grande sem dados | ⏳ |
 | M5 — V1.0 | conteúdo completo + polimento + publicação | ⏳ |
 

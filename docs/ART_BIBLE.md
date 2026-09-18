@@ -80,7 +80,7 @@ base verde/creme.
 ## 7. Produtores (48 ícones/mini-cenas §110) e backgrounds (§111)
 
 - 48 mini-cenas legíveis em celular (12 por fase, mesma posição lógica §27).
-- Backgrounds mínimos: Deep Web HQ, Ditadura HQ, Área 51 HQ, Bancos HQ, Lab,
+- Backgrounds mínimos: Deep Web HQ, Democracia Relativa HQ, Ratanabá HQ, Religião HQ, Lab,
   Maçonaria, Arquivo, Mapa (8+ esquemas de fundo §111).
 
 ---
@@ -114,9 +114,9 @@ Haptics moderados (clique grande, Sósia raro, prestige); sempre configurável/d
 
 ## 10. Áudio & música (§120–§122)
 
-- SFX original: notificação fictícia (clique), contador (Crédulos), carimbo
+- SFX original: notificação fictícia (clique), contador (Mentes), carimbo
   (upgrade), mensagem (Zap), líquido/tanque (Sósia).
-- Trilhas: HQ, Laboratório, Prestige, Área 51, Bancos (5+ músicas).
+- Trilhas: HQ, Laboratório, Prestige, Ratanabá, Religião (5+ músicas).
 - Identidade: **spy + retro synth + percussão brasileira discreta + música de
   elevador burocrática** — sem caricatura.
 - Nenhuma tela importante silenciosa; nenhum som repetido em excesso (§305).

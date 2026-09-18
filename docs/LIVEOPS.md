@@ -35,7 +35,7 @@ principal, começam do zero, 2–4 dias, economia acelerada.
   impossível.
 - Sem login social obrigatório. Compartilhar: recorde, Sósia raro, prestige,
   estatística engraçada. **Cartões compartilháveis** ("Convenci 4,3 bilhões de
-  Crédulos sem sair do sofá") com marca do jogo.
+  Mentes sem sair do sofá") com marca do jogo.
 
 ## 5. Cadência (§256)
 

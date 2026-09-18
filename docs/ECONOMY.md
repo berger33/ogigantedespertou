@@ -22,9 +22,9 @@
 
 | Moeda | Fontes primárias | Poços primários |
 |---|---|---|
-| Crédulos 👁 | clique, produtores, eventos, bônus, offline | produtores, upgrades, Coordenadores, expansão |
+| Mentes 🧠 | clique, produtores, eventos, bônus, offline | produtores, upgrades, Coordenadores, expansão |
 | Chumbo 🛸 | raras (Zap/achievements/eventos), rewarded, IAP | Sósias, cosméticos, conveniência |
-| Convictos 👁‍🗨 | prestige | árvore permanente (Maçonaria) |
+| Convictos 🙇 | prestige | árvore permanente (Maçonaria) |
 
 Monitoramento (economy KPI §181): tempo entre upgrades, frequência de prestige,
 distribuição de produtores, fonte/poço de premium, Chumbo acumulado.
@@ -40,7 +40,7 @@ distribuição de produtores, fonte/poço de premium, Chumbo acumulado.
 | `baseCost` p/ produtor | 15, 100, 1.1k, 12k (4 primeiros) | tutorial rápido no 1º minuto |
 | `baseProduction` p/ produtor | 0.1, 1, 8, 47 | 1º produtor paga-se em ~150s de produção |
 | `milestones` | 10/25/50/100/250/500/1000 → ×2 cada (encadeado) | §30 |
-| `prestigeThreshold` | 1.0e6 Crédulos (lifetime) | ≈ primeiro prestígio no dia 1 |
+| `prestigeThreshold` | 1.0e6 Mentes (lifetime) | ≈ primeiro prestígio no dia 1 |
 | `prestigeExponent` | 0.5 | Convictos = (Lifetime/1e6)^0.5 |
 | `convictBonus` | +3% (multiplicativo) por Convicto | hipótese §60 (calibrar) |
 | `offlineCapHours` | 4 (base) | §87 |
@@ -57,7 +57,7 @@ distribuição de produtores, fonte/poço de premium, Chumbo acumulado.
 Custo(n)       ≈ BaseCost * 1.07^n            (exponencial)
 Produção/Temps ≈ Σ BaseProd_i * owned_i * MilestoneProd_i * Globais
 Globais         = Prestigio * Clones(por produtor) * events * shop
-Crédulos(t)     ≈ ∫ produção dt              (idle) + clique * combo
+Mentes(t)       ≈ ∫ produção dt              (idle) + clique * combo
 ```
 
 **Regra de não-runaway (§60):** Convictos usam fórmula sublinear

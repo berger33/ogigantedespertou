@@ -42,7 +42,7 @@
 
 - Push moderado; solicitar permissão **após demonstrar valor**, nunca no 1º
   segundo.
-- Exemplos: "👁 Seus produtores convenceram gente demais enquanto você estava
+- Exemplos: "🧠 Seus produtores convenceram gente demais enquanto você estava
   fora." / "🛸 O laboratório terminou um Sósia." / "📱 Tem Zap Vazado esperando."
 
 ## 6. Anti-cheat & segurança (§206–§208, §292)

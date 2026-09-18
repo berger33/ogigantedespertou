@@ -65,7 +65,7 @@ PLAYABLE CORE**, validando o núcleo antes de produzir massa de conteúdo.
 | Seções | Sistema | Status |
 |---|---|---|
 | §15–16 | Core loop / longo prazo | ✅ GDD |
-| §17–19 | Moedas (Crédulos, Chumbo, Convictos) | ✅ Implementado no core (Crédulos + offline; Chumbo/Convictos no modelo de dados, UI fase 2) |
+| §17–19 | Moedas (Mentes, Chumbo, Convictos) | ✅ Implementado no core (Mentes + offline; Chumbo/Convictos no modelo de dados, UI fase 2) |
 | §20–21 | Big Numbers + formatos | ✅ **Implementado + testado** (`src/core/BigNumber.js`, espelho C#) |
 | §22–26 | Botão Compartilhar no Zap, feedback, combo, autoclick, upgrades de clique | ✅ Core (clique, combo Engajamento Viral, lista de upgrades de clique definida em JSON) |
 | §27–30 | 12 produtores/fase, fórmula, buy modes x1/x10/x25/x100/MAX, milestones | ✅ **Implementado + testado** (buy modes e milestones 10/25/50/100/250/500/1000) |

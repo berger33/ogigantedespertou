@@ -20,7 +20,7 @@ grupo de zap → bairro → cidade → país → planeta → galáxia → econom
   qualquer semelhança com o mascote do jogo de referência, §2 regra anti-cópia).
 
 ### Twist de endgame (§84)
-Após dominar os Bancos: **"A VERDADEIRA CONSPIRAÇÃO ERA VOCÊ"** — a organização
+Após dominar a Religião: **"A VERDADEIRA CONSPIRAÇÃO ERA VOCÊ"** — a organização
 descobre estar dentro de um idle game (4ª parede) → desbloqueia **ARQUIVO Ω**.
 
 ---
@@ -29,50 +29,50 @@ descobre estar dentro de um idle game (4ª parede) → desbloqueia **ARQUIVO Ω*
 
 | Moeda | Lore |
 |---|---|
-| Crédulos 👁 | a "unidade de gente convencida" |
+| Mentes 🧠 | a "unidade de gente convencida" (contador com desenho de cérebro ao lado) |
 | Chumbo 🛸 | visual inspirado no *Mistério das Máscaras de Chumbo* — tratado como **lenda urbana/ficção**, nunca como relato factual (§98, §277) |
-| Convictos 👁‍🗨 | os mais convencidos, que permanecem após o reset |
+| Convictos 🙇 | os mais convencidos, que permanecem após o reset |
 
 ---
 
 ## 3. InvenTário de conteúdo
 
-### 3.1 Produtores (48 = 12 × 4 fases) — §31–§34
-Ids e ordem lógica em `src/content/producers.json` (Fase 1 completa no core;
-Fases 2–4 abaixo idênticas ao GDD §8, com ids mentorreservados):
+### 3.1 Produtores = missões (40 = 10 × 4 mapas) — §31–§34
+Ids e ordem lógica em `src/content/producers.json` (gerados por
+`tools/gen_campaign.py`; os 4 mapas operam em paralelo):
 
 ```
-PRD_phase1_01 Comprar Big Techs com cripto
-PRD_phase1_02 Barriga Viral Misteriosa
-PRD_phase1_03 Amizade com Reptilianos
-PRD_phase1_04 Profeta Autoproclamado como Informante
-PRD_phase1_05 Espalhar Lenda de Ratanabá
-PRD_phase1_06 Mensagens Subliminares em Clipes
-PRD_phase1_07 Venda da Copa de 98
-PRD_phase1_08 Internacionalizar a Amazônia pelo Wi-Fi
-PRD_phase1_09 Controlar Prefeitos e Governadores Fictícios
-PRD_phase1_10 Controle do Clima no Carnaval
-PRD_phase1_11 Clonar Celebridades Fictícias
-PRD_phase1_12 Capturar o ET de Varginha
+p1_01 Comprar as maiores empresas com cripto            (12)
+p1_02 Plantar fake news na mídia                        (60)
+p1_03 Fazer amizade com os reptilianos                  (700)
+p1_04 Colocar um informante no governo                  (8.340)
+p1_05 Fomentar teorias da conspiração                   (90.680)
+p1_06 Lavar o cérebro de artistas pop                   (1,04 M)
+p1_07 Começar guerras por lucro                         (14,93 M)
+p1_08 Controlar mentes através do Wi-Fi                 (179,16 M)
+p1_09 Manipular governantes fantoches                   (2,15 B)
+p1_10 Gerenciar sistemas de controle do clima           (25,8 B — missão final)
+p2_01..p2_10 Democracia Relativa (309,6 B → 1,597 Qd)
+p3_01..p3_10 Ratanabá (19,17 Se → 9,891 Otg)
+p4_01..p4_10 Religião (1,187 Vg → 6,124 Cré)
 ```
 
-### 3.2 Coordenadores (§38) — 12 + Zé do Chapéu de Alumínio
-`MGR_01..MGR_12` e `MGR_ALU`. Cada um: silhueta, personalidade, idle anim,
+### 3.2 Coordenadores (§38) — 40 + Zé do Chapéu de Alumínio
+`MGR_01..MGR_40` e `MGR_ALU`. Cada um: silhueta, personalidade, idle anim,
 descrição, **frase de contratação**, **frase de upgrade** (§39).
 
-### 3.3 Sósias (§44–§49) — raridades COMUM/INCOMUM/RARO
+### 3.3 Sósias (§44–§49) — raridades COMUM/INCOMUM/RARO/ESPECIAL
 > ⚠️ **Aviso IP (§48):** todos os nomes abaixo são **PROVISÓRIOS**. Antes de uso
 > comercial: verificar colisão com propriedade intelectual/personalidade real.
 > Em dúvida, substituir.
 
-Fase 2 (proposta do brief, original e adaptada):
-Marechal Confisco-Geral, Sargento Barriga-Postiça, General Escama-de-Aço,
-Chanceler Aleluia, Coronel Selva-Perdida, Dod Bylan, Napigleon, Fnord T,
-Of Handmaid, Mirror Broker, Ministro Apagou-Tudo, Capitão Zona-51-BR.
-
-> *Nota de auditoria:* alguns nomes ("Dod Bylan", "Napigleon", "Fnord T",
-> "Of Handmaid", "Mirror Broker") ecoam clones do jogo de referência. Mantidos
-> como placeholder a pedido do brief §48, com **flag de revisão de IP** ativa.
+Um sósia por missão (40; catalogado em `src/content/clones.json`). Exemplos por
+mapa — Deep Web: Tio do Zap, Mancheteira, Zé Escamoso, Conselheiro, Boateiro,
+Diva Hipnotizada… Democracia Relativa: Eleitor do Meme, Deputado do Meio, Sósia
+Eleito… Ratanabá: Escavador de Lumiar, Cartógrafo Cego, Prefeito Fantasma…
+Religião: Pastor do Cashback, Restaurador do Xarope, Franqueado Celeste.
+Duplicata vira **Puxa-Saco** (+1% produção global), com pity de 25 aberturas
+para Raro (transparência §48).
 
 ### 3.4 Zap Vazado (§52, §56) — meta: centenas
 Schema: `id, headline, body, categoria, fase, respostaCerta, recompensa,
@@ -106,9 +106,9 @@ Primeiros: "Você Também Acha Que É Plano", "Chapéu de Alumínio Platinado",
 |---|---|
 | HQ themes | 4 |
 | Enviroments de tela | 9 |
-| Visuals de produtores | 48 |
-| Coordenadores (bustos + expressões) | 12 (+variantes de fase) |
-| Sósias/colecionáveis | 48+ ao longo do conteúdo |
+| Visuals de produtores | 40 (missões) |
+| Coordenadores (bustos + expressões) | 40 |
+| Sósias/colecionáveis | 40+ ao longo do conteúdo |
 | Ícones de UI | 80+ |
 | VFX | dezenas |
 

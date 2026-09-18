@@ -14,7 +14,7 @@ O GIGANTE DESPERTOU (nunca copiar ativos da referência).
 - [x] Área de clique central com animação (Compartilhar no Zap)
 - [x] Botão redondo grande de clique no centro do menu inferior
 - [x] Lista de produtores logo abaixo (cards emoldurados)
-- [x] Crédulos/s (pps) + combo viral em linha discreta
+- [x] Mentes/s (pps) + combo viral em linha discreta
 - [x] Upgrade de clique como faixa expansível
 
 ## Card de produtor (paridade de referência)

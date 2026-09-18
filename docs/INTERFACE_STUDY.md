@@ -34,12 +34,13 @@
 | Referência | O Gigante Despertou |
 |---|---|
 | Settings (sup. esq.) | ⚙️ Config (sup. esq.) — idioma, som, lembretes, reset |
-| Moedas (topo) | 👁 Crédulos · 🙇 Convictos (faltaeys) · 🥫 Chumbo (premium) |
+| Moedas (topo) | 🧠 Mentes · 🙇 Convictos (faltaeys) · 🥫 Chumbo (premium) — cérebro desenhado (SVG) ao lado do contador |
+| Faixa de mapas (topo) | faixa horizontal com ◀/▶ nas pontas ciclando Deep Web ↔ Democracia Relativa ↔ Ratanabá ↔ Religião |
 | Fone (sup. dir.) | 📳 Notificações — bônus simulados + Zap Vazado em dropdown |
 | Clique central | 📱 **Compartilhar no Zap** (botão grande + botão redondo inferior) |
 | Produtores | cards com ícone animado, ★ estrelas (bronze/prata/ouro), ⏱ timer de ciclo, 🛠 upgrade, 🧫 tanque de sósia |
 | Cronômetro (inf. esq.) | ⏱️ Boost ×2 empilhável (250s×N) com timer |
-| Menu inferior | HQ · Chefes · Sósias · Gigante · Anúncios · Chumbo · Melhorias · Arquivo |
+| Menu inferior | HQ · Chefes · Sósias · Gigante · Anúncios · Chumbo · Melhorias · Arquivo (mapa agora vive na faixa) |
 | Buy all | 👔 Zé do Chapéu de Alumínio (10 Convictos) → botão "comprar tudo" |
 
 ---
@@ -50,12 +51,12 @@
 |---|---|---|
 | Prestígio | Brainwashing: **bomba grátis** (reset) ou **comprar lealdade 10 💎** (mantém tudo); faltaeys +3% cada | **Despertar o Gigante**: 💣 grátis (reset) ou 💎 lealdade 10 🥫 (mantém); Convictos +3% cada |
 | Clones | 5 💎 cada; raridades ×5/×10/×50; duplicata → faltaey | Sósias 15 🥫; Comum ×5 / Incomum ×10 / Raro ×50 / Especial ×100; duplicata → Puxa-Saco; pity 25 |
-| Wiretaps | aprovar/negar pró/anti; recompensa 💎/pessoas/faltaeys | Zap Vazado: aprovar/negar pró/anti; recompensa Crédulos/Chumbo; streak + medidor de desconfiança |
-| Produtores | custos 12/60/700/8340/90680/1.04M/14.93M/179.16M/2.15B/25.8B ±; 10 por fase | 12 por fase na mesma faixa de custos (curva ×~11), ciclo + coleta |
+| Wiretaps | aprovar/negar pró/anti; recompensa 💎/pessoas/faltaeys | Zap Vazado: aprovar/negar pró/anti; recompensa Mentes/Chumbo; streak + medidor de desconfiança |
+| Produtores (missões) | custos 12/60/700/8340/90680/1.04M/14.93M/179.16M/2.15B/25.8B ±; 10 por fase, 4 fases rodando em paralelo | Deep Web usa os mesmos custos (±); Democracia Relativa → Ratanabá → Religião seguem ×12 contínuo; ciclo + coleta |
 | Managers | automatizam produção (offline); 1 gerente desbloqueia buy-all (10 faltaeys) | Coordenadores automatizam; Zé do Chapéu (10 Convictos) desbloqueia buy-all |
-| Upgrades | por produtor + globais por fase + faltaey upgrades (×3/×5/×2 speed…) | por produtor ×3 + globais ×3/×5/×10 + (espelho futuro de upgrades de Convictos) |
+| Upgrades | por produtor + globais por fase + faltaey upgrades (×3/×5/×2 speed…) | por missão ×3 (4 mapas × 10) + globais ×3/×5/×10 + (espelho futuro de upgrades de Convictos) |
 | Ad bonuses | time warp 2h/4h, ×5 250s, ×2 4h stack, offline ×2, +lackeys | simulados: Buraco de Minhoca 2h/4h, Viral ×5 260s, ×2 stack, offline ×2, Convictos +50% |
-| Fases | Deep Web → Dictatorship (1 Sx) → Area 51 (7.5 Ocd) → Banks (250 Utg) | Deep Web → Ditadura Secreta (1e21) → Área 51 BR (7.5e27) → Bancos (2.5e32) |
+| Fases | Deep Web → Dictatorship (1 Sx) → Area 51 (7.5 Ocd) → Banks (250 Utg) | Deep Web → Democracia Relativa (309,6 B) → Ratanabá (19,17 Se) → Religião (1,187 Vg); missão final destrava o mapa seguinte |
 | Timer de produtor | cooldown visível até 0s | timer de ciclo no card; Coordenador → 0s (automático) |
 | Desbloqueio progressivo | managers após X, inner circle depois | Chefes após 1º produtor; Sósias e Gigante após 1º Coordenador |
 
@@ -65,7 +66,7 @@
 
 | Efeito | Referência | Nosso (web build) |
 |---|---|---|
-| Clique | partículas/acúmulo | floaters +1 👁 + telefones voando |
+| Clique | partículas/acúmulo | floaters +1 🧠 + telefones voando |
 | Produtor | animação loop emoldurada | ícone com bob (keyframe) + pulso no ciclo |
 | Fone | treme como tocando | shake keyframe quando há novidade |
 | Prestígio | pirâmide laranja rachando a Terra | tela "O GIGANTE DESPERTOU 💥" (burst + rachadura) |

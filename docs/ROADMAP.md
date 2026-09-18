@@ -15,7 +15,7 @@ PUBLICAÇÃO → LIVEOPS → OTIMIZAÇÃO.
 
 | # | Milestone | Escopo | Estado |
 |---|---|---|---|
-| 0 | **Playable Core** | Sede, Compartilhar no Zap, Crédulos, produção/s, 4 produtores, x1/x10/x25/x100/MAX, milestones, save, offline, UI inicial, SFX, analytics básico | ✅ |
+| 0 | **Playable Core** | Sede, Compartilhar no Zap, Mentes, produção/s, 4 produtores, x1/x10/MAX, milestones, save, offline, UI inicial, SFX, analytics básico | ✅ |
 | 1 | **Vertical Slice** | 12 produtores F1, 12 Coordenadores, Zap Vazado completo, fluxo de 1 Sósia, prestige, Arquivo, arte ~final, áudio, VFX | ⏳ |
 | 2 | **Alpha** | Fases 1–2, collection, achievements, offline, ads test | ⏳ |
 | 3 | **Beta** | 4 fases, 9 telas, economia completa, LiveOps | ⏳ |

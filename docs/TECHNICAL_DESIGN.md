@@ -128,7 +128,7 @@ Limiares `10, 25, 50, 100, 250, 500, 1000` → bônus multiplicativo encadeado
 
 ### Prestígio (§59–§60)
 ```
-Convictos  = floor((LifetimeCrédulos / LimiarPrestígio) ^ Expoente)
+Convictos  = floor((LifetimeMentes / LimiarPrestígio) ^ Expoente)
 bonusGlobal= (1 + taxaPorConvicto)^Convictos        // taxa inicial 3% (hipo)
 ```
 Calibração: `sim/simulate.js` (§78–§80). Primeiro prestígio alvo: ~1º dia.

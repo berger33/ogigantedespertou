@@ -3,7 +3,7 @@
  * Engine-agnóstico. Fórmula e bônus por Convicto.
  *
  * MODELO (validado pelo simulador, §60):
- *  - Convictos = floor((LifetimeCrédulos / Limiar)^Expoente), expoente < 1.
+ *  - Convictos = floor((LifetimeMentes / Limiar)^Expoente), expoente < 1.
  *  - Bônus global LINEAR ADITIVO: 1 + taxa(3%) × Convictos.
  *    (A leitura fiel de §60 é "+3% POR Convicto" = soma 3% por ponto.)
  *  - Um bônus EXPONENCIAL (1+taxa)^Convictos gera crescimento iterado
