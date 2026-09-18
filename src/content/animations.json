@@ -1,0 +1,49 @@
+{
+  "_comment": "Especificação de animação das missões (docs/ANIMATION_PLAN.md). Renderizador: app.js (AnimStage). Cena = camadas bg/ator/fx; estados off/idle/running. Lote 0 = cena completa p1_01; demais plugáveis.",
+  "version": 1,
+  "stage": {
+    "width": 320,
+    "height": 88
+  },
+  "scenes": {
+    "p1_01": {
+      "label": "Comprar as maiores empresas com cripto",
+      "accent": "#B57BFF",
+      "src": "assets/anim/p1_01/scene.svg",
+      "layers": [
+        {
+          "id": "bars",
+          "loop": "pump",
+          "dur": 1.8,
+          "child": true,
+          "delay": 0.12
+        },
+        {
+          "id": "hand",
+          "loop": "press",
+          "dur": 1.2
+        },
+        {
+          "id": "lamp",
+          "loop": "blink",
+          "dur": 1.1,
+          "fx": true
+        },
+        {
+          "id": "ticker",
+          "loop": "scroll",
+          "dur": 6.0,
+          "fx": true
+        },
+        {
+          "id": "coins",
+          "loop": "rise",
+          "dur": 1.5,
+          "child": true,
+          "delay": 0.18,
+          "fx": true
+        }
+      ]
+    }
+  }
+}

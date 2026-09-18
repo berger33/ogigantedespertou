@@ -96,6 +96,7 @@ export class GameState {
   achievementList() { return this.config.achievements?.list || []; }
   mapList() { return this.config.maps?.maps || []; }
   buyAllManagerDef() { return this.config.managers?.buyAllManager || null; }
+  animationFor(missonId) { return this.config.animations?.scenes?.[missonId] || null; }
   prestigeParams() { return this.eco.prestige || { threshold: '1e6', exponent: 0.5, convictBonus: 0.03 }; }
 
   nextClickLevel() { return this.clickLevels().find((l) => l.level === this.clickLevel + 1) || null; }

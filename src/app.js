@@ -314,6 +314,58 @@ function cycleMap(dir) {
   }
 }
 
+// ---------- palco de animação (cena em camadas §docs/ANIMATION_PLAN.md) ----------
+const animSvgCache = new Map(); // src -> texto SVG (evita N fetches)
+
+function animSpecFor(def) {
+  return state.animationFor(def.id) || state.animationFor(def.slug) || null;
+}
+
+/** Namespaceia ids/gradientes do SVG para não colidir entre cards. */
+function namespaceSvg(txt, ns) {
+  return txt
+    .replace(/id="([A-Za-z0-9_-]+)"/g, `id="${ns}-$1"`)
+    .replace(/url\(#([A-Za-z0-9_-]+)\)/g, `url(#${ns}-$1)`);
+}
+
+async function loadSceneSvg(src) {
+  if (animSvgCache.has(src)) return animSvgCache.get(src);
+  const res = await fetch(src);
+  if (!res.ok) throw new Error(`${src}: HTTP ${res.status}`);
+  const txt = await res.text();
+  animSvgCache.set(src, txt);
+  return txt;
+}
+
+/**
+ * Monta o palco da cena de uma missão.
+ * Estados (classes): off (sem posse), idle (possui, sem Coordenador) e
+ * running (automatizado) — os loops são dirigidos por CSS no app.css.
+ */
+function buildAnimStage(def, owned, automated) {
+  const stage = el('div', 'anim-stage ' + (automated ? 'running' : (owned > 0 ? 'idle' : 'off')));
+  stage.dataset.anim = def.id;
+  const holder = el('div', 'anim-scene');
+  holder.innerHTML = `<span class="anim-fallback">${def.icon || '🏢'}</span>`;
+  stage.appendChild(holder);
+  const spec = animSpecFor(def);
+  if (spec) {
+    if (spec.accent) stage.style.setProperty('--accent', spec.accent);
+    loadSceneSvg(spec.src).then((txt) => {
+      holder.innerHTML = namespaceSvg(txt, `a-${def.id}`);
+    }).catch(() => { /* mantém fallback de ícone */ });
+  }
+  return stage;
+}
+
+function syncAnimStates(row, owned, automated) {
+  const stage = row.querySelector('.anim-stage');
+  if (!stage) return;
+  stage.classList.toggle('off', !automated && owned <= 0);
+  stage.classList.toggle('idle', !automated && owned > 0);
+  stage.classList.toggle('running', automated);
+}
+
 function buildProducerRows() {
   const wrap = $('producers');
   wrap.innerHTML = '';
@@ -332,11 +384,9 @@ function buildProducerRow(def) {
   const row = el('div', 'producer' + (isGate && owned <= 0 ? ' gate' : ''));
   row.dataset.id = id;
 
-  // moldura + animação (emoji como placeholder de arte original)
+  // moldura + animação (cena em camadas bg/ator/fx — docs/ANIMATION_PLAN.md)
   const frame = el('div', 'prod-frame');
-  const anim = el('div', 'prod-anim' + (automated ? ' automated' : ''), def.icon || '🏢');
-  anim.style.animationDelay = `-${(def.slot * 0.7).toFixed(2)}s`;
-  frame.appendChild(anim);
+  frame.appendChild(buildAnimStage(def, owned, automated));
   row.appendChild(frame);
 
   const body = el('div', 'prod-body');
@@ -433,6 +483,7 @@ function updateProducerRows() {
     const owned = state.ownedOf(def.id);
     const automated = state.isAutomated(def.id);
     const starLvl = state.starLevelOf(def.id);
+    syncAnimStates(row, owned, automated);
     row.querySelector('.producer-owned').innerHTML =
       `possuídos: <b>${owned}</b> · +${fmt(BigNumber.fromNumber(def.valuePerCycle).scale(Math.max(owned, 0)).mul(state.producerMult(def.id)))} 🧠/${def.cycleSeconds}s`;
     // estrelas

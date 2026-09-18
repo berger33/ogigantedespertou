@@ -11,6 +11,7 @@
  */
 export function makeConfig({
   economy, producers, clicks, managers, upgrades, clones, zaps, achievements, maps,
+  animations = null,
   mapId = 'phase1', maxProducers = null,
 } = {}) {
   // pool: todos os mapas num array plano; producerList = mapa ativo
@@ -36,12 +37,13 @@ export function makeConfig({
     zaps: zaps || { rewards: {}, messages: [] },
     achievements: achievements || { list: [] },
     maps: maps || { maps: [] },
+    animations: animations || { scenes: {} },
   };
 }
 
 /** Navegador: busca os JSONs (qualquer servidor estático). */
 export async function loadConfigWeb(opts = {}) {
-  const names = ['economy', 'producers', 'clicks', 'managers', 'upgrades', 'clones', 'zaps', 'achievements', 'maps'];
+  const names = ['economy', 'producers', 'clicks', 'managers', 'upgrades', 'clones', 'zaps', 'achievements', 'maps', 'animations'];
   const data = {};
   await Promise.all(names.map(async (n) => {
     const r = await fetch(`content/${n}.json`);
@@ -58,6 +60,7 @@ export async function loadConfigWeb(opts = {}) {
     zaps: data.zaps,
     achievements: data.achievements,
     maps: data.maps,
+    animations: data.animations,
     ...opts,
   });
 }

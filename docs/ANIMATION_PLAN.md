@@ -188,7 +188,28 @@ Cada missão ganha um objeto `anim` (arquivo `src/content/animations.json`, gera
 Cada lote termina com: assets commitados + spec no `animations.json` + renderizável
 no protótipo web + revisão visual sua + QA no device.
 
-| Lote | Escopo | Entregável |
+| Lote | Escopo | Entregável | Status |
+|---|---|---|---|
+| **0 — Fundação/POC** | 1 cena completa ponta-a-ponta (p1_01) + paleta/reference sheet + o `animations.json` + renderer do protótipo | prova de pipeline: 1 ação animando de verdade | ✅ **entregue** |
+| **1 — Deep Web** | p1_02..p1_10 (10 cenas) + refinamento da p1_01 | mapas rodando com 10 ações animadas | ⏳ |
+| **2 — Democracia Relativa** | p2_01..p2_10 | +10 ações | ⏳ |
+| **3 — Ratanabá** | p3_01..p3_10 | +10 ações | ⏳ |
+| **4 — Religião** | p4_01..p4_10 | as 40 ações animadas | ⏳ |
+| **5 — Personagens** | 40 bustos de Coordenadores (4 expressões) + 40 sósias por raridade | coleção completa | ⏳ |
+| **6 — Telas & VFX** | backgrounds HQ por mapa (parallax) + transições de fase/prestígio + carimbos | polimento "quadro completo" | ⏳ |
+
+**Ordem de prioridade** = ordem acima (core jogável primeiro; personagens por último —
+antes do conteúdo volumoso, provar o loop da economia/ritmo — regra MVP).
+
+### Status do Lote 0 (entregue)
+
+- Arte: `src/assets/anim/p1_01/scene.svg` (320×88, paleta ART_BIBLE, camadas `bg/actor/fx`).
+- Spec: `src/content/animations.json` (`version:1`, `stage`, `scenes.p1_01.layers[].loop`).
+- Gerador: `tools/gen_animations.py` (data-driven; mesmas entradas do `gen_campaign.py`).
+- Renderizador: `app.js` `buildAnimStage()` + estados `off/idle/running` (CSS `app.css`).
+- Carregamento: `content.js`/`content.node.js` incluem `animations.json`; `GameState.animationFor(id)`.
+- Testes: `tests/Animations.test.js` (spec íntegro + arte presente/maintainable).
+- Perf: uma cena = 1 SVG de ~5 KB; animações só rodam em `running`; cache de fetch; loops GPU (transform/opacity) — não afeta o scrolling/lista.
 |---|---|---|
 | **0 — Fundação/POC** | 1 cena completa ponta-a-ponta (p1_01) + paleta/reference sheet + o `animations.json` + renderer do protótipo | prova de pipeline: 1 ação animando de verdade |
 | **1 — Deep Web** | p1_02..p1_10 (10 cenas) + refinamento da p1_01 | mapas rodando com 10 ações animadas |
@@ -236,4 +257,4 @@ aqui) → entrego specs + espelhos C# + assets prontos para arrastar; e áudio n
 - [ ] Original IP: **nenhum** traço/asset/inimigo copiado da referência (§2/§66).
 
 ---
-*Fim do plano. Próximo passo natural: iniciar o **Lote 0** (1 cena de prova + pipeline).*
+*Próximo passo: revisar o **Lote 0** (cena p1_01 no preview) e, aprovado, seguir o **Lote 1** (Deep Web).*

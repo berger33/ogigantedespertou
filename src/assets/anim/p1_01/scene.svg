@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 88" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Comprar as maiores empresas com cripto">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#123A24"/>
+      <stop offset="1" stop-color="#0B1F15"/>
+    </linearGradient>
+    <linearGradient id="scr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0E3A22"/>
+      <stop offset="1" stop-color="#072718"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="88" fill="url(#sky)"/>
+  <g id="bg">
+  <rect x="0" y="62" width="26" height="26" fill="#0A1B12"/>
+  <rect x="30" y="54" width="22" height="34" fill="#0A1B12"/>
+  <rect x="56" y="66" width="30" height="22" fill="#0A1B12"/>
+  <rect x="90" y="57" width="20" height="31" fill="#0A1B12"/>
+  <rect x="114" y="48" width="24" height="40" fill="#0A1B12"/>
+  <rect x="142" y="64" width="22" height="24" fill="#0A1B12"/>
+  <rect x="168" y="54" width="18" height="34" fill="#0A1B12"/>
+  <rect x="190" y="60" width="24" height="28" fill="#0A1B12"/>
+  <rect x="218" y="50" width="20" height="38" fill="#0A1B12"/>
+  <rect x="242" y="63" width="24" height="25" fill="#0A1B12"/>
+  <rect x="270" y="56" width="22" height="32" fill="#0A1B12"/>
+  <rect x="296" y="60" width="24" height="28" fill="#0A1B12"/>
+  <rect x="4" y="68" width="3" height="4" fill="#24B26B" opacity=".55"/>
+  <rect x="36" y="60" width="3" height="4" fill="#24B26B" opacity=".55"/>
+  <rect x="120" y="54" width="3" height="4" fill="#24B26B" opacity=".55"/>
+  <rect x="148" y="70" width="3" height="4" fill="#24B26B" opacity=".55"/>
+  <rect x="224" y="56" width="3" height="4" fill="#24B26B" opacity=".55"/>
+  <rect x="274" y="62" width="3" height="4" fill="#24B26B" opacity=".55"/>
+  <rect x="0" y="85" width="320" height="3" fill="#16130F" opacity=".8"/>
+  </g>
+  <!-- monitor do pregão (ator) -->
+  <g id="monitor">
+    <rect x="122" y="70" width="6" height="10" fill="#16130F"/>
+    <rect x="120" y="80" width="10" height="2" fill="#16130F"/>
+    <rect x="20" y="16" width="122" height="58" rx="6" fill="#16130F" stroke="#D4AF37" stroke-width="1.5"/>
+    <rect x="26" y="22" width="110" height="46" rx="3" fill="url(#scr)"/>
+    <g opacity=".22">
+      <path d="M26 44 L136 44 M26 54 L136 54 M63 22 L63 68 M100 22 L100 68" stroke="#39FF9C" stroke-width="1"/>
+    </g>
+    <path d="M32,58 L48,50 L64,52 L80,42 L96,34 L114,26" fill="none" stroke="#39FF9C" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="32" cy="58" r="2" fill="#D4AF37"/>
+    <circle cx="114" cy="26" r="2.6" fill="#D4AF37"/>
+    <rect x="50" y="40" width="40" height="15" rx="4" fill="#D4AF37"/>
+    <path d="M70 44 L63 50 L77 50 Z" fill="#16130F"/>
+  </g>
+  <!-- cursor clicando no COMPRAR (ator) -->
+  <g id="hand">
+    <g transform="translate(98 52)">
+      <path d="M0 0 L0 13 L4 9.5 L7 15 L10.5 13.5 L7.5 8 L12 8 Z" fill="#F2E9D0" stroke="#16130F" stroke-width="1"/>
+    </g>
+  </g>
+  <!-- lamp piscando (fx) -->
+  <circle id="lamp" cx="150" cy="40" r="3" fill="#39FF9C"/>
+  <!-- ticker de pregão (fx) -->
+  <g id="ticker">
+    <g>
+      <text x="0" y="10" font-family="monospace" font-size="7.5" fill="#39FF9C" opacity=".9">▲ C+MENTES +2,7%   ▲ ZAP-INDEX +3,1%   ▲ BOATO 500 +5,4%   </text>
+      <text x="196" y="10" font-family="monospace" font-size="7.5" fill="#39FF9C" opacity=".9">▲ C+MENTES +2,7%   ▲ ZAP-INDEX +3,1%   ▲ BOATO 500 +5,4%   </text>
+    </g>
+  </g>
+  <!-- gráfico de barras (ator) -->
+  <g id="bars">
+    <rect x="176" y="60" width="13" height="20" fill="#24B26B"/>
+    <rect x="194" y="48" width="13" height="32" fill="#39FF9C"/>
+    <rect x="212" y="36" width="13" height="44" fill="#39FF9C"/>
+    <rect x="230" y="22" width="13" height="58" fill="#D4AF37"/>
+    <rect x="248" y="30" width="13" height="50" fill="#B57BFF" opacity=".85"/>
+    <path d="M170 60 L258 26" stroke="#39FF9C" stroke-width="1.4" stroke-dasharray="3 3" opacity=".6"/>
+  </g>
+  <!-- moedas de cripto subindo (fx) -->
+  <g id="coins">
+    <g class="coin"><circle cx="272" cy="52" r="5" fill="#072718" stroke="#D4AF37" stroke-width="1.6"/><circle cx="272" cy="52" r="2" fill="#39FF9C"/></g>
+    <g class="coin"><circle cx="286" cy="60" r="4" fill="#072718" stroke="#D4AF37" stroke-width="1.6"/><circle cx="286" cy="60" r="1.6" fill="#39FF9C"/></g>
+    <g class="coin"><circle cx="300" cy="48" r="4.4" fill="#072718" stroke="#D4AF37" stroke-width="1.6"/><circle cx="300" cy="48" r="1.8" fill="#B57BFF"/></g>
+    <g class="coin"><circle cx="280" cy="66" r="3.6" fill="#072718" stroke="#24B26B" stroke-width="1.6"/><circle cx="280" cy="66" r="1.4" fill="#D4AF37"/></g>
+    <g class="coin"><circle cx="294" cy="72" r="4.6" fill="#072718" stroke="#D4AF37" stroke-width="1.6"/><circle cx="294" cy="72" r="1.8" fill="#39FF9C"/></g>
+    <g class="coin"><circle cx="266" cy="70" r="3.4" fill="#072718" stroke="#B57BFF" stroke-width="1.6"/><circle cx="266" cy="70" r="1.4" fill="#D4AF37"/></g>
+  </g>
+</svg>

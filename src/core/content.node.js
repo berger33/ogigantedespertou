@@ -11,6 +11,7 @@ import clonesJson from '../content/clones.json' with { type: 'json' };
 import zapsJson from '../content/zaps.json' with { type: 'json' };
 import achievementsJson from '../content/achievements.json' with { type: 'json' };
 import mapsJson from '../content/maps.json' with { type: 'json' };
+import animationsJson from '../content/animations.json' with { type: 'json' };
 import { makeConfig } from './content.js';
 
 export function loadConfig(opts = {}) {
@@ -24,6 +25,7 @@ export function loadConfig(opts = {}) {
     zaps: zapsJson,
     achievements: achievementsJson,
     maps: mapsJson,
+    animations: animationsJson,
     ...opts,
   });
 }
