@@ -27,8 +27,7 @@ export class GameState {
     this.eco = config.economy || {};
     this.milestones = (this.eco.milestones || []).map((m) => ({ count: m.count, factor: m.factor }));
 
-    // ---- estado base ----
-    this.version = 2;
+    // ---- estado base ----    this.version = 2;
     this.credits = BigNumber.zero();
     this.lifetimeCredits = BigNumber.zero();
     this.comboSteps = 0;
@@ -57,13 +56,26 @@ export class GameState {
     this._firstFreeGiven = false;
     this._sinceRare = 0;        // aberturas de sósia desde o último Raro (pity)
 
+    // ---- campanha (fases/mapas) ----
+    // Fases na ordem canônica (phase1 = P1, phase2 = P2...), mapa ativo = índice.
+    this.faseIndice = 0;
+    this.mapProgress = {};      // mapId -> época (ordem) da conclusão (undefined = em aberto)
+    this.nextOrders = {};       // mapId -> { order (índice em mapProgress), gate }
+    this.mapUnlocked = {};      // mapId -> 1 (re-entrante explícito)
+
     if (snapshot) this._loadSnapshot(snapshot);
     this._recomputeGlobal();
     this._compute();
   }
 
   // ---------------- conteúdo ----------------
-  producerList() { return this.config.producers || []; }
+  producerList() {
+    // reflete o mapa ativo; fallback para o pool fixo do config (retrocompat.)
+    const mapId = this.activeMapId();
+    const byMap = this.config.producerMaps || {};
+    if (byMap[mapId] && byMap[mapId].length) return byMap[mapId];
+    return this.config.producers || [];
+  }
   producerDef(id) { return this.producerList().find((p) => p.id === id); }
   managerList() { return this.config.managers?.managers || []; }
   managerDef(id) { return this.managerList().find((m) => m.id === id); }
@@ -74,9 +86,11 @@ export class GameState {
   clonePity() { return this.config.clones?.pity ?? 25; }
   zapMessages() { return this.config.zaps?.messages || []; }
   achievementList() { return this.config.achievements?.list || []; }
-  phaseList() { return this.config.phases?.phases || []; }
+  mapList() { return this.config.maps?.maps || []; }
   buyAllManagerDef() { return this.config.managers?.buyAllManager || null; }
   prestigeParams() { return this.eco.prestige || { threshold: '1e6', exponent: 0.5, convictBonus: 0.03 }; }
+
+  nextClickLevel() { return this.clickLevels().find((l) => l.level === this.clickLevel + 1) || null; }
 
   /** Milestones já atingidos para um produtor (parity: ★ ×2 em 10/25/50/...). */
   milestonesFor(id) {
@@ -84,14 +98,10 @@ export class GameState {
     return this.milestones.filter((m) => owned >= m.count);
   }
 
-  /** Fase atual a partir do lifetimeCredits (§81–§84). */
+  /** Fase atual a partir do lifetimeCredits (§81–§84) — retrocompatível com a antiga fase por limite. */
+  /** Fase/mapa ativo (progresso de campanha, não limiar de lifetime). */
   currentPhase() {
-    const phases = this.phaseList();
-    let cur = phases[0];
-    for (const p of phases) {
-      if (this.lifetimeCredits.gte(bn(p.threshold))) cur = p;
-    }
-    return cur;
+    return this.activeMap() || { id: 'P1', name: 'Deep Web', icon: '🕳️' };
   }
 
   /** Quantidade de unidades comprada de um produtor. */
@@ -99,6 +109,94 @@ export class GameState {
 
   /** Sósia revelado para um produtor (ou null). */
   cloneOf(id) { return this.clones[id] || null; }
+
+  // ---------------- campanha (mapas/fases) ----------------
+  /** Mapas na ordem canônica. */
+  phases() { return this.mapList(); }
+
+  /** Índice canônico de um mapa. */
+  mapOrder(mapId) {
+    const ids = this.config.producerMapIds || [];
+    const i = ids.indexOf(mapId);
+    return i < 0 ? 0 : i;
+  }
+
+  /** Id do mapa ativo. */
+  activeMapId() { return this.listMaps()[this.faseIndice] || 'phase1'; }
+
+  /** Metadados do mapa ativo. */
+  activeMap() { return this.mapList()[this.faseIndice] || null; }
+
+  /** Última missão (gate) de um mapa — abre o próximo mapa (§82). null se concluída. */
+  pendingGate(mapId) {
+    const list = (this.config.producerMaps || {})[mapId] || [];
+    if (!list.length) return null;
+    const last = list[list.length - 1];
+    if ((this.producers[last.id] || 0) >= 1) return null; // concluída
+    return { producerId: last.id, name: last.name, icon: last.icon, required: 1 };
+  }
+
+  /** A missão é o gate (última) do mapa? */
+  isGateProducer(mapId, producerId) {
+    const list = (this.config.producerMaps || {})[mapId] || [];
+    if (!list.length) return false;
+    return list[list.length - 1].id === producerId;
+  }
+
+  /** Gate do mapa concluído? */
+  gateDone(mapId) { return this.pendingGate(mapId) === null; }
+
+  /** Mapas com a última missão concluída. */
+  completedMaps() {
+    return (this.config.producerMapIds || []).filter((id) => this.gateDone(id));
+  }
+
+  /** Um mapa está liberado (linear: abre ao concluir o gate do anterior; pode revisitar concluídos). */
+  isMapUnlocked(mapId) {
+    if (this.mapUnlocked[mapId]) return true;
+    const order = this.mapOrder(mapId);
+    if (order <= 0) return true;
+    if (this.completedMaps().includes(mapId)) return true; // revisita
+    const prevId = this.listMaps()[order - 1];
+    if (!prevId) return true;
+    return this.gateDone(prevId);
+  }
+
+  /** Avança o mapa ativo para o próximo, se o gate atual estiver concluído (§82). */
+  advanceMapIfPossible() {
+    if (this.faseIndice + 1 < this.mapList().length && this.gateDone(this.activeMapId())) {
+      this.faseIndice += 1;
+      return { moved: true, to: this.activeMapId() };
+    }
+    return { moved: false };
+  }
+
+  /** Lista ordenada de mapIds (phase1, phase2...). */
+  listMaps() { return this.config.producerMapIds || []; }
+
+  /** Muda o mapa ativo (manual) — só se liberado. */
+  setActivePhase(index) {
+    const maps = this.listMaps();
+    const i = Math.max(0, Math.min(index, maps.length - 1));
+    if (!this.isMapUnlocked(maps[i])) return false;
+    this.faseIndice = i;
+    return true;
+  }
+
+  /** Metadados do próximo mapa, ou null. */
+  nextPhase() { return this.mapList()[this.faseIndice + 1] || null; }
+
+  /** Visão enriquecida dos mapas para a UI (Mapa da Dominação). */
+  phaseInfo() {
+    return this.mapList().map((m, i) => ({
+      ...m,
+      index: i,
+      active: i === this.faseIndice,
+      unlocked: this.isMapUnlocked(m.id),
+      completed: this.completedMaps().includes(m.id),
+      gate: this.pendingGate(m.id),
+    }));
+  }
 
   /** Contadores agregados para o Arquivo Secreto (conquistas declarativas). */
   achievementValue(field) {
@@ -171,21 +269,23 @@ export class GameState {
     if (!def) return BigNumber.one();
     const owned = this.producers[id] || 0;
     let m = Economy.milestoneMultiplier(this.milestones, owned);
-    const upgMult = this._upgradeMultFor(def.slot);
+    const upgMult = this._upgradeMultFor(def.id);
     m = m.mul(upgMult);
     const clone = this.clones[id];
     if (clone) m = m.scale(clone.mult);
     return m;
   }
 
-  _upgradeMultFor(slot) {
+  _upgradeMultFor(slotOrId) {
     const upgs = this.config.upgrades?.perProducer || [];
-    const def = upgs.find((u) => u.slot === slot);
-    if (!def) return BigNumber.one();
+    // melhorias indexadas por missão (p1_01) ou por slot (retrocompat.)
+    const key = `pp_${slotOrId}`;
+    const lvl = this.upgrades[key] || 0;
+    const def = upgs.find((u) => (u.slot === slotOrId || u.producer === slotOrId || u.id === slotOrId));
+    const costs = def ? def.costs : (upgs[0] ? upgs[0].costs : [5, 5, 5, 5, 5]);
     let m = BigNumber.one();
-    for (let i = 0; i < def.costs.length; i++) {
-      const lvl = this.upgrades[`pp_${slot}`] || 0;
-      if (lvl > i) m = m.scale(def.mult);
+    for (let i = 0; i < costs.length; i++) {
+      if (lvl > i) m = m.scale(def ? def.mult : 3);
     }
     return m;
   }
@@ -280,7 +380,8 @@ export class GameState {
     this.credits = this.credits.sub(cost);
     this.producers[id] = owned + qty;
     this._compute();
-    return { ok: true, cost, owned: this.producers[id] };
+    // missão-fim → muda o mapa ativo (paridade: última missão do mapa abre o próximo §82)
+    return { ok: true, cost, owned: this.producers[id], advanced: this.advanceMapIfPossible() };
   }
 
   maxBuy(id) {
@@ -313,18 +414,68 @@ export class GameState {
     return { ok: true, cost };
   }
 
-  /** Upgrade por produtor (§71): nível 1..n. */
-  buyProducerUpgrade(slot) {
-    const def = (this.config.upgrades?.perProducer || []).find((u) => u.slot === slot);
+  /**
+   * Upgrade por produtor (§71): nível 1..n.
+   * `key` = id da missão (ex.: 'p1_01') na campanha por mapas, ou slot (retrocompat.: 1, 2...).
+   * A chave interna é `pp_<key>`, migrando saves antigos (`pp_<slot>` → `pp_<id>`).
+   */
+  /**
+   * Chave canônica de melhoria por produtor = id da missão (p.ex. 'p1_01').
+   * Aceita: id da missão, ou slot numérico (resolve para a missão do mapa ativo;
+   * retrocompat. com a UI antiga que passava slot).
+   */
+  _producerUpgradeKey(key) {
+    // id de missão direto?
+    if (typeof key === 'string' && this.producerDef(key)) return key;
+    const def = this.producerList().find((p) => p.slot === key);
+    if (def) return def.id;
+    return String(key); // fallback (chave arcaica 'pp_<slot>')
+  }
+
+  /** Definição de custos de uma missão (por id), herdando a curva do slot se não houver. */
+  _producerUpgradeDef(producerId) {
+    const def = this.producerDef(producerId);
+    if (!def) return null;
+    const upgs = this.config.upgrades?.perProducer || [];
+    return upgs.find((u) => u.id === producerId || u.producer === producerId)
+      || upgs.find((u) => u.slot === def.slot)
+      || { slot: def.slot, mult: 3, costs: [25000, 5e7, 2.5e11, 1.25e15, 6.25e18] };
+  }
+
+  /**
+   * Upgrade por produtor (§71): nível 1..n.
+   * `key` = id da missão (ex.: 'p1_01') ou slot (retrocompat.). Nível em `pp_<missão>`.
+   */
+  buyProducerUpgrade(key) {
+    const storageKey = this._producerUpgradeKey(key);
+    const def = this._producerUpgradeDef(storageKey);
     if (!def) return { ok: false, reason: 'unknown' };
-    const lvl = this.upgrades[`pp_${slot}`] || 0;
+    // migração de save antigo: pp_<slot> → pp_<missão>
+    const producer = this.producerDef(storageKey);
+    let lvl = this.upgrades[`pp_${storageKey}`] || 0;
+    if (lvl === 0 && producer && (this.upgrades[`pp_${producer.slot}`] || 0) > 0) {
+      lvl = this.upgrades[`pp_${producer.slot}`] || 0;
+    }
     if (lvl >= def.costs.length) return { ok: false, reason: 'max' };
     const cost = BigNumber.fromNumber(def.costs[lvl]);
     if (cost.gt(this.credits)) return { ok: false, reason: 'cost', cost };
     this.credits = this.credits.sub(cost);
-    this.upgrades[`pp_${slot}`] = lvl + 1;
+    this.upgrades[`pp_${storageKey}`] = lvl + 1;
+    if (producer) delete this.upgrades[`pp_${producer.slot}`]; // limpa chave antiga
     this._compute();
-    return { ok: true, level: lvl + 1 };
+    return { ok: true, level: lvl + 1, key: storageKey };
+  }
+
+  /** Nível de melhoria de uma missão (chave da Loja de Melhorias). */
+  upgradeLevelOf(key) {
+    const storageKey = this._producerUpgradeKey(key);
+    return this.upgrades[`pp_${storageKey}`] || 0;
+  }
+
+  /** Desbloqueio re-entrante de mapa: libera explicitamente (testes/cheats/flags). */
+  toggleMapUnlock(mapId, unlocked = true) {
+    if (unlocked) this.mapUnlocked[mapId] = 1;
+    else delete this.mapUnlocked[mapId];
   }
 
   /** Upgrade global de fase. */
@@ -345,7 +496,7 @@ export class GameState {
   starLevelOf(id) {
     const def = this.producerDef(id);
     if (!def) return 0;
-    return this.upgrades[`pp_${def.slot}`] || 0;
+    return this.upgradeLevelOf(def.id);
   }
 
   // ---------------- boost por anúncio (simulado em dev §88/§92) ----------------
@@ -457,7 +608,11 @@ export class GameState {
       this._sinceRare = 0;
     }
     const pool = this.cloneCatalog().filter((c) => c.rarity === rarity.id);
-    const pick = pool[Math.floor(Math.random() * pool.length)];
+    // restringe ao mapa ativo (o sósia boosta uma missão visível da campanha atual)
+    const mapProducers = (this.config.producerMaps || {})[this.activeMapId()] || this.producerList();
+    const mapIds = new Set(mapProducers.map((p) => p.id));
+    const localPool = pool.filter((c) => mapIds.has(c.producer));
+    const pick = (localPool.length ? localPool : pool)[Math.floor(Math.random() * (localPool.length || pool.length))];
     const pid = pick.producer;
     const existing = this.clones[pid];
     if (existing) {
@@ -558,8 +713,45 @@ export class GameState {
       firstFreeGiven: this._firstFreeGiven,
       sinceRare: this._sinceRare || 0,
       boostUntil: this.boostUntil || 0,
+      faseIndice: this.faseIndice,
+      mapProgress: { ...this.mapProgress },
+      mapUnlocked: { ...this.mapUnlocked },
       timestamp: this.timestamp,
     };
+  }
+
+  /**
+   * Migração de save (retrocompat. §174): chaves antigas `PRD_phase1_XX`
+   * → `p1_XX`. A campanha por mapas renomeou os ids das missões; saves
+   * anteriores continuam válidos.
+   */
+  _migrateKey(k) {
+    if (typeof k !== 'string') return k;
+    return k.replace(/^PRD_phase(\d+)_(\d+)$/, (_m, p, idx) => `p${p}_${String(idx).padStart(2, '0')}`)
+      .replace(/^PRD_(\d+)$/, (_m, idx) => `p1_${String(idx).padStart(2, '0')}`);
+  }
+  _migrateKeys(map) {
+    const out = {};
+    for (const k of Object.keys(map || {})) out[this._migrateKey(k)] = map[k];
+    return out;
+  }
+
+  /** Migra upgrades `pp_<slot>` antigos para `pp_<missão>` do mapa correspondente. */
+  _migrateUpgradeKeys(upgrades) {
+    const out = { ...upgrades };
+    for (const k of Object.keys(upgrades || {})) {
+      if (!k.startsWith('pp_')) continue;
+      const raw = k.slice(3);
+      if (/^\d+$/.test(raw)) {
+        // pp_<slot> → missão do mapa ativo com aquele slot
+        const def = this.producerList().find((p) => p.slot === Number(raw));
+        if (def) {
+          out[`pp_${def.id}`] = upgrades[k];
+          delete out[k];
+        }
+      }
+    }
+    return out;
   }
 
   _loadSnapshot(s) {
@@ -573,12 +765,12 @@ export class GameState {
     this.puxasacos = s.puxasacos ?? 0;
     this.chumbo = s.chumbo ?? 0;
     this.boost = BigNumber.fromJSON(s.boost);
-    this.producers = { ...(s.producers || {}) };
-    this.collectables = {}; for (const k of Object.keys(s.collectables || {})) this.collectables[k] = BigNumber.fromJSON(s.collectables[k]);
-    this.cycleAccum = { ...(s.cycleAccum || {}) };
+    this.producers = this._migrateKeys(s.producers || {});
+    this.collectables = {}; for (const k of Object.keys(s.collectables || {})) this.collectables[this._migrateKey(k)] = BigNumber.fromJSON(s.collectables[k]);
+    this.cycleAccum = {}; for (const k of Object.keys(s.cycleAccum || {})) this.cycleAccum[this._migrateKey(k)] = s.cycleAccum[k];
     this.managers = { ...(s.managers || {}) };
-    this.upgrades = { ...(s.upgrades || {}) };
-    this.clones = { ...(s.clones || {}) };
+    this.upgrades = this._migrateUpgradeKeys(s.upgrades || {});
+    this.clones = {}; for (const k of Object.keys(s.clones || {})) this.clones[this._migrateKey(k)] = s.clones[k];
     this.zapStreak = s.zapStreak ?? 0;
     this.zapApproved = s.zapApproved ?? 0;
     this.zapDenied = s.zapDenied ?? 0;
@@ -587,6 +779,9 @@ export class GameState {
     this._sinceRare = s.sinceRare || 0;
     this.boostUntil = s.boostUntil || 0;
     if (this.boostUntil && this.boostUntil <= Date.now()) { this.boostUntil = 0; this.boost = BigNumber.one(); }
+    this.faseIndice = s.faseIndice ?? 0;
+    this.mapProgress = { ...(s.mapProgress || {}) };
+    this.mapUnlocked = { ...(s.mapUnlocked || {}) };
     this.timestamp = s.timestamp ?? Date.now();
   }
 }

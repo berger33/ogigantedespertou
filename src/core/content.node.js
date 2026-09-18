@@ -10,7 +10,7 @@ import upgradesJson from '../content/upgrades.json' with { type: 'json' };
 import clonesJson from '../content/clones.json' with { type: 'json' };
 import zapsJson from '../content/zaps.json' with { type: 'json' };
 import achievementsJson from '../content/achievements.json' with { type: 'json' };
-import phasesJson from '../content/phases.json' with { type: 'json' };
+import mapsJson from '../content/maps.json' with { type: 'json' };
 import { makeConfig } from './content.js';
 
 export function loadConfig(opts = {}) {
@@ -23,7 +23,7 @@ export function loadConfig(opts = {}) {
     clones: clonesJson,
     zaps: zapsJson,
     achievements: achievementsJson,
-    phases: phasesJson,
+    maps: mapsJson,
     ...opts,
   });
 }

@@ -3,28 +3,45 @@
  * - `makeConfig(...)`: agrega JSONs crus → config do GameState (puro).
  * - `loadConfigWeb(opts)`: NAVEGADOR (fetch) — sem import attributes.
  *
+ * Campanha por mapas: producers/{manager,clones}.json contêm N mapas
+ * (p.ex. phase1, phase2...). makeConfig recebe `mapId` e o limite de
+ * missões por mapa (`maxProducers`).
+ *
  * Loader Node (import attributes) vive em `content.node.js`.
  */
-export function makeConfig({ economy, producers, clicks, managers, upgrades, clones, zaps, achievements, phases, phase = 1, maxProducers = null } = {}) {
-  const all = (producers && producers.phase1) || [];
-  const list = maxProducers != null ? all.slice(0, maxProducers) : all;
+export function makeConfig({
+  economy, producers, clicks, managers, upgrades, clones, zaps, achievements, maps,
+  mapId = 'phase1', maxProducers = null,
+} = {}) {
+  // pool: todos os mapas num array plano; producerList = mapa ativo
+  const byMap = {};
+  if (producers) {
+    for (const key of Object.keys(producers)) {
+      if (Array.isArray(producers[key])) byMap[key] = producers[key];
+    }
+  }
+  const allMaps = Object.keys(byMap);
+  const active = byMap[mapId] || [];
+  const list = maxProducers ? active.slice(0, maxProducers) : active; // 0/null = todas
   return {
     economy: { ...economy, producerList: list },
-    producers: list,
+    producers: list,                    // mapa ativo
+    producerMaps: byMap,                // { mapId: [produtores] }
+    producerMapIds: allMaps,
+    mapId,
     clicks: clicks || { levels: [] },
     managers: managers || { managers: [], buyAllManager: {} },
     upgrades: upgrades || { perProducer: [], global: [] },
     clones: clones || { cost: 15, rarities: [], catalog: [] },
     zaps: zaps || { rewards: {}, messages: [] },
     achievements: achievements || { list: [] },
-    phases: phases || { phases: [] },
-    phase,
+    maps: maps || { maps: [] },
   };
 }
 
 /** Navegador: busca os JSONs (qualquer servidor estático). */
 export async function loadConfigWeb(opts = {}) {
-  const names = ['economy', 'producers', 'clicks', 'managers', 'upgrades', 'clones', 'zaps', 'achievements', 'phases'];
+  const names = ['economy', 'producers', 'clicks', 'managers', 'upgrades', 'clones', 'zaps', 'achievements', 'maps'];
   const data = {};
   await Promise.all(names.map(async (n) => {
     const r = await fetch(`content/${n}.json`);
@@ -40,7 +57,7 @@ export async function loadConfigWeb(opts = {}) {
     clones: data.clones,
     zaps: data.zaps,
     achievements: data.achievements,
-    phases: data.phases,
+    maps: data.maps,
     ...opts,
   });
 }
