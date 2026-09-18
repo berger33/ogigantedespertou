@@ -57,7 +57,7 @@ test('producerProduction = base * owned * milestones', () => {
   assert.equal(Economy.producerProduction(1, 10, ms, 10).toNumber(), 20);
 });
 
-test('GameState: clique gera Crédulos e conta total', () => {
+test('GameState: clique gera Mentes e conta total', () => {
   const config = loadConfig({ maxProducers: 4 });
   const s = new GameState(config);
   const gain = s.click(1000);

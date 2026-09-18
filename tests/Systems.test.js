@@ -66,7 +66,7 @@ test('Zap: acerto recompensa e erra zera streak', () => {
   assert.ok(s.desconfianca > 0);
 });
 
-test('Zap: recompensa em Crédulos soma ao saldo', () => {
+test('Zap: recompensa em Mentes soma ao saldo', () => {
   const s = new GameState(cfg());
   const before = s.credits;
   const pro = s.zapMessages().find((m) => m.pro === true);

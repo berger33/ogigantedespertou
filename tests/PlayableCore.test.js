@@ -63,17 +63,19 @@ test('conquistas declarativas avaliam sobre o estado', () => {
 });
 
 test('campanha por mapas: última missão destrava o próximo mapa', () => {
-  const config = loadConfig({ maxProducers: 12 });
+  const config = loadConfig({ maxProducers: 0 });
   const s = new GameState(config);
   assert.equal(s.activeMapId(), 'phase1');
   assert.equal(s.currentPhase().id, 'phase1');
-  // compra a missão FINAL do Deep Web (p1_12) → avança para O País que Não Existe
+  // 4 mapas = Deep Web, Democracia Relativa, Ratanabá, Religião (10 missões cada)
+  assert.deepEqual(s.listMaps(), ['phase1', 'phase2', 'phase3', 'phase4']);
+  // compra a missão FINAL do Deep Web (p1_10) → avança para Democracia Relativa
   s.credits = BigNumber.fromString('1e13');
-  const res = s.buyProducer('p1_12', 1);
+  const res = s.buyProducer('p1_10', 1);
   assert.equal(res.ok, true);
   assert.equal(res.advanced.moved, true);
   assert.equal(s.activeMapId(), 'phase2');
-  assert.equal(s.currentPhase().name, 'O País que Não Existe');
+  assert.equal(s.currentPhase().name, 'Democracia Relativa');
   // mapas: P1 concluído, P2 liberado, P3 bloqueado até concluir P2
   assert.ok(s.completedMaps().includes('phase1'));
   assert.equal(s.isMapUnlocked('phase2'), true);

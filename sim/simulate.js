@@ -17,7 +17,7 @@ import { dirname, join } from 'node:path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-// Campanha por mapas: Fase 2 abre ao concluir a MISSÃO FINAL do Deep Web (p1_12).
+// Campanha por mapas: Mapa 2 (Democracia Relativa) abre ao concluir a MISSÃO FINAL do Deep Web (p1_10).
 
 // Perfis (§78)
 const PROFILES = {
@@ -145,7 +145,7 @@ function buildReport(rows) {
   L.push('- `producerGrowthRate = 1.07`');
   L.push('- Prestígio: `Convictos = (Lifetime/1e6)^0.5`, bônus **linear aditivo** `1 + 3%×Convictos` (§60)');
   L.push('  *(modelo exponencial (1+3%)^n foi testado e rejeitado: runaway super-exponencial, §60/§314)*');
-  L.push('- "Fase 2" modelada como conclusão da MISSÃO FINAL do Deep Web (mapa 1) — §82');
+  L.push('- "Mapa 2" (Democracia Relativa) modelado como conclusão da MISSÃO FINAL do Deep Web (mapa 1) — §82');
   L.push('- Perfis: casual 2×3min, medium 5×5min, hardcore 8×8min, payer 8×8min + ×10 permanente');
   L.push('');
   L.push('## Resultados por perfil (90 dias)');
@@ -192,7 +192,7 @@ function buildReport(rows) {
   L.push(`- **Primeiro prestígio (1e6)**: ${fmtDay(med.firstPrestigeDay)} (médio), ${fmtDay(hard.firstPrestigeDay)} (hardcore), ${fmtDay(casual.firstPrestigeDay)} (casual), ${fmtDay(payer.firstPrestigeDay)} (payer).`);
   const phase2Reached = rows.some((r) => r.phase2Day !== null);
   if (phase2Reached) {
-    L.push(`- **Mapa 2 (O País que Não Existe)**: ${fmtDay(med.phase2Day)} (médio), ${fmtDay(hard.phase2Day)} (hardcore), ${fmtDay(payer.phase2Day)} (payer), ${fmtDay(casual.phase2Day)} (casual).`);
+    L.push(`- **Mapa 2 (Democracia Relativa)**: ${fmtDay(med.phase2Day)} (médio), ${fmtDay(hard.phase2Day)} (hardcore), ${fmtDay(payer.phase2Day)} (payer), ${fmtDay(casual.phase2Day)} (casual).`);
     L.push(`  Aberto ao concluir a missão final do Deep Web (paridade: última missão do mapa).`);
   } else {
     L.push(`- **Mapa 2**: não atingido em 90 dias (máx. ${payer.maxLifetime.format('short')} no payer).`);
