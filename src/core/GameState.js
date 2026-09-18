@@ -14,7 +14,7 @@
  */
 import BigNumber from './BigNumber.js';
 import * as Economy from './Economy.js';
-import { globalBonus } from './Prestige.js';
+import { globalBonus, convictosFrom } from './Prestige.js';
 
 function bn(str) {
   if (str instanceof BigNumber) return str;
@@ -340,7 +340,76 @@ export class GameState {
     return { ok: true };
   }
 
-  /** Comprar tudo: compra o máximo lote a lote (usado pelo Zé, ¶40/§63). */
+  // ---------------- classificação de produtor (estrelas §30/paridade) ----------------
+  /** Nível de upgrade por produtor (base das estrelas bronze/prata/ouro). */
+  starLevelOf(id) {
+    const def = this.producerDef(id);
+    if (!def) return 0;
+    return this.upgrades[`pp_${def.slot}`] || 0;
+  }
+
+  // ---------------- boost por anúncio (simulado em dev §88/§92) ----------------
+  /** Ativa um boost multiplicativo (×mult) por `seconds`. Multiplica sobre o atual. */
+  applyBoost(mult, seconds) {
+    const now = Date.now();
+    this.expireBoost(now);
+    this.boost = this.boost.scale(mult);
+    this.boostUntil = Math.max(this.boostUntil || 0, now) + seconds * 1000;
+    this._compute();
+    return { boost: this.boost, until: this.boostUntil };
+  }
+
+  /** Estende a duração do boost atual sem alterar o multiplicador (empilhável). */
+  extendBoost(seconds, now = Date.now()) {
+    this.expireBoost(now);
+    if (this.boost.eq(BigNumber.one())) return this.boost;
+    this.boostUntil = Math.max(this.boostUntil || now, now) + seconds * 1000;
+    return this.boost;
+  }
+
+  /** Expira o boost quando o prazo passa. */
+  expireBoost(now = Date.now()) {
+    if (this.boostUntil && now >= this.boostUntil) {
+      this.boost = BigNumber.one();
+      this.boostUntil = 0;
+      this._compute();
+    }
+    return this.boost;
+  }
+
+  /** Segundos restantes de boost por anúncio (0 = inativo). */
+  boostRemaining(now = Date.now()) {
+    if (!this.boostUntil) return 0;
+    return Math.max(0, Math.ceil((this.boostUntil - now) / 1000));
+  }
+
+  // ---------------- desbloqueios (§31/§38/§44/§57) ----------------
+  hasAnyProducer() { return Object.values(this.producers).some((v) => v > 0); }
+  hasAnyManager() { return Object.values(this.managers).some((v) => (v || 0) >= 1); }
+
+  /** Coordenadores desbloqueiam com o 1º produtor (fluxo de referência). */
+  managersUnlocked() { return this.hasAnyProducer(); }
+  /** Laboratório desbloqueia com o 1º Coordenador. */
+  clonesUnlocked() { return this.hasAnyManager(); }
+  /** Círculo Interno (prestígio) desbloqueia com o 1º Coordenador. */
+  prestigeUnlocked() { return this.hasAnyManager(); }
+
+  /**
+   * "Comprar Lealdade" (§58, paridade): ganha os Convictos SEM reset,
+   * pagando 10 Chumbo (moeda premium). Preserva todo o progresso da run.
+   */
+  buyLoyalty() {
+    const gained = convictosFrom(this.lifetimeCredits, this.prestigeParams(), this.convictos);
+    if (gained <= 0) return { ok: false, reason: 'below-threshold', gained: 0 };
+    if (this.chumbo < 10) return { ok: false, reason: 'cost', gained };
+    this.chumbo -= 10;
+    this.convictos += gained;
+    this._recomputeGlobal();
+    this._compute();
+    return { ok: true, gained };
+  }
+
+  // ---------------- tempo/offline ----------------
   buyAll() {
     let bought = 0;
     for (const def of this.producerList()) {
@@ -488,6 +557,7 @@ export class GameState {
       desconfianca: this.desconfianca,
       firstFreeGiven: this._firstFreeGiven,
       sinceRare: this._sinceRare || 0,
+      boostUntil: this.boostUntil || 0,
       timestamp: this.timestamp,
     };
   }
@@ -515,6 +585,8 @@ export class GameState {
     this.desconfianca = s.desconfianca ?? 0;
     this._firstFreeGiven = s.firstFreeGiven ?? false;
     this._sinceRare = s.sinceRare || 0;
+    this.boostUntil = s.boostUntil || 0;
+    if (this.boostUntil && this.boostUntil <= Date.now()) { this.boostUntil = 0; this.boost = BigNumber.one(); }
     this.timestamp = s.timestamp ?? Date.now();
   }
 }
