@@ -69,6 +69,14 @@ export class GameState {
   }
 
   // ---------------- conteúdo ----------------
+  /** TODAS as missões de TODOS os mapas, na ordem da campanha. Os 4 mapas
+   *  operam em paralelo: produção, ciclos e melhorias enxergam o conjunto todo,
+   *  não apenas o mapa ativo (spec: 4 mapas rodando ao mesmo tempo). */
+  allProducerList() {
+    const byMap = this.config.producerMaps || {};
+    return this.listMaps().flatMap((id) => byMap[id] || []);
+  }
+  /** Missões do mapa ATIVO (o que a Sede exibe na faixa). */
   producerList() {
     // reflete o mapa ativo; fallback para o pool fixo do config (retrocompat.)
     const mapId = this.activeMapId();
@@ -76,7 +84,7 @@ export class GameState {
     if (byMap[mapId] && byMap[mapId].length) return byMap[mapId];
     return this.config.producers || [];
   }
-  producerDef(id) { return this.producerList().find((p) => p.id === id); }
+  producerDef(id) { return this.allProducerList().find((p) => p.id === id); }
   managerList() { return this.config.managers?.managers || []; }
   managerDef(id) { return this.managerList().find((m) => m.id === id); }
   clickLevels() { return this.config.clicks?.levels || []; }
@@ -123,6 +131,9 @@ export class GameState {
 
   /** Id do mapa ativo. */
   activeMapId() { return this.listMaps()[this.faseIndice] || 'phase1'; }
+
+  /** Índice do mapa ativo (0..3). */
+  activePhaseIndex() { return this.faseIndice; }
 
   /** Metadados do mapa ativo. */
   activeMap() { return this.mapList()[this.faseIndice] || null; }
@@ -186,12 +197,13 @@ export class GameState {
   /** Metadados do próximo mapa, ou null. */
   nextPhase() { return this.mapList()[this.faseIndice + 1] || null; }
 
-  /** Visão enriquecida dos mapas para a UI (Mapa da Dominação). */
+  /** Visão enriquecida dos mapas para a UI (faixa + Mapa da Dominação). */
   phaseInfo() {
+    const idx = Math.max(0, Math.min(this.faseIndice, this.mapList().length - 1));
     return this.mapList().map((m, i) => ({
       ...m,
       index: i,
-      active: i === this.faseIndice,
+      active: i === idx,
       unlocked: this.isMapUnlocked(m.id),
       completed: this.completedMaps().includes(m.id),
       gate: this.pendingGate(m.id),
@@ -277,12 +289,11 @@ export class GameState {
   }
 
   _upgradeMultFor(slotOrId) {
-    const upgs = this.config.upgrades?.perProducer || [];
+    const def = this._producerUpgradeDef(slotOrId);
     // melhorias indexadas por missão (p1_01) ou por slot (retrocompat.)
-    const key = `pp_${slotOrId}`;
-    const lvl = this.upgrades[key] || 0;
-    const def = upgs.find((u) => (u.slot === slotOrId || u.producer === slotOrId || u.id === slotOrId));
-    const costs = def ? def.costs : (upgs[0] ? upgs[0].costs : [5, 5, 5, 5, 5]);
+    const storageKey = this._producerUpgradeKey(slotOrId);
+    const lvl = this.upgrades[`pp_${storageKey}`] || 0;
+    const costs = def && def.costs ? def.costs : [5, 5, 5, 5, 5];
     let m = BigNumber.one();
     for (let i = 0; i < costs.length; i++) {
       if (lvl > i) m = m.scale(def ? def.mult : 3);
@@ -306,7 +317,8 @@ export class GameState {
 
   _compute() {
     let total = BigNumber.zero();
-    for (const def of this.producerList()) {
+    // TODOS os mapas produzem em paralelo (não só o ativo).
+    for (const def of this.allProducerList()) {
       if (!this.isAutomated(def.id)) continue; // sem automação, não gera sozinho
       total = total.add(this.producerPps(def.id));
     }
@@ -332,7 +344,8 @@ export class GameState {
   tick(elapsedMs) {
     if (elapsedMs <= 0) return BigNumber.zero();
     let auto = BigNumber.zero();
-    for (const def of this.producerList()) {
+    // ciclos manuais de TODOS os mapas (os 4 operam em paralelo).
+    for (const def of this.allProducerList()) {
       const id = def.id;
       const owned = this.producers[id] || 0;
       if (owned <= 0) continue;
@@ -400,7 +413,7 @@ export class GameState {
     return { ok: true, level: this.clickLevel };
   }
 
-  /** Coordenador (automação): custo em Crédulos (§41). */
+  /** Coordenador (automação): custo em Mentes (§41). */
   buyManager(id) {
     const m = this.managerList().find((x) => x.id === id);
     if (!m) return { ok: false, reason: 'unknown' };
@@ -425,8 +438,9 @@ export class GameState {
    * retrocompat. com a UI antiga que passava slot).
    */
   _producerUpgradeKey(key) {
-    // id de missão direto?
+    // id de missão direto? (qualquer mapa)
     if (typeof key === 'string' && this.producerDef(key)) return key;
+    // slot numérico → missão do MAPA ATIVO (retrocompat. com a UI antiga)
     const def = this.producerList().find((p) => p.slot === key);
     if (def) return def.id;
     return String(key); // fallback (chave arcaica 'pp_<slot>')
@@ -437,9 +451,12 @@ export class GameState {
     const def = this.producerDef(producerId);
     if (!def) return null;
     const upgs = this.config.upgrades?.perProducer || [];
-    return upgs.find((u) => u.id === producerId || u.producer === producerId)
-      || upgs.find((u) => u.slot === def.slot)
-      || { slot: def.slot, mult: 3, costs: [25000, 5e7, 2.5e11, 1.25e15, 6.25e18] };
+    const found = upgs.find((u) => u.id === producerId || u.producer === producerId)
+      || upgs.find((u) => u.slot === def.slot);
+    if (found) return found;
+    // fallback: custos derivados do baseCost da missão (5 níveis ×3 cada).
+    const base = BigNumber.fromNumber(def.baseCost).toNumber();
+    return { slot: def.slot, mult: 3, costs: [5, 4, 3, 2, 1].map((k) => base * 10 ** k) };
   }
 
   /**
