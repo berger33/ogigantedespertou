@@ -5,7 +5,7 @@
  *
  * Uso: npm run sim  →  gera /sim/report.md
  */
-import { loadConfig } from '../src/core/content.js';
+import { loadConfig } from '../src/core/content.node.js';
 import { GameState } from '../src/core/GameState.js';
 import BigNumber from '../src/core/BigNumber.js';
 import * as Economy from '../src/core/Economy.js';

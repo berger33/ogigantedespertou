@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { convictosFrom, globalBonus, prestige } from '../src/core/Prestige.js';
 import BigNumber from '../src/core/BigNumber.js';
-import { loadConfig } from '../src/core/content.js';
+import { loadConfig } from '../src/core/content.node.js';
 import { GameState } from '../src/core/GameState.js';
 
 const P = { threshold: '1e6', exponent: 0.5, convictBonus: 0.03 };

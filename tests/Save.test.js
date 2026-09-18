@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { serialize, deserialize, recover, hydrate, hash32, SAVE_VERSION } from '../src/core/Save.js';
 import { GameState } from '../src/core/GameState.js';
-import { loadConfig } from '../src/core/content.js';
+import { loadConfig } from '../src/core/content.node.js';
 import BigNumber from '../src/core/BigNumber.js';
 
 function makeState() {

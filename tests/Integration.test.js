@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { loadConfig } from '../src/core/content.js';
+import { loadConfig } from '../src/core/content.node.js';
 import { GameState } from '../src/core/GameState.js';
 import BigNumber from '../src/core/BigNumber.js';
 import { serialize, deserialize } from '../src/core/Save.js';

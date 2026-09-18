@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import BigNumber from '../src/core/BigNumber.js';
 import * as Economy from '../src/core/Economy.js';
-import { loadConfig } from '../src/core/content.js';
+import { loadConfig } from '../src/core/content.node.js';
 import { GameState } from '../src/core/GameState.js';
 
 test('buyCost: primeira unidade = baseCost; cresce exponencialmente', () => {
