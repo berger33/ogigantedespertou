@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadConfig } from '../src/core/content.js';
 import { GameState } from '../src/core/GameState.js';
+import BigNumber from '../src/core/BigNumber.js';
 import { serialize, deserialize } from '../src/core/Save.js';
 import { convictosFrom } from '../src/core/Prestige.js';
 
@@ -18,11 +19,11 @@ test('sessão FTUE: clicar → comprar produtor → produção → save/reload �
   // compra o 1º produtor (custo 15)
   assert.equal(s.buyProducer('PRD_phase1_01', 1).ok, true);
   assert.equal(s.producers['PRD_phase1_01'], 1);
-  assert.ok(s.productionPerSecond().gt(0));
+  assert.ok(s.productionPerSecond().gt(BigNumber.zero()));
 
   // produção idle
   s.tick(60000);
-  assert.ok(s.lifetimeCredits.gt(0));
+  assert.ok(s.lifetimeCredits.gt(BigNumber.zero()));
 
   // save → reload (integridade)
   const str = serialize(s);
