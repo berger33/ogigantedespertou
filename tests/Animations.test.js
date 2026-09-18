@@ -40,3 +40,23 @@ test('animação: SVG referenciado existe, é bem-formado e contém a cena consp
     assert.match(txt, /class="eye"/, 'olho vigiando (atmosfera)');
   }
 });
+
+test('animação: personagem é rig articulada (partes com pivôs próprios), não uma caixa única', () => {
+  // Regressão contra o bug do "uma imagem só balançando": o char precisa expor
+  // tronco, braços esq/dir, pernas esq/dir e cabeça como grupos separados,
+  // cada um com transform-origin inline (pivô de articulação em px do viewBox).
+  const cfg = loadConfig({});
+  const s = new GameState(cfg);
+  for (const id of ['p1_01', 'p1_08', 'p1_09']) {
+    const sc = s.animationFor(id);
+    const rel = sc.src.replace(/^\//, '');
+    const txt = fs.readFileSync(new URL(`../src/${rel}`, import.meta.url), 'utf-8');
+    for (const cls of ['class="root"', 'class="arm arm-l"', 'class="arm arm-r"',
+                       'class="leg leg-l"', 'class="leg leg-r"', 'class="head"']) {
+      assert.match(txt, new RegExp(cls.replace(/"/g, '\\"')), `${id}: falta ${cls}`);
+    }
+    // pivôs de articulação presentes (transform-origin px em ombros/quadril/pescoço)
+    assert.ok((txt.match(/transform-origin/g) || []).length >= 5,
+      `${id}: esperava transform-origin nas articulações`);
+  }
+});

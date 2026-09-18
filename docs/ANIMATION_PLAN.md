@@ -206,11 +206,26 @@ antes do conteúdo volumoso, provar o loop da economia/ritmo — regra MVP).
 - Arte: `src/assets/anim/p1_01..p1_10/scene.svg` — cada missão vira um **dossiê
   conspiratório ilustrado** (sala secreta + personagem "O Grifter" em pose temática
   + objeto sob holofote + plaqueta com a piada + olho vigiando), paleta ART_BIBLE.
-- Spec: `src/content/animations.json` **v2** — cenas por id com `accent` + `loops`.
+- **Rig de marionete (v2.1):** o personagem NÃO é mais uma caixa única. Ele expõe
+  ossos articulados — `root` (tronco), `leg-l/leg-r` (pivô no quadril), `arm-l/arm-r`
+  (pivô no ombro, objetos `gadget` segurados dentro do braço), `head` (pivô no pescoço),
+  `fingers`, `headgear` — cada um com `transform-origin` em px do viewBox. O CSS roda
+  cada osso num **ritmo próprio** (pernas ~0,62s, braços ~0,9–1,05s, cabeça ~1,3s),
+  com `--phase` por card para vizinhos não dançarem em sincronia. Isso corrige a
+  rejeição "parece uma imagem só balançando" — agora são várias partes se articulando
+  como nas cenas emolduradas da referência.
+- Objeto de cena (`spot-*`) separado do wrapper `translate` para o CSS não sobrescrever
+  a posição; `transform-box` explícito (`view-box`/`fill-box`) garante pivôs corretos
+  em qualquer navegador; `@media (prefers-reduced-motion)` preservado.
+- Spec: `src/content/animations.json` **v2** — cenas por id com `accent` + `loops`
+  (vocabulário: `marcha`, `bracos`, `cabeca`, `throb`, `sway`, `levitate`, `spin`,
+  `drop`, `rise`, `rain`, `blink`, `flicker`).
 - Gerador: `tools/gen_animations.py` + kit procedural `tools/art_kit.py`
   (arte 100% original, sem assets externos).
-- Renderizador: estados `off/idle/running`; loops por classe (`char`, `spot-*`,
-  `prop-*`, `eye`, `lamp`); moldura de dossiê (scanlines + carimbo "CONFIDENCIAL").
+- Renderizador: estados `off/idle/running`; loops por classe; moldura de dossiê
+  (scanlines + carimbo "CONFIDENCIAL").
+- Testes: `tests/Animations.test.js` agora também fixa a rig (tronco/braços/pernas/
+  cabeça como grupos separados com pivôs) contra regressão visual.
 
 ### Status do Lote 0 (entregue)
 

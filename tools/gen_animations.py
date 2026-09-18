@@ -43,7 +43,7 @@ DEEP_WEB = [
         "accent": "#B57BFF",
         "line1": "COMPRAR COM CRIPTO",
         "line2": "carteira_real_v2_FINAL.docx",
-        "loops": ["throb", "hover", "rise", "bob", "blink"],
+        "loops": ["marcha", "bracos", "cabeca", "throb", "rise", "blink", "flicker"],
     },
     {
         "id": "p1_02",
@@ -52,7 +52,7 @@ DEEP_WEB = [
         "accent": "#39FF9C",
         "line1": "PLANTAR FAKE NEWS",
         "line2": "a manchete sai antes do fato",
-        "loops": ["throb", "hover", "rise", "bob", "blink"],
+        "loops": ["marcha", "bracos", "cabeca", "throb", "rise", "blink", "flicker"],
     },
     {
         "id": "p1_03",
@@ -61,7 +61,7 @@ DEEP_WEB = [
         "accent": "#39FF9C",
         "line1": "AMIGOS REPTILIANOS",
         "line2": "café com um escamoso",
-        "loops": ["sway", "hover", "rise", "bob", "blink"],
+        "loops": ["marcha", "bracos", "cabeca", "sway", "rise", "blink", "flicker"],
     },
     {
         "id": "p1_04",
@@ -70,7 +70,7 @@ DEEP_WEB = [
         "accent": "#B57BFF",
         "line1": "INFORMANTE NO GOVERNO",
         "line2": "título: 'conselheiro'",
-        "loops": ["levitate", "hover", "rise", "bob", "blink"],
+        "loops": ["marcha", "bracos", "cabeca", "levitate", "rise", "blink", "flicker"],
     },
     {
         "id": "p1_05",
@@ -79,7 +79,7 @@ DEEP_WEB = [
         "accent": "#D4AF37",
         "line1": "TEORIAS DA CONSPIRAÇÃO",
         "line2": "cada boato, uma semente",
-        "loops": ["throb", "hover", "drop", "bob", "blink"],
+        "loops": ["marcha", "bracos", "cabeca", "throb", "drop", "blink", "flicker"],
     },
     {
         "id": "p1_06",
@@ -88,7 +88,7 @@ DEEP_WEB = [
         "accent": "#B57BFF",
         "line1": "LAVAR CÉREBROS POP",
         "line2": "o hit vem com a mensagem",
-        "loops": ["spin", "hover", "rise", "bob", "blink"],
+        "loops": ["marcha", "bracos", "cabeca", "spin", "rise", "blink", "flicker"],
     },
     {
         "id": "p1_07",
@@ -97,7 +97,7 @@ DEEP_WEB = [
         "accent": "#B3261E",
         "line1": "GUERRA POR LUCRO",
         "line2": "paz é quando ninguém lucra",
-        "loops": ["throb", "hover", "rise", "bob", "blink"],
+        "loops": ["marcha", "bracos", "cabeca", "throb", "rise", "blink", "flicker"],
     },
     {
         "id": "p1_08",
@@ -106,7 +106,7 @@ DEEP_WEB = [
         "accent": "#39FF9C",
         "line1": "CONTROLAR PELO WI-FI",
         "line2": "sinal forte, convicção + forte",
-        "loops": ["throb", "hover", "rise", "bob", "blink"],
+        "loops": ["marcha", "bracos", "cabeca", "throb", "rise", "blink", "flicker"],
     },
     {
         "id": "p1_09",
@@ -115,7 +115,7 @@ DEEP_WEB = [
         "accent": "#B57BFF",
         "line1": "GOVERNANTES FANTOCHES",
         "line2": "trocamos o roteiro, não o elenco",
-        "loops": ["sway", "hover", "rise", "bob", "blink"],
+        "loops": ["marcha", "bracos", "cabeca", "sway", "rise", "blink", "flicker"],
     },
     {
         "id": "p1_10",
@@ -124,7 +124,7 @@ DEEP_WEB = [
         "accent": "#39FF9C",
         "line1": "CONTROLAR O CLIMA",
         "line2": "chuva no bloco A, sol no B",
-        "loops": ["throb", "hover", "rain", "bob", "blink"],
+        "loops": ["marcha", "bracos", "cabeca", "throb", "rain", "blink", "flicker"],
     },
 ]
 

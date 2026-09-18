@@ -205,32 +205,70 @@ html, body {
 .anim-stage.off .anim-fallback { animation: bobbing 1.6s ease-in-out infinite; }
 .anim-stage.off svg { filter: saturate(.15) brightness(.62) contrast(.9); }
 .anim-stage.idle svg { filter: saturate(.85); }
-.anim-stage.idle .char { animation: char-breathe 3.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center bottom; }
 .anim-stage.running svg { filter: none; }
 .anim-stage.running { box-shadow: inset 0 0 18px var(--accent, rgba(57,255,156,.30)); }
 
-/* ---- loops (estado running) ---- */
-/* personagem: paira / fica alerta */
-.anim-stage.running .char { animation: hover 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center bottom; }
-/* objetos de cena */
-.anim-stage.running .spot-throb { animation: throb 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-.anim-stage.running .spot-sway    { animation: sway 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center top; }
-.anim-stage.running .spot-levitate{ animation: levitate 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-.anim-stage.running .spot-spin    { animation: spin360 3.2s linear infinite; transform-box: fill-box; transform-origin: center; }
+/* fase por card: cards vizinhos não dançam em sincronia (contadores diferentes) */
+.producer:nth-child(4n+1) { --phase: 0s; }
+.producer:nth-child(4n+2) { --phase: -0.24s; }
+.producer:nth-child(4n+3) { --phase: -0.48s; }
+.producer:nth-child(4n)   { --phase: -0.72s; }
+
+/* pivôs em px do viewBox (escritos no SVG) → interpretados contra o viewBox,
+   não contra o bbox do elemento. Garante articulação correta em qualquer navegador. */
+.anim-stage .root, .anim-stage .arm, .anim-stage .leg,
+.anim-stage .head, .anim-stage .fingers, .anim-stage .headgear,
+.anim-stage .beam { transform-box: view-box; }
+
+/* ==== PERSONAGEM ARTICULADO (rig de marionete — docs/ANIMATION_PLAN.md) ====
+   Cada osso gira no PRÓPRIO pivô (transform-origin em px no SVG, ex.: ombro,
+   quadril, pescoço). Nada disso anima a imagem inteira.
+   - idle: o corpo só respira, alerta.
+   - running: pernas ~0.62s, braços ~0.9-1.05s, cabeça ~1.3s — ritmos
+     independentes, como as cenas emolduradas da referência. */
+
+.anim-stage.idle .root { animation: root-breathe 3s ease-in-out infinite; }
+.anim-stage.idle .head { animation: head-idle 4.6s ease-in-out infinite; }
+
+.anim-stage.running .root     { animation: root-bob 0.62s ease-in-out infinite; animation-delay: var(--phase, 0s); }
+.anim-stage.running .leg-l    { animation: leg-kick 0.62s ease-in-out infinite; animation-delay: var(--phase, 0s); }
+.anim-stage.running .leg-r    { animation: leg-kick 0.62s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) - 0.31s); }
+.anim-stage.running .arm-l    { animation: arm-swing 0.9s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) - 0.22s); }
+.anim-stage.running .arm-r    { animation: arm-raise 1.05s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) - 0.5s); }
+.anim-stage.running .head     { animation: head-nod 1.3s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) - 0.4s); }
+.anim-stage.running .fingers  { animation: finger-wiggle 0.5s ease-in-out infinite; animation-delay: var(--phase, 0s); }
+.anim-stage.running .tap      { animation: tap-press 0.5s ease-in-out infinite; animation-delay: var(--phase, 0s); }
+.anim-stage.running .headgear { animation: headgear-bob 0.9s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) - 0.3s); }
+
+/* ---- objetos de cena (sob holofote) ---- */
+.anim-stage.running .spot-throb    { animation: throb 1.5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; animation-delay: var(--phase, 0s); }
+.anim-stage.running .spot-sway     { animation: sway 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; animation-delay: var(--phase, 0s); }
+.anim-stage.running .spot-levitate { animation: levitate 2.4s ease-in-out infinite; animation-delay: var(--phase, 0s); }
+.anim-stage.running .spot-spin     { animation: spin360 3.0s linear infinite; transform-box: fill-box; transform-origin: center; animation-delay: var(--phase, 0s); }
 /* partículas */
-.anim-stage.running .prop-rise > * { animation: riseFade 2.0s ease-in-out infinite; transform-box: fill-box; }
-.anim-stage.running .prop-drop > * { animation: dropBounce 1.6s ease-in-out infinite; transform-box: fill-box; }
-.anim-stage.running .prop-rain > * { animation: rainloop 1.4s ease-in-out infinite; transform-box: fill-box; }
+.anim-stage.running .prop-rise > * { animation: riseFade 2.0s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) * 0.5); }
+.anim-stage.running .prop-drop > * { animation: dropBounce 1.6s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) * 0.5); }
+.anim-stage.running .prop-rain > * { animation: rainloop 1.4s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) * 0.5); }
 /* atmosfera */
-.anim-stage.running .lamp { animation: flicker 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.anim-stage.running .lamp { animation: flicker 2.6s ease-in-out infinite; }
 .anim-stage.running .eye  { animation: eyeblink 4.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-.anim-stage.running .dust > * { animation: dustfloat 6s ease-in-out infinite; transform-box: fill-box; }
+.anim-stage.running .spotlight { animation: cone-shimmer 3.4s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) * 0.4); }
+.anim-stage.running .beam { animation: beam-wobble 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: 14px 10px; animation-delay: calc(var(--phase, 0s) * 0.6); }
+.anim-stage.running .dust > * { animation: dustfloat 6s ease-in-out infinite; }
 
 @keyframes bobbing { 0%,100% { transform: translateY(-3px); } 50% { transform: translateY(3px); } }
-@keyframes char-breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.025); } }
-@keyframes hover { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes root-breathe { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.025); } }
+@keyframes root-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-1.4px); } }
+@keyframes leg-kick { 0%,100% { transform: rotate(-15deg); } 50% { transform: rotate(14deg); } }
+@keyframes arm-swing { 0%,100% { transform: rotate(-7deg); } 50% { transform: rotate(9deg); } }
+@keyframes arm-raise { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(6deg); } }
+@keyframes head-nod { 0%,100% { transform: rotate(-2.2deg); } 50% { transform: rotate(2.6deg); } }
+@keyframes head-idle { 0%,100% { transform: rotate(-1.4deg); } 50% { transform: rotate(1.6deg); } }
+@keyframes finger-wiggle { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(8deg); } }
+@keyframes tap-press { 0%,100% { transform: translateY(0); } 45% { transform: translateY(2px); } }
+@keyframes headgear-bob { 0%,100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-1.2px) rotate(1.5deg); } }
 @keyframes throb { 0%,100% { transform: scale(1); } 50% { transform: scale(1.07); } }
-@keyframes sway { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes sway { 0%,100% { transform: rotate(-3.5deg); } 50% { transform: rotate(3.5deg); } }
 @keyframes levitate { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 @keyframes spin360 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes riseFade { 0% { transform: translateY(4px); opacity: 0; } 35% { opacity: 1; } 70% { transform: translateY(-5px); opacity: 1; } 100% { transform: translateY(-8px); opacity: 0; } }
@@ -239,6 +277,15 @@ html, body {
 @keyframes flicker { 0%,100% { opacity: .9; } 12% { opacity: .55; } 20% { opacity: .85; } 44% { opacity: .6; } 60% { opacity: .9; } }
 @keyframes eyeblink { 0%,94%,100% { transform: scaleY(1); } 96% { transform: scaleY(.12); } 98% { transform: scaleY(1); } }
 @keyframes dustfloat { 0%,100% { transform: translate(0,0); } 50% { transform: translate(2px,-3px); } }
+@keyframes cone-shimmer { 0%,100% { opacity: .10; } 50% { opacity: .22; } }
+@keyframes beam-wobble { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(4deg); } }
+
+/* acessibilidade: respeita quem desativa movimento */
+@media (prefers-reduced-motion: reduce) {
+  .anim-stage *, .anim-stage *::before, .anim-stage *::after {
+    animation: none !important; transition: none !important;
+  }
+}
 .prod-body { padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; }
 .prod-line1 { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; }
 .producer-name { font-weight: 800; font-size: 13.5px; }

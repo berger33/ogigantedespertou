@@ -11,11 +11,13 @@
       "accent": "#B57BFF",
       "src": "assets/anim/p1_01/scene.svg",
       "loops": [
+        "marcha",
+        "bracos",
+        "cabeca",
         "throb",
-        "hover",
         "rise",
-        "bob",
-        "blink"
+        "blink",
+        "flicker"
       ]
     },
     "p1_02": {
@@ -23,11 +25,13 @@
       "accent": "#39FF9C",
       "src": "assets/anim/p1_02/scene.svg",
       "loops": [
+        "marcha",
+        "bracos",
+        "cabeca",
         "throb",
-        "hover",
         "rise",
-        "bob",
-        "blink"
+        "blink",
+        "flicker"
       ]
     },
     "p1_03": {
@@ -35,11 +39,13 @@
       "accent": "#39FF9C",
       "src": "assets/anim/p1_03/scene.svg",
       "loops": [
+        "marcha",
+        "bracos",
+        "cabeca",
         "sway",
-        "hover",
         "rise",
-        "bob",
-        "blink"
+        "blink",
+        "flicker"
       ]
     },
     "p1_04": {
@@ -47,11 +53,13 @@
       "accent": "#B57BFF",
       "src": "assets/anim/p1_04/scene.svg",
       "loops": [
+        "marcha",
+        "bracos",
+        "cabeca",
         "levitate",
-        "hover",
         "rise",
-        "bob",
-        "blink"
+        "blink",
+        "flicker"
       ]
     },
     "p1_05": {
@@ -59,11 +67,13 @@
       "accent": "#D4AF37",
       "src": "assets/anim/p1_05/scene.svg",
       "loops": [
+        "marcha",
+        "bracos",
+        "cabeca",
         "throb",
-        "hover",
         "drop",
-        "bob",
-        "blink"
+        "blink",
+        "flicker"
       ]
     },
     "p1_06": {
@@ -71,11 +81,13 @@
       "accent": "#B57BFF",
       "src": "assets/anim/p1_06/scene.svg",
       "loops": [
+        "marcha",
+        "bracos",
+        "cabeca",
         "spin",
-        "hover",
         "rise",
-        "bob",
-        "blink"
+        "blink",
+        "flicker"
       ]
     },
     "p1_07": {
@@ -83,11 +95,13 @@
       "accent": "#B3261E",
       "src": "assets/anim/p1_07/scene.svg",
       "loops": [
+        "marcha",
+        "bracos",
+        "cabeca",
         "throb",
-        "hover",
         "rise",
-        "bob",
-        "blink"
+        "blink",
+        "flicker"
       ]
     },
     "p1_08": {
@@ -95,11 +109,13 @@
       "accent": "#39FF9C",
       "src": "assets/anim/p1_08/scene.svg",
       "loops": [
+        "marcha",
+        "bracos",
+        "cabeca",
         "throb",
-        "hover",
         "rise",
-        "bob",
-        "blink"
+        "blink",
+        "flicker"
       ]
     },
     "p1_09": {
@@ -107,11 +123,13 @@
       "accent": "#B57BFF",
       "src": "assets/anim/p1_09/scene.svg",
       "loops": [
+        "marcha",
+        "bracos",
+        "cabeca",
         "sway",
-        "hover",
         "rise",
-        "bob",
-        "blink"
+        "blink",
+        "flicker"
       ]
     },
     "p1_10": {
@@ -119,11 +137,13 @@
       "accent": "#39FF9C",
       "src": "assets/anim/p1_10/scene.svg",
       "loops": [
+        "marcha",
+        "bracos",
+        "cabeca",
         "throb",
-        "hover",
         "rain",
-        "bob",
-        "blink"
+        "blink",
+        "flicker"
       ]
     }
   }

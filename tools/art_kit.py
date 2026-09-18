@@ -134,14 +134,17 @@ def _hat(cx, cy):
 
 def _head(cx, cy, look="r"):
     ex = cx + 2.6 if look == "r" else cx - 2.6
-    eyes = ('<circle cx="%s" cy="%s" r="1.15" fill="{ink}"/>'
-            '<circle cx="%s" cy="%s" r=".4" fill="{paper}"/>') % (_sc(ex), _sc(cy), _sc(ex), _sc(cy))
+    eyes = ('<circle cx="%s" cy="%s" r="1.15" fill="%s"/>'
+            '<circle cx="%s" cy="%s" r=".4" fill="%s"/>') % (_sc(ex), _sc(cy), P["ink"], _sc(ex), _sc(cy), P["paper"])
+    # pivô no pescoço (cx, cy+2), inline em px do viewBox (CSS anima a rotação)
     return dedent('''\
-      <path d="M{a} {b} q0 -16 8 -16 l8 0 q8 0 8 16 z" fill="{hood}"/>
-      <rect x="{c}" y="{d}" width="18" height="7" fill="{skin}"/>
-      {eyes}
-      <rect x="{c}" y="{e}" width="18" height="4" fill="{hood}"/>
-      {hat}''').format(a=cx - 8, b=cy + 2, c=cx - 9, d=cy - 1, e=cy + 6,
+      <g class="head" style="transform-origin:{hx}px {hy}px">
+        <path d="M{a} {b} q0 -16 8 -16 l8 0 q8 0 8 16 z" fill="{hood}"/>
+        <rect x="{c}" y="{d}" width="18" height="7" fill="{skin}"/>
+        {eyes}
+        <rect x="{c}" y="{e}" width="18" height="4" fill="{hood}"/>
+        {hat}
+      </g>''').format(a=cx - 8, b=cy + 2, c=cx - 9, d=cy - 1, e=cy + 6, cx=cx, hx=_sc(cx), hy=_sc(cy + 2),
                        hood=P["hood"], skin=P["skin"], eyes=eyes, hat=_hat(cx, cy - 5))
 
 
@@ -153,55 +156,120 @@ def _torso_svg(x, y, w=16, h=20):
 
 
 def _legs(x, y):
-    return ('<rect x="%s" y="%s" width="5.4" height="13" rx="2" fill="%s" stroke="%s" stroke-width="1.2"/>'
-            '<rect x="%s" y="%s" width="5.4" height="13" rx="2" fill="%s" stroke="%s" stroke-width="1.2"/>') % (
-        _sc(x + 1.5), _sc(y), P["hood_dk"], P["ink"], _sc(x + 9), _sc(y), P["hood_dk"], P["ink"])
+    """Pernas desenhadas em coords de cena, pivô no quadril (topo da perna) via style."""
+    lx, rx, hy = x + 1.5, x + 9, y
+    leg = ('<g class="leg %s" style="transform-origin:%spx %spx">'
+           '<rect x="%s" y="%s" width="5.4" height="13" rx="2" fill="%s" stroke="%s" stroke-width="1.2"/>'
+           '<rect class="foot" x="%s" y="%s" width="6.4" height="3" rx="1.5" fill="%s" stroke="%s" stroke-width="1.1"/>'
+           '</g>')
+    return (leg % ("leg-l", _sc(lx + 2.7), _sc(hy), _sc(lx), _sc(hy), P["hood_dk"], P["ink"],
+                   _sc(lx - 0.5), _sc(hy + 10.6), P["ink"], P["ink"])
+            + leg % ("leg-r", _sc(rx + 2.7), _sc(hy), _sc(rx), _sc(hy), P["hood_dk"], P["ink"],
+                     _sc(rx - 0.5), _sc(hy + 10.6), P["ink"], P["ink"]))
 
 
-def _arm(x1, y1, x2, y2):
-    return ('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="4" stroke-linecap="round"/>') % (
-        _sc(x1), _sc(y1), _sc((x1 + x2) / 2), _sc(min(y1, y2) - 2), _sc(x2), _sc(y2), P["paper2"])
+def _limb(side, sx, sy, hx1, hy1, painter="paper2", extra=""):
+    """Braço articulado em coords de cena, pivô no ombro (sx,sy) via transform-origin px.
+
+    `extra` permite pendurar um objeto segurado (pôster, envelope, telefone, dedos)
+    DENTRO do grupo do braço, para que balance junto com a mão quando o CSS gira o braço.
+    """
+    band = ('<path d="M%s %s Q%s %s %s %s" fill="none" stroke="%s" stroke-width="4" '
+            'stroke-linecap="round"/>') % (_sc(sx), _sc(sy),
+            _sc((sx + hx1) / 2), _sc(min(sy, hy1) - 2), _sc(hx1), _sc(hy1), P[painter])
+    hand = '<circle cx="%s" cy="%s" r="2.7" fill="%s" stroke="%s" stroke-width="1.1"/>' % (
+        _sc(hx1), _sc(hy1), P[painter], P["ink"])
+    return ('<g class="arm arm-%s" style="transform-origin:%spx %spx">%s%s%s</g>'
+            % (side, _sc(sx), _sc(sy), band, hand, extra))
 
 
-def char(pose, x=44, y=GROUND, flip=False):
-    """Personagem completo. Base no ponto (x, y) [pes]. Altura ~48px."""
+def _fingers(hx1, hy1):
+    """Dedos para poses de teclado/saudação (animam balanço com pivô no pulso)."""
+    return ('<g class="fingers" style="transform-origin:%spx %spx">'
+            '<path d="M%s %s v-6 M%s %s v-5 M%s %s v-6" stroke="%s" stroke-width="2" stroke-linecap="round"/></g>') % (
+        _sc(hx1), _sc(hy1),
+        _sc(hx1 - 5), _sc(hy1), _sc(hx1), _sc(hy1), _sc(hx1 + 5), _sc(hy1), P["skin"])
+
+
+def char(pose, x=44, y=GROUND, flip=False, gait=False):
+    """Personagem articulado (puppet): tronco/braços/pernas/cabeça com pivôs próprios.
+
+    Pivôs em coords de viewBox (o CSS roda `transform` com `transform-origin` igual):
+      - cabeça .....(hx, ty-8)   [pescoço]
+      - tronco .....(hx, ty+20)  [base / quadril]
+      - pernas .....(topo de cada perna, no quadril)
+      - braços .....(ombro esq./dir.)
+    Objetos segurados entram DENTRO do grupo do braço (extra) → balançam com a mão.
+    """
     hx = x + 8
-    hy = y - 34
     ty = y - 24
-    torso = _torso_svg(x + 0.5, ty, 16, 20)
+    torso = ('<g class="root" style="transform-origin:%spx %spx">%s</g>'
+             % (_sc(hx), _sc(ty + 20), _torso_svg(x + 0.5, ty, 16, 20)))
+    sx_l, sy = x + 2, ty + 9
+    sx_r = x + 14
+    hand_l = _limb("l", sx_l, sy, x + 2, ty + 18)
 
     if pose == "typing":
-        arms = (_arm(x + 2, ty + 5, x + 26, ty + 8)
-                + '<rect x="%s" y="%s" width="22" height="6" rx="1.5" fill="%s" stroke="%s" stroke-width="1.1"/>' % (_sc(x + 26), _sc(ty + 5), P["hood"], P["ink"]))
+        gadget = ('<g class="gadget">'
+                  '<rect x="%s" y="%s" width="24" height="6" rx="1.5" fill="%s" stroke="%s" stroke-width="1.1"/>'
+                  '<rect x="%s" y="%s" width="28" height="2.4" rx="1" fill="%s"/>'
+                  '<g class="tap">'
+                  '<path d="M%s %s v3 M%s %s v4 M%s %s v3" stroke="%s" stroke-width="1.6" stroke-linecap="round"/>'
+                  '</g></g>'
+                  % (_sc(x + 25), _sc(ty + 5), P["hood"], P["ink"],
+                     _sc(x + 23), _sc(ty + 11), P["hood_dk"],
+                     _sc(x + 28), _sc(ty + 4), _sc(x + 31), _sc(ty + 4), _sc(x + 34), _sc(ty + 4), P["skin"]))
+        arms = (_limb("r", sx_r, sy, x + 31, ty + 9, extra=gadget)
+                + _limb("l", sx_l, sy, x + 23, ty + 9))
+        headwear = ''
     elif pose == "poster":
-        arms = (_arm(x + 2, ty + 6, x + 30, ty - 4)
-                + '<rect x="%s" y="%s" width="14" height="14" fill="%s" stroke="%s" stroke-width="1.2" transform="rotate(-6 %s %s)"/>' % (_sc(x + 24), _sc(ty - 16), P["paper"], P["ink"], _sc(x + 31), _sc(ty - 9)))
+        poster = ('<g class="gadget"><rect x="%s" y="%s" width="15" height="15" fill="%s" stroke="%s" stroke-width="1.2"/>'
+                  '<path d="M%s %s h9 M%s %s h6 M%s %s h4" stroke="%s" stroke-width="1"/>'
+                  '</g>'
+                  % (_sc(x + 27), _sc(ty - 23), P["paper"], P["ink"],
+                     _sc(x + 29), _sc(ty - 19), _sc(x + 29), _sc(ty - 15), _sc(x + 29), _sc(ty - 11), P["stamp"]))
+        arms = _limb("r", sx_r, sy, x + 32, ty - 11, extra=poster) + hand_l
+        headwear = ''
     elif pose == "pet":
-        arms = (_arm(x + 2, ty + 7, x + 22, ty + 16) + _arm(x + 14, ty + 7, x + 28, ty + 13))
+        arms = (_limb("r", sx_r, sy, x + 40, ty + 8) + _limb("l", sx_l, sy, x + 30, ty + 12))
+        headwear = ''
     elif pose == "handoff":
-        arms = (_arm(x + 2, ty + 7, x + 30, ty + 3)
-                + '<rect x="%s" y="%s" width="13" height="9" rx="1.5" fill="%s" stroke="%s" stroke-width="1.1"/>' % (_sc(x + 30), _sc(ty - 3), P["gold"], P["ink"]))
+        envelope = ('<g class="gadget"><rect x="%s" y="%s" width="13" height="9" rx="1.5" fill="%s" stroke="%s" stroke-width="1.1"/>'
+                    '<path d="M%s %s l11 7 M%s %s l-11 7" stroke="%s" stroke-width=".9"/></g>'
+                    % (_sc(x + 34), _sc(ty - 5), P["gold"], P["ink"],
+                       _sc(x + 35), _sc(ty - 4), _sc(x + 46), _sc(ty - 4), P["ink"]))
+        arms = _limb("r", sx_r, sy, x + 40, ty - 1, extra=envelope) + hand_l
+        headwear = ''
     elif pose == "point":
-        arms = (_arm(x + 2, ty + 9, x + 6, ty + 16) + _arm(x + 14, ty + 5, x + 30, ty - 10))
+        arms = _limb("r", sx_r, sy, x + 36, ty - 8) + hand_l
+        headwear = ''
     elif pose == "dj":
-        arms = (_arm(x + 2, ty + 8, x - 6, ty + 18) + _arm(x + 14, ty + 8, x + 32, ty + 14)
-                + '<path d="M%s %s q8 -8 16 0" fill="none" stroke="%s" stroke-width="2"/>' % (_sc(hx - 8), _sc(hy - 8), P["ink"]))
+        arms = (_limb("r", sx_r, sy, x + 36, ty + 12) + _limb("l", sx_l, sy, x + 28, ty + 15))
+        headwear = ('<g class="headgear" style="transform-origin:%spx %spx">'
+                    '<path d="M%s %s q8 -8 16 0" fill="none" stroke="%s" stroke-width="2"/>'
+                    '<rect x="%s" y="%s" width="4" height="6" rx="2" fill="%s"/></g>'
+                    % (_sc(hx), _sc(ty - 10), _sc(hx - 8), _sc(ty - 10), P["ink"],
+                       _sc(hx - 10), _sc(ty - 9), P["gold"]))
     elif pose == "phone":
-        arms = (_arm(x + 2, ty + 9, x + 4, ty + 17) + _arm(x + 14, ty + 4, x + 20, ty - 8)
-                + '<rect x="%s" y="%s" width="7" height="12" rx="2" fill="%s" stroke="%s" stroke-width="1.2"/>' % (_sc(x + 20), _sc(ty - 14), P["alu"], P["ink"]))
+        phone = ('<g class="gadget"><rect x="%s" y="%s" width="7" height="12" rx="2" fill="%s" stroke="%s" stroke-width="1.2"/>'
+                 '<circle cx="%s" cy="%s" r="1.6" fill="%s"/></g>'
+                 % (_sc(x + 19), _sc(ty - 18), P["alu"], P["ink"], _sc(x + 22.5), _sc(ty - 17), P["green"]))
+        arms = _limb("r", sx_r, sy, x + 21, ty - 11, extra=phone) + hand_l
+        headwear = ''
     elif pose == "router":
-        arms = (_arm(x + 2, ty + 7, x + 26, ty + 13) + _arm(x + 14, ty + 7, x + 34, ty + 14))
+        arms = (_limb("r", sx_r, sy, x + 34, ty + 14) + _limb("l", sx_l, sy, x + 29, ty + 16))
+        headwear = ''
     elif pose == "peace":
-        arms = (_arm(x + 2, ty + 10, x + 12, ty + 17) + _arm(x + 14, ty + 4, x + 28, ty - 12)
-                + '<path d="M%s %s V%s M%s %s V%s" stroke="%s" stroke-width="2" stroke-linecap="round"/>' % (_sc(x + 28), _sc(ty - 12), _sc(ty - 20), _sc(x + 32), _sc(ty - 12), _sc(ty - 20), P["ink"]))
-    else:  # armsup
-        arms = '<path d="M%s %s V%s M%s %s V%s" stroke="%s" stroke-width="4" stroke-linecap="round"/>' % (
-            _sc(x + 2), _sc(ty + 9), _sc(ty - 8), _sc(x + 14), _sc(ty + 9), _sc(ty - 12), P["skin"])
+        arms = (_limb("r", sx_r, sy, x + 29, ty - 14, extra=_fingers(x + 29, ty - 14))
+                + _limb("l", sx_l, sy, x + 25, ty - 17, extra=_fingers(x + 25, ty - 17)))
+        headwear = ''
+    else:  # armsup (clima)
+        arms = (_limb("r", sx_r, sy, x + 32, ty - 15) + _limb("l", sx_l, sy, x + 27, ty - 17))
+        headwear = ''
 
-    if flip:
-        return '<g class="char" transform="translate(%s 0) scale(-1 1)">%s%s%s%s</g>' % (
-            _sc(2 * x + 16), _legs(x, y - 13), torso, arms, _head(hx, hy))
-    return '<g class="char">%s%s%s%s</g>' % (_legs(x, y - 13), torso, arms, _head(hx, hy))
+    head = _head(hx, ty - 10)
+    legs = _legs(x, y - 13)
+    return '<g class="char">%s%s%s%s%s</g>' % (legs, torso, arms, headwear, head)
 
 
 # --------------------------------------------------------------------------
@@ -209,9 +277,15 @@ def char(pose, x=44, y=GROUND, flip=False):
 # --------------------------------------------------------------------------
 
 def spot(loop, inner):
-    return ('<g class="spot spot-%s" transform="translate(20 16)">'
+    """Objeto de cena sob o holofote. Wrapper estático (translate) + grupo animado.
+
+    A classe `spot-<loop>` é que recebe o `transform` do CSS; o `translate` fica num
+    wrapper <g> separado para o CSS não sobrescrever o posicionamento.
+    """
+    return ('<g transform="translate(20 16)">'
             '<ellipse cx="198" cy="52" rx="46" ry="3.6" fill="%s" opacity=".5"/>'
-            '%s</g>' % (loop, P["deep"], inner))
+            '<g class="spot spot-%s">'
+            '%s</g></g>' % (P["deep"], loop, inner))
 
 
 def spot_monitors():
