@@ -11,7 +11,7 @@ const cfg = () => loadConfig({ maxProducers: 12 });
 test('Coordenador: automatiza e desbloqueia produção contínua', () => {
   const s = new GameState(cfg());
   s.credits = BigNumber.fromString('5000');
-  assert.equal(s.buyProducer('PRD_phase1_01', 1).ok, true);
+  assert.equal(s.buyProducer('p1_01', 1).ok, true);
   assert.equal(s.productionPerSecond().toNumber(), 0); // sem manager
   assert.equal(s.buyManager('MGR_01').ok, true);
   assert.ok(s.productionPerSecond().toNumber() > 0);
@@ -21,7 +21,7 @@ test('Coordenador: automatiza e desbloqueia produção contínua', () => {
 test('Upgrades: por produtor (×3) multiplicam produção', () => {
   const s = new GameState(cfg());
   s.credits = BigNumber.fromString('1e6');
-  assert.equal(s.buyProducer('PRD_phase1_01', 1).ok, true);
+  assert.equal(s.buyProducer('p1_01', 1).ok, true);
   s.managers['MGR_01'] = 1;
   s._compute();
   const base = s.productionPerSecond().toNumber();
@@ -34,7 +34,7 @@ test('Upgrades: por produtor (×3) multiplicam produção', () => {
 test('Sósias: primeiro gratuito, duplicata vira Puxa-Saco', () => {
   const s = new GameState(cfg());
   s.credits = BigNumber.fromString('1e6');
-  s.buyProducer('PRD_phase1_01', 1);
+  s.buyProducer('p1_01', 1);
   s.managers['MGR_01'] = 1;
   s._compute();
   // primeiro clone grátis
@@ -80,7 +80,7 @@ test('Prestige: reseta run, preserva Chumbo, Sósias e Convictos', () => {
   const s = new GameState(cfg());
   s.lifetimeCredits = BigNumber.fromString('1e8');
   s.chumbo = 55;
-  s.clones['PRD_phase1_01'] = { rarity: 'common', name: 'Tio do Zap', mult: 5 };
+  s.clones['p1_01'] = { rarity: 'common', name: 'Tio do Zap', mult: 5 };
   s.puxasacos = 7;
   const res = prestige(s, s.prestigeParams());
   assert.equal(res.ok, true);
@@ -88,7 +88,7 @@ test('Prestige: reseta run, preserva Chumbo, Sósias e Convictos', () => {
   const snap = res.snapshot;
   assert.equal(snap.chumbo, 55);
   assert.equal(snap.puxasacos, 7);
-  assert.equal(snap.clones['PRD_phase1_01'].mult, 5);
+  assert.equal(snap.clones['p1_01'].mult, 5);
   assert.equal(snap.convictos, 10);
   assert.equal(BigNumber.fromJSON(snap.credits).isZero(), true);
 });

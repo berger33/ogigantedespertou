@@ -17,7 +17,7 @@ import { dirname, join } from 'node:path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-const PHASE2_LIFETIME = '1e21'; // 1 Sx ≈ threshold Ditadura (§31)
+// Campanha por mapas: Fase 2 abre ao concluir a MISSÃO FINAL do Deep Web (p1_12).
 
 // Perfis (§78)
 const PROFILES = {
@@ -106,7 +106,7 @@ function simulate(profileKey, days) {
     if (firstProducerDay === null && Object.values(state.producers).some((v) => v > 0)) {
       firstProducerDay = d;
     }
-    if (phase2Day === null && state.lifetimeCredits.gte(big(PHASE2_LIFETIME))) phase2Day = d;
+    if (phase2Day === null && state.completedMaps().includes('phase1')) phase2Day = d;
     if (state.lifetimeCredits.gt(maxLifetime)) maxLifetime = state.lifetimeCredits;
 
     // prestige diário
@@ -145,12 +145,12 @@ function buildReport(rows) {
   L.push('- `producerGrowthRate = 1.07`');
   L.push('- Prestígio: `Convictos = (Lifetime/1e6)^0.5`, bônus **linear aditivo** `1 + 3%×Convictos` (§60)');
   L.push('  *(modelo exponencial (1+3%)^n foi testado e rejeitado: runaway super-exponencial, §60/§314)*');
-  L.push('- "Fase 2" modelada como lifetime ≥ 1e21 (1 Sx) (§31/§35)');
+  L.push('- "Fase 2" modelada como conclusão da MISSÃO FINAL do Deep Web (mapa 1) — §82');
   L.push('- Perfis: casual 2×3min, medium 5×5min, hardcore 8×8min, payer 8×8min + ×10 permanente');
   L.push('');
   L.push('## Resultados por perfil (90 dias)');
   L.push('');
-  L.push('| Perfil | 1º produtor | 1º prestige | Fase 2 (1e21) | Prestiges | Lifetime máx |');
+  L.push('| Perfil | 1º produtor | 1º prestige | Mapa 2 | Prestiges | Lifetime máx |');
   L.push('|---|---|---|---|---|---|');
   for (const r of rows) {
     L.push(`| ${r.profile} | ${fmtDay(r.firstProducerDay)} | ${fmtDay(r.firstPrestigeDay)} | ${fmtDay(r.phase2Day)} | ${r.prestigeCount} | ${r.maxLifetime.format('short')} |`);
@@ -178,7 +178,7 @@ function buildReport(rows) {
   const med = rows.find((r) => r.profile === 'medium');
   L.push(`- **Primeiro produtor**: ${fmtDay(med.firstProducerDay)} no perfil médio (alvo §81: primeiros minutos).`);
   L.push(`- **Primeiro prestígio**: ${fmtDay(med.firstPrestigeDay)} no perfil médio (hipótese §80 = dia 1).`);
-  L.push(`- **Fase 2**: ${fmtDay(med.phase2Day)} no perfil médio (calibrar com dados reais pós-soft-launch).`);
+  L.push(`- **Mapa 2**: ${fmtDay(med.phase2Day)} no perfil médio (calibrar com dados reais pós-soft-launch).`);
   L.push('');
   L.push('> ⚠️ Primeira calibragem determinística (§28). Rode `npm run sim` a cada mudança de');
   L.push('> economia e ajuste `economy.json` (ou Remote Config) conforme os dados reais.');
@@ -192,10 +192,10 @@ function buildReport(rows) {
   L.push(`- **Primeiro prestígio (1e6)**: ${fmtDay(med.firstPrestigeDay)} (médio), ${fmtDay(hard.firstPrestigeDay)} (hardcore), ${fmtDay(casual.firstPrestigeDay)} (casual), ${fmtDay(payer.firstPrestigeDay)} (payer).`);
   const phase2Reached = rows.some((r) => r.phase2Day !== null);
   if (phase2Reached) {
-    L.push(`- **Fase 2 (1e21)**: ${fmtDay(med.phase2Day)} (médio), ${fmtDay(hard.phase2Day)} (hardcore), ${fmtDay(payer.phase2Day)} (payer), ${fmtDay(casual.phase2Day)} (casual).`);
-    L.push(`  Dentro da meta de gênero (Fase 2 no horizonte de semanas para perfis ativos).`);
+    L.push(`- **Mapa 2 (O País que Não Existe)**: ${fmtDay(med.phase2Day)} (médio), ${fmtDay(hard.phase2Day)} (hardcore), ${fmtDay(payer.phase2Day)} (payer), ${fmtDay(casual.phase2Day)} (casual).`);
+    L.push(`  Aberto ao concluir a missão final do Deep Web (paridade: última missão do mapa).`);
   } else {
-    L.push(`- **Fase 2 (1e21)**: não atingida em 90 dias (máx. ${payer.maxLifetime.format('short')} no payer).`);
+    L.push(`- **Mapa 2**: não atingido em 90 dias (máx. ${payer.maxLifetime.format('short')} no payer).`);
   }
   L.push('');
   L.push('> O modelo de CICLO (coleta manual sem Coordenador) é o que aproxima o pacing da referência:');

@@ -78,18 +78,18 @@ test('GameState: buyProducer desconta saldo; sem Coordenador acumula ciclo (não
   const config = loadConfig({ maxProducers: 4 });
   const s = new GameState(config);
   s.credits = BigNumber.fromNumber(1000);
-  const res = s.buyProducer('PRD_phase1_01', 1);
+  const res = s.buyProducer('p1_01', 1);
   assert.equal(res.ok, true);
-  assert.equal(s.producers['PRD_phase1_01'], 1);
+  assert.equal(s.producers['p1_01'], 1);
   assert.ok(s.credits.lt(BigNumber.fromNumber(1000)));
   // sem manager: produção automática é zero; o ciclo fica "pronto" para coleta
   assert.equal(s.productionPerSecond().toNumber(), 0);
   // 1º produtor: cycleSeconds=1 → após 1s acumula 1 ciclo (valuePerCycle=1)
   s.tick(1000);
-  const acc = s.collectables['PRD_phase1_01'];
+  const acc = s.collectables['p1_01'];
   assert.ok(acc && acc.toNumber() >= 1);
   // coleta manual paga o acumulado
-  const got = s.collect('PRD_phase1_01');
+  const got = s.collect('p1_01');
   assert.ok(got.gte(BigNumber.one()));
 });
 
@@ -97,7 +97,7 @@ test('GameState: com Coordenador o produtor automatiza (pps > 0, offline)', () =
   const config = loadConfig({ maxProducers: 4 });
   const s = new GameState(config);
   s.credits = BigNumber.fromString('1e6');
-  s.buyProducer('PRD_phase1_01', 1);
+  s.buyProducer('p1_01', 1);
   const before = s.productionPerSecond().toNumber();
   const res = s.buyManager('MGR_01');
   assert.equal(res.ok, true);
@@ -107,7 +107,7 @@ test('GameState: com Coordenador o produtor automatiza (pps > 0, offline)', () =
 test('GameState: compra de 10 usa buy modes e não compra sem saldo', () => {
   const config = loadConfig({ maxProducers: 4 });
   const s = new GameState(config);
-  const fail = s.buyProducer('PRD_phase1_01', 1);
+  const fail = s.buyProducer('p1_01', 1);
   assert.equal(fail.ok, false);
   assert.equal(fail.reason, 'cost');
 });
@@ -115,7 +115,7 @@ test('GameState: compra de 10 usa buy modes e não compra sem saldo', () => {
 test('GameState: idle tick gera produção proporcional', () => {
   const config = loadConfig({ maxProducers: 4 });
   const s = new GameState(config);
-  s.producers['PRD_phase1_02'] = 1; // 1 Crédulo/s
+  s.producers['p1_02'] = 1; // 1 Crédulo/s
   s._compute();
   const pps = s.productionPerSecond().toNumber();
   const gained = s.tick(5000);
@@ -125,7 +125,7 @@ test('GameState: idle tick gera produção proporcional', () => {
 test('GameState: milestones do economy.json são aplicados (×2 em 10 unidades)', () => {
   const config = loadConfig({ maxProducers: 4 });
   const s = new GameState(config);
-  s.producers['PRD_phase1_01'] = 10; // milestone 10 → ×2
+  s.producers['p1_01'] = 10; // milestone 10 → ×2
   s.managers['MGR_01'] = 1;
   s._compute();
   // valor base: valuePerCycle/cycleSeconds * owned * milestone×2

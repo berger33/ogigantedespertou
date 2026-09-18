@@ -17,12 +17,12 @@ test('sessão FTUE: clicar → comprar produtor → coleta manual → save/reloa
   assert.equal(s.totalClicks, 60);
 
   // compra o 1º produtor (custo 12)
-  assert.equal(s.buyProducer('PRD_phase1_01', 1).ok, true);
-  assert.equal(s.producers['PRD_phase1_01'], 1);
+  assert.equal(s.buyProducer('p1_01', 1).ok, true);
+  assert.equal(s.producers['p1_01'], 1);
 
   // ciclo acumula e é coletado manualmente (§41)
   s.tick(1100);
-  const got = s.collect('PRD_phase1_01');
+  const got = s.collect('p1_01');
   assert.ok(got.gt(BigNumber.zero()));
   assert.ok(s.lifetimeCredits.gt(BigNumber.zero()));
 
@@ -32,7 +32,7 @@ test('sessão FTUE: clicar → comprar produtor → coleta manual → save/reloa
   assert.equal(res.ok, true);
   const s2 = new GameState(cfg, res.data);
   assert.equal(s2.credits.eq(s.credits), true);
-  assert.equal(s2.producers['PRD_phase1_01'], 1);
+  assert.equal(s2.producers['p1_01'], 1);
   assert.equal(s2.totalClicks, 60);
 
   // prestige ainda abaixo do limiar (1e6) — retorna 0 sem reset

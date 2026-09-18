@@ -7,26 +7,26 @@
 - `producerGrowthRate = 1.07`
 - Prestígio: `Convictos = (Lifetime/1e6)^0.5`, bônus **linear aditivo** `1 + 3%×Convictos` (§60)
   *(modelo exponencial (1+3%)^n foi testado e rejeitado: runaway super-exponencial, §60/§314)*
-- "Fase 2" modelada como lifetime ≥ 1e21 (1 Sx) (§31/§35)
+- "Fase 2" modelada como conclusão da MISSÃO FINAL do Deep Web (mapa 1) — §82
 - Perfis: casual 2×3min, medium 5×5min, hardcore 8×8min, payer 8×8min + ×10 permanente
 
 ## Resultados por perfil (90 dias)
 
-| Perfil | 1º produtor | 1º prestige | Fase 2 (1e21) | Prestiges | Lifetime máx |
+| Perfil | 1º produtor | 1º prestige | Mapa 2 | Prestiges | Lifetime máx |
 |---|---|---|---|---|---|
-| casual | dia 1 | dia 2 | — (não atingido) | 79 | 332,53 M |
-| medium | dia 1 | dia 1 | dia 14 | 90 | 672,07 Sp |
-| hardcore | dia 1 | dia 1 | dia 7 | 90 | 1,3 Oc |
-| payer | dia 1 | dia 1 | dia 3 | 90 | 249,47 Oc |
+| casual | dia 1 | dia 2 | — (não atingido) | 77 | 813,01 M |
+| medium | dia 1 | dia 1 | dia 11 | 17 | 25,47 T |
+| hardcore | dia 1 | dia 1 | dia 4 | 32 | 34,4 T |
+| payer | dia 1 | dia 1 | dia 2 | 90 | 20,89 T |
 
 ## Progressão por horizonte
 
 | Horizonte | casual | medium | hardcore | payer |
 |---|---|---|---|---|
-| 1d | 0pg · 45,55 mil | 1pg · 249,6 M | 1pg · 7,51 B | 1pg · 3,43 T |
-| 7d | 3pg · 9,31 M | 7pg · 213,56 B | 7pg · 10,53 Sx | 7pg · 67,54 Sp |
-| 30d | 21pg · 42,76 M | 30pg · 18,53 Sp | 30pg · 72,59 Sp | 30pg · 13,67 Oc |
-| 90d | 79pg · 332,53 M | 90pg · 672,07 Sp | 90pg · 1,3 Oc | 90pg · 249,47 Oc |
+| 1d | 0pg · 25,92 mil | 1pg · 306,01 M | 1pg · 6,96 B | 1pg · 2,07 T |
+| 7d | 3pg · 17,02 M | 7pg · 197,8 B | 5pg · 34,4 T | 7pg · 20,89 T |
+| 30d | 19pg · 417,11 M | 12pg · 25,47 T | 12pg · 34,4 T | 30pg · 20,89 T |
+| 90d | 77pg · 813,01 M | 17pg · 25,47 T | 32pg · 34,4 T | 90pg · 20,89 T |
 
 Leitura: `pg` = prestiges acumulados; valor seguinte = lifetime máximo alcançado no horizonte.
 
@@ -34,7 +34,7 @@ Leitura: `pg` = prestiges acumulados; valor seguinte = lifetime máximo alcança
 
 - **Primeiro produtor**: dia 1 no perfil médio (alvo §81: primeiros minutos).
 - **Primeiro prestígio**: dia 1 no perfil médio (hipótese §80 = dia 1).
-- **Fase 2**: dia 14 no perfil médio (calibrar com dados reais pós-soft-launch).
+- **Mapa 2**: dia 11 no perfil médio (calibrar com dados reais pós-soft-launch).
 
 > ⚠️ Primeira calibragem determinística (§28). Rode `npm run sim` a cada mudança de
 > economia e ajuste `economy.json` (ou Remote Config) conforme os dados reais.
@@ -43,8 +43,8 @@ Leitura: `pg` = prestiges acumulados; valor seguinte = lifetime máximo alcança
 
 - **Primeiro produtor**: dia 1 em todos os perfis — atende §81 (primeiros minutos).
 - **Primeiro prestígio (1e6)**: dia 1 (médio), dia 1 (hardcore), dia 2 (casual), dia 1 (payer).
-- **Fase 2 (1e21)**: dia 14 (médio), dia 7 (hardcore), dia 3 (payer), — (não atingido) (casual).
-  Dentro da meta de gênero (Fase 2 no horizonte de semanas para perfis ativos).
+- **Mapa 2 (O País que Não Existe)**: dia 11 (médio), dia 4 (hardcore), dia 2 (payer), — (não atingido) (casual).
+  Aberto ao concluir a missão final do Deep Web (paridade: última missão do mapa).
 
 > O modelo de CICLO (coleta manual sem Coordenador) é o que aproxima o pacing da referência:
 > sem coleta o casual jamais prestigia; com coleta 1×/min todos os perfis ativos prestigiam

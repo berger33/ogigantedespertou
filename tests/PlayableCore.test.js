@@ -19,11 +19,11 @@ test('fluxo M1: clique → coleta manual → coordenador → sósia grátis → 
 
   // compra 1º produtor (custo 12)
   s.credits = BigNumber.fromString('1e3');
-  assert.equal(s.buyProducer('PRD_phase1_01', 1).ok, true);
+  assert.equal(s.buyProducer('p1_01', 1).ok, true);
 
   // coleta manual (cycleSeconds=1)
   s.tick(1000);
-  const got = s.collect('PRD_phase1_01');
+  const got = s.collect('p1_01');
   assert.ok(got.gt(BigNumber.zero()));
 
   // coordenador MGR_01
@@ -55,17 +55,27 @@ test('fluxo M1: clique → coleta manual → coordenador → sósia grátis → 
 test('conquistas declarativas avaliam sobre o estado', () => {
   const config = loadConfig({ maxProducers: 12 });
   const s = new GameState(config);
-  s.buyProducer('PRD_phase1_02', 1); // precisa de saldo? não — setamos direto
-  s.producers['PRD_phase1_02'] = 10;
+  s.buyProducer('p1_02', 1); // precisa de saldo? não — setamos direto
+  s.producers['p1_02'] = 10;
   const achs = Object.fromEntries(s.evaluateAchievements().map((a) => [a.id, a.done]));
   assert.equal(achs.ACH_prod10, true);
   assert.equal(achs.ACH_first, false);
 });
 
-test('fases mapeiam lifetimeCredits', () => {
+test('campanha por mapas: última missão destrava o próximo mapa', () => {
   const config = loadConfig({ maxProducers: 12 });
   const s = new GameState(config);
-  assert.equal(s.currentPhase().id, 'P1');
-  s.lifetimeCredits = BigNumber.fromString('1e21');
-  assert.equal(s.currentPhase().id, 'P2');
+  assert.equal(s.activeMapId(), 'phase1');
+  assert.equal(s.currentPhase().id, 'phase1');
+  // compra a missão FINAL do Deep Web (p1_12) → avança para O País que Não Existe
+  s.credits = BigNumber.fromString('1e13');
+  const res = s.buyProducer('p1_12', 1);
+  assert.equal(res.ok, true);
+  assert.equal(res.advanced.moved, true);
+  assert.equal(s.activeMapId(), 'phase2');
+  assert.equal(s.currentPhase().name, 'O País que Não Existe');
+  // mapas: P1 concluído, P2 liberado, P3 bloqueado até concluir P2
+  assert.ok(s.completedMaps().includes('phase1'));
+  assert.equal(s.isMapUnlocked('phase2'), true);
+  assert.equal(s.isMapUnlocked('phase3'), false);
 });

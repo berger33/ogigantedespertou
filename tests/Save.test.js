@@ -8,7 +8,7 @@ import BigNumber from '../src/core/BigNumber.js';
 function makeState() {
   const s = new GameState(loadConfig({ maxProducers: 4 }));
   s.credits = BigNumber.fromString('1.5e9');
-  s.producers['PRD_phase1_02'] = 7;
+  s.producers['p1_02'] = 7;
   s.clickLevel = 3;
   s.totalClicks = 42;
   return s;
@@ -21,14 +21,14 @@ test('serialize/deserialize: round-trip completo', () => {
   assert.equal(res.ok, true);
   const s2 = hydrate(res.data, loadConfig({ maxProducers: 4 }));
   assert.equal(s2.credits.eq(s.credits), true);
-  assert.equal(s2.producers['PRD_phase1_02'], 7);
+  assert.equal(s2.producers['p1_02'], 7);
   assert.equal(s2.clickLevel, 3);
   assert.equal(s2.totalClicks, 42);
 });
 
 test('detecta corrupção via hash (§172)', () => {
   const str = serialize(makeState());
-  const tampered = str.replace('PRD_phase1_02', 'PRD_phaseX_99') + 'x';
+  const tampered = str.replace('p1_02', 'PRD_phaseX_99') + 'x';
   const res = deserialize(tampered);
   assert.equal(res.ok, false);
 });

@@ -34,7 +34,7 @@ test('prestige: reseta run e preserva total de Convictos', () => {
   const config = loadConfig({ maxProducers: 4 });
   const s = new GameState(config);
   s.lifetimeCredits = BigNumber.fromString('1e8');
-  s.producers['PRD_phase1_01'] = 20;
+  s.producers['p1_01'] = 20;
   s.clickLevel = 3;
 
   const res = prestige(s, P);
@@ -42,7 +42,7 @@ test('prestige: reseta run e preserva total de Convictos', () => {
   assert.equal(res.gained, 10);
 
   const snap = res.snapshot;
-  assert.equal(snap.producers['PRD_phase1_01'] === undefined || snap.producers['PRD_phase1_01'] === 0, true);
+  assert.equal(snap.producers['p1_01'] === undefined || snap.producers['p1_01'] === 0, true);
   assert.equal(snap.clickLevel, 1);
   assert.equal(snap.convictos, 10);
   assert.equal(BigNumber.fromJSON(snap.credits).isZero(), true);
