@@ -6,8 +6,8 @@ import BigNumber from '../src/core/BigNumber.js';
 import { serialize, deserialize } from '../src/core/Save.js';
 import { convictosFrom } from '../src/core/Prestige.js';
 
-// Fluxo de integração §202: tutorial → produtor → save/reload → prestige preview.
-test('sessão FTUE: clicar → comprar produtor → produção → save/reload → preview de prestige', () => {
+// Fluxo de integração §202: tutorial → produtor → save/reload → preview de prestige.
+test('sessão FTUE: clicar → comprar produtor → coleta manual → save/reload → preview de prestige', () => {
   const cfg = loadConfig({ maxProducers: 4 });
   let s = new GameState(cfg);
 
@@ -16,13 +16,14 @@ test('sessão FTUE: clicar → comprar produtor → produção → save/reload �
   for (let i = 0; i < 60; i++) { s.click(t); t += 100; }
   assert.equal(s.totalClicks, 60);
 
-  // compra o 1º produtor (custo 15)
+  // compra o 1º produtor (custo 12)
   assert.equal(s.buyProducer('PRD_phase1_01', 1).ok, true);
   assert.equal(s.producers['PRD_phase1_01'], 1);
-  assert.ok(s.productionPerSecond().gt(BigNumber.zero()));
 
-  // produção idle
-  s.tick(60000);
+  // ciclo acumula e é coletado manualmente (§41)
+  s.tick(1100);
+  const got = s.collect('PRD_phase1_01');
+  assert.ok(got.gt(BigNumber.zero()));
   assert.ok(s.lifetimeCredits.gt(BigNumber.zero()));
 
   // save → reload (integridade)

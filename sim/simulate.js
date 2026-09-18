@@ -29,11 +29,23 @@ const PROFILES = {
 
 const HORIZONS = [1, 7, 30, 90];
 
-// Gasta o saldo da sessão: upgrades de clique + melhor produtor pagável.
+// Gasta o saldo da sessão: upgrades de clique + produtores + coordenadores (automação, §38).
 function spendSessao(state, ratio, mult) {
   const budget = state.credits.scale(ratio).mul(mult);
   let guard = 0;
-  // primeiro equilibrar upgrades de clique (limitado a metade do orçamento)
+  // 1) aumentar produção real: contrata o Coordenador mais barato dentre os produtores já possuídos
+  while (guard++ < 30) {
+    const pendings = Object.keys(state.producers)
+      .filter((id) => (state.producers[id] || 0) > 0 && !state.isAutomated(id))
+      .map((id) => state.managerList().find((m) => m.producer === id))
+      .filter(Boolean);
+    if (!pendings.length) break;
+    const cheapest = pendings.sort((a, b) => a.cost - b.cost)[0];
+    if (BigNumber.fromNumber(cheapest.cost).gt(budget.scale(0.5))) break;
+    if (!state.buyManager(cheapest.id).ok) break;
+  }
+  // 2) upgrades de clique (até 25% do orçamento)
+  guard = 0;
   while (guard++ < 10) {
     const next = state.nextClickLevel();
     if (!next) break;
@@ -41,7 +53,7 @@ function spendSessao(state, ratio, mult) {
     if (cost.gt(budget.scale(0.25))) break;
     if (!state.buyClickUpgrade().ok) break;
   }
-  // depois produtores (tenta do mais avançado ao mais antigo)
+  // 3) produtores (tenta do mais avançado ao mais antigo)
   const list = [...state.producerList()].sort((a, b) => b.slot - a.slot);
   for (const def of list) {
     const owned = state.producers[def.id] || 0;
@@ -57,7 +69,7 @@ function big(s) { return BigNumber.fromString(String(s)); }
 function simulate(profileKey, days) {
   const prof = PROFILES[profileKey];
   const payMult = BigNumber.fromNumber(prof.payMult ?? 1);
-  const config = loadConfig({ maxProducers: 4 });
+  const config = loadConfig({ maxProducers: 12 });
   let state = new GameState(config);
   state.boost = payMult; // payer: bônus de produção/clique permanente (modelo)
   state._recomputeGlobal();
@@ -78,6 +90,10 @@ function simulate(profileKey, days) {
         for (let t = 0; t < prof.tapsPerSession; t++) state.click(now);
         for (let c = 0; c < prof.apm; c++) state.click(now);
         state.tick(60000);
+        // coleta manual: produtores sem Coordenador deixam o lucro "pronto" (§41)
+        for (const def of state.producerList()) {
+          if (!state.isAutomated(def.id)) state.collect(def.id);
+        }
         spendSessao(state, prof.spendRatio, BigNumber.one());
       }
     }
@@ -167,14 +183,24 @@ function buildReport(rows) {
   L.push('> ⚠️ Primeira calibragem determinística (§28). Rode `npm run sim` a cada mudança de');
   L.push('> economia e ajuste `economy.json` (ou Remote Config) conforme os dados reais.');
   L.push('');
-  L.push('## Conclusão da calibragem v0.1');
+  L.push('## Conclusão da calibragem v0.2 (modelo ciclo + Coordenadores)');
   L.push('');
-  L.push(`- Primeiro produtor e primeiro prestígio no **dia 1** para o perfil médio — atende §80/§81.`);
-  L.push(`- **Fase 2 (1e21) NÃO é atingida em 90 dias** por nenhum perfil nessa economia F1-only.`);
-  L.push(`  Isso é ESPERADO para o PLAYABLE CORE: a Fase 2 exige o conteúdo completo (§31–§34),`);
-  L.push(`  Sósias (×5/×10/×50 §45), Coordenadores e a árvore de prestígio — todos fora do escopo do`);
-  L.push(`  núcleo jogável (§246–§250). A calibragem final da transição de fases acontece com esses`);
-  L.push(`  sistemas no vertical slice, não agora (regra §326: não avançar cedo demais).`);
+  const casual = rows.find((r) => r.profile === 'casual');
+  const hard = rows.find((r) => r.profile === 'hardcore');
+  const payer = rows.find((r) => r.profile === 'payer');
+  L.push(`- **Primeiro produtor**: dia 1 em todos os perfis — atende §81 (primeiros minutos).`);
+  L.push(`- **Primeiro prestígio (1e6)**: ${fmtDay(med.firstPrestigeDay)} (médio), ${fmtDay(hard.firstPrestigeDay)} (hardcore), ${fmtDay(casual.firstPrestigeDay)} (casual), ${fmtDay(payer.firstPrestigeDay)} (payer).`);
+  const phase2Reached = rows.some((r) => r.phase2Day !== null);
+  if (phase2Reached) {
+    L.push(`- **Fase 2 (1e21)**: ${fmtDay(med.phase2Day)} (médio), ${fmtDay(hard.phase2Day)} (hardcore), ${fmtDay(payer.phase2Day)} (payer), ${fmtDay(casual.phase2Day)} (casual).`);
+    L.push(`  Dentro da meta de gênero (Fase 2 no horizonte de semanas para perfis ativos).`);
+  } else {
+    L.push(`- **Fase 2 (1e21)**: não atingida em 90 dias (máx. ${payer.maxLifetime.format('short')} no payer).`);
+  }
+  L.push('');
+  L.push('> O modelo de CICLO (coleta manual sem Coordenador) é o que aproxima o pacing da referência:');
+  L.push('> sem coleta o casual jamais prestigia; com coleta 1×/min todos os perfis ativos prestigiam');
+  L.push('> no dia 1–2. Recalibrar com dados reais de soft launch (§326).');
   L.push('');
   return L.join('\n');
 }

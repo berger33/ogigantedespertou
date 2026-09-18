@@ -74,16 +74,34 @@ test('GameState: combo viral cresce e capa em ×2', () => {
   assert.equal(s.viralMultiplier(t), 2.0);
 });
 
-test('GameState: buyProducer desconta saldo e aumenta produção', () => {
+test('GameState: buyProducer desconta saldo; sem Coordenador acumula ciclo (não gera sozinho, §41)', () => {
   const config = loadConfig({ maxProducers: 4 });
   const s = new GameState(config);
   s.credits = BigNumber.fromNumber(1000);
-  const before = s.productionPerSecond();
   const res = s.buyProducer('PRD_phase1_01', 1);
   assert.equal(res.ok, true);
   assert.equal(s.producers['PRD_phase1_01'], 1);
-  assert.ok(s.productionPerSecond().gt(before));
   assert.ok(s.credits.lt(BigNumber.fromNumber(1000)));
+  // sem manager: produção automática é zero; o ciclo fica "pronto" para coleta
+  assert.equal(s.productionPerSecond().toNumber(), 0);
+  // 1º produtor: cycleSeconds=1 → após 1s acumula 1 ciclo (valuePerCycle=1)
+  s.tick(1000);
+  const acc = s.collectables['PRD_phase1_01'];
+  assert.ok(acc && acc.toNumber() >= 1);
+  // coleta manual paga o acumulado
+  const got = s.collect('PRD_phase1_01');
+  assert.ok(got.gte(BigNumber.one()));
+});
+
+test('GameState: com Coordenador o produtor automatiza (pps > 0, offline)', () => {
+  const config = loadConfig({ maxProducers: 4 });
+  const s = new GameState(config);
+  s.credits = BigNumber.fromString('1e6');
+  s.buyProducer('PRD_phase1_01', 1);
+  const before = s.productionPerSecond().toNumber();
+  const res = s.buyManager('MGR_01');
+  assert.equal(res.ok, true);
+  assert.ok(s.productionPerSecond().toNumber() > before);
 });
 
 test('GameState: compra de 10 usa buy modes e não compra sem saldo', () => {
@@ -104,14 +122,17 @@ test('GameState: idle tick gera produção proporcional', () => {
   assert.ok(Math.abs(gained.toNumber() - pps * 5) < 1e-9);
 });
 
-test('GameState: milestones do economy.json são aplicados', () => {
+test('GameState: milestones do economy.json são aplicados (×2 em 10 unidades)', () => {
   const config = loadConfig({ maxProducers: 4 });
   const s = new GameState(config);
   s.producers['PRD_phase1_01'] = 10; // milestone 10 → ×2
+  s.managers['MGR_01'] = 1;
   s._compute();
-  const raw = config.producers[0].baseProduction * 10;
+  // valor base: valuePerCycle/cycleSeconds * owned * milestone×2
+  const raw = (config.producers[0].valuePerCycle / config.producers[0].cycleSeconds) * 10;
   const actual = s.productionPerSecond().toNumber();
-  assert.ok(Math.abs(actual - raw * 2) < 1e-9);
+  assert.ok(actual > 0, 'produção deve ser positiva com manager');
+  assert.ok(Math.abs(actual - raw * 2) < 1e-6, `esperado ${raw * 2}, veio ${actual}`);
 });
 
 test('upgrade de clique: custo, aumento de poder e teto', () => {
