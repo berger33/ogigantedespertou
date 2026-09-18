@@ -38,6 +38,8 @@ function tone(freq, { type = 'sine', dur = 0.1, vol = 0.06, slide = 0, delay = 0
 
 export const SFX = {
   setMuted(m) { muted = m; },
+  toggleMuted() { muted = !muted; return muted; },
+  get muted() { return muted; },
   // toque no Compartilhar no Zap: "notificação fictícia" (ping duplo)
   click() {
     tone(880, { type: 'triangle', dur: 0.07, vol: 0.05 });

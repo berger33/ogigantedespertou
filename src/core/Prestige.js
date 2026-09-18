@@ -49,13 +49,19 @@ export function prestige(state, p) {
   const gained = convictosFrom(state.lifetimeCredits, p, state.convictos || 0);
   if (gained <= 0) return { ok: false, reason: 'below-threshold', gained: 0 };
   const snap = state.toSnapshot();
-  // reset de run (§57): zera créditos correntes e produtores; volta à fase 1
+  // reset de run (§57): zera a run; preserva o que é permanente (§58/§47/§60)
   snap.credits = BigNumber.zero().toJSON();
   snap.producers = {};
+  snap.collectables = {};
+  snap.cycleAccum = {};
+  snap.managers = {};
+  snap.upgrades = {};
   snap.clickLevel = 1;
   snap.timestamp = Date.now();
-  snap.lifetimeCredits = BigNumber.zero().toJSON(); // recomeça a contagem DESTA run
+  snap.lifetimeCredits = BigNumber.zero().toJSON(); // recomeça DESTA run
   snap.convictos = (snap.convictos || 0) + gained;
+  // preserva: chumbo, clones(Sósias), puxasacos, zapStreak? (streak zera)
+  snap.zapStreak = 0;
   return { ok: true, snapshot: snap, gained };
 }
 
