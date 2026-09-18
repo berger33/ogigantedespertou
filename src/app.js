@@ -19,7 +19,7 @@ import { spawnFloater, spawnPhone } from './core/VFX.js';
 // ---------- boot ----------
 const SAVE_KEY = 'ogigante.save.v1';
 const SAVE_BACKUP_KEY = 'ogigante.save.v1.bak';
-const MAX_PRODUCERS = 12;
+const MAX_PRODUCERS = 0; // 0 = todas as missões do mapa (retrocompat.: pool único)
 const UI_BUY_MODES = [1, 10, -1]; // x1 / x10 / MAX (paridade)
 const WARP2_SECONDS = 2 * 3600;
 const WARP4_SECONDS = 4 * 3600;
@@ -202,7 +202,7 @@ function go(screenId) {
 }
 
 function renderScreen(id) {
-  if (id === 'screen-sede') { buildProducerRows(); renderClickUpgrade(); updateProducerRows(); }
+  if (id === 'screen-sede') { renderMapHeader(); buildProducerRows(); renderClickUpgrade(); updateProducerRows(); }
   if (id === 'screen-managers') renderManagers();
   if (id === 'screen-clones') renderClones();
   if (id === 'screen-zap') renderZap();
@@ -243,6 +243,24 @@ function doClick(x, y, fromRound = false) {
 }
 
 // ---------- produtores ----------
+// Cabeçalho do mapa ativo (nome, fase "missão X de Y", missão final em destaque)
+function renderMapHeader() {
+  const map = state.activeMap();
+  const name = $('map-header-name');
+  const progress = $('map-header-progress');
+  const gate = $('map-header-gate');
+  if (name && map) name.textContent = `${map.icon || ''} ${map.name}`;
+  if (progress) {
+    const done = state.producerList().filter((p) => (state.producers[p.id] || 0) > 0).length;
+    progress.textContent = `missão ${Math.min(done + 1, state.producerList().length)} de ${state.producerList().length}`;
+  }
+  if (gate) {
+    const g = state.pendingGate(state.activeMapId());
+    if (g) gate.innerHTML = `<span class="gate-ico">🚩</span> Missão final: <b>${g.icon || ''} ${g.name}</b> — ao concluir, libera o próximo mapa.`;
+    else gate.innerHTML = '<span class="gate-ico">✅</span> Mapa concluído! O próximo mapa foi liberado.';
+  }
+}
+
 function buildProducerRows() {
   const wrap = $('producers');
   wrap.innerHTML = '';
@@ -257,7 +275,8 @@ function buildProducerRow(def) {
   const manager = state.managerList().find((m) => m.producer === id);
   const clone = state.cloneOf(id);
 
-  const row = el('div', 'producer');
+  const isGate = state.isGateProducer(state.activeMapId(), id);
+  const row = el('div', 'producer' + (isGate && owned <= 0 ? ' gate' : ''));
   row.dataset.id = id;
 
   // moldura + animação (emoji como placeholder de arte original)
@@ -270,7 +289,13 @@ function buildProducerRow(def) {
   const body = el('div', 'prod-body');
   // nome + estrelas (canto sup. direito)
   const top = el('div', 'prod-line1');
-  top.appendChild(el('div', 'producer-name', def.name));
+  if (isGate) {
+    const nameWrap = el('div', 'producer-name');
+    nameWrap.innerHTML = `${def.name} <span class="gate-tag">🚩 FINAL</span>`;
+    top.appendChild(nameWrap);
+  } else {
+    top.appendChild(el('div', 'producer-name', def.name));
+  }
   top.appendChild(starBadge(starLvl));
   body.appendChild(top);
   // dono / renda
@@ -285,7 +310,7 @@ function buildProducerRow(def) {
   const right = el('div', 'prod-right');
   const upg = el('button', 'mini-icon', '🛠');
   upg.title = 'Melhorar (Loja de Melhorias)';
-  upg.onclick = () => { shopTarget = def.slot; go('screen-shop'); };
+  upg.onclick = () => { shopTarget = def.id; go('screen-shop'); };
   right.appendChild(upg);
   const tank = el('button', 'mini-icon tank' + (clone ? ' filled' : ''), clone ? '🧫' : '🧪');
   tank.title = clone ? `Sósia: ${clone.name} (×${clone.mult})` : 'Tanque de sósia vazio';
@@ -413,8 +438,19 @@ function buyProducer(id, mode) {
   if (res.ok) {
     SFX.buy();
     Analytics.track('producer_buy', { producer_id: id, qty });
+    if (res.advanced && res.advanced.moved) {
+      // concluiu a missão final do mapa → novo mapa (spec §82)
+      const map = state.activeMap();
+      SFX.giant();
+      toast(`🚩 DESBLOQUEADO: ${map ? map.icon + ' ' + map.name : 'novo mapa'}!`);
+      persist();
+      buildProducerRows();
+      renderMapHeader();
+    }
     updateProducerRows();
     renderHUD();
+  } else if (res.reason === 'cost') {
+    toast('Faltam Crédulos. 👁');
   }
 }
 
@@ -453,7 +489,10 @@ function buyAll() {
 function renderManagers() {
   const wrap = $('managers-list');
   wrap.innerHTML = '';
+  // apenas Coordenadores das missões do mapa ativo
+  const activeProducers = new Set(state.producerList().map((p) => p.id));
   for (const m of state.managerList()) {
+    if (!activeProducers.has(m.producer)) continue;
     const def = state.producerDef(m.producer);
     const owned = state.hasManager(m.id);
     const cost = big(m.cost);
@@ -510,9 +549,10 @@ function renderClones() {
   btn.innerHTML = freeReady ? '🧬 ABRIR 1º TANQUE — <b>GRÁTIS</b>' : `🧬 ABRIR TANQUE — <span id="clone-cost">${state.cloneCost()}</span> 🥫`;
   $('clone-pity').textContent =
     `Chumbo: ${state.chumbo} 🥫 · Puxa-Sacos: ${state.puxasacos} (+${state.puxasacos}% global) · Raro garantido a cada ${state.clonePity()} aberturas (${Math.min(state._sinceRare || 0, state.clonePity())}/${state.clonePity()})`;
-  const ownedIds = Object.keys(state.clones);
+  const activeProducers = new Set(state.producerList().map((p) => p.id));
+  const ownedIds = Object.keys(state.clones).filter((pid) => activeProducers.has(pid));
   if (ownedIds.length === 0) {
-    wrap.appendChild(el('div', 'empty-note', 'Nenhum sósia revelado ainda. Abra o primeiro tanque (grátis)!'));
+    wrap.appendChild(el('div', 'empty-note', 'Nenhum sósia neste mapa ainda. Abra o primeiro tanque (grátis)!'));
     return;
   }
   for (const pid of ownedIds) {
@@ -692,29 +732,31 @@ function renderShop() {
   const wrap = $('shop-list');
   wrap.innerHTML = '';
   if (shopTarget != null) {
-    const tDef = state.producerList().find((p) => p.slot === shopTarget);
+    const tDef = state.producerList().find((p) => p.slot === shopTarget || p.id === shopTarget);
     charge.classList.remove('hidden');
-    $('shop-target').textContent = tDef ? `${tDef.icon} ${tDef.name}` : `slot ${shopTarget}`;
+    $('shop-target').textContent = tDef ? `${tDef.icon} ${tDef.name}` : String(shopTarget);
   } else {
     charge.classList.add('hidden');
   }
-  for (const u of (config.upgrades?.perProducer || [])) {
-    const def = state.producerList().find((p) => p.slot === u.slot);
-    if (!def) continue;
-    const lvl = state.upgrades[`pp_${u.slot}`] || 0;
-    const maxed = lvl >= u.costs.length;
-    const row = el('div', 'mgr-row' + (maxed ? ' owned' : '') + (shopTarget === u.slot ? ' highlight' : ''));
+  // melhorias das MISSÕES DO MAPA ATIVO (paridade: cada missão tem sua melhoria ×3)
+  for (const def of state.producerList()) {
+    const lvl = state.upgradeLevelOf(def.id);
+    const cfg = config.upgrades?.perProducer?.find((u) => u.slot === def.slot) || null;
+    const costs = cfg ? cfg.costs : [25000, 5e7, 2.5e11, 1.25e15, 6.25e18];
+    const mult = cfg ? cfg.mult : 3;
+    const maxed = lvl >= costs.length;
+    const row = el('div', 'mgr-row' + (maxed ? ' owned' : '') + (shopTarget === def.slot || shopTarget === def.id ? ' highlight' : ''));
     row.appendChild(el('div', 'mgr-icon', def.icon || '🛠'));
     const info = el('div', 'mgr-info');
-    info.appendChild(el('div', 'mgr-name', `${u.label || 'Melhoria'} — ${def.name}`));
-    info.appendChild(el('div', 'mgr-target', maxed ? 'nível máximo' : `nível ${lvl}/${u.costs.length} · próximo: ×${u.mult} por ${fmt(big(u.costs[lvl]))} 👁`));
+    info.appendChild(el('div', 'mgr-name', `${def.name}`));
+    info.appendChild(el('div', 'mgr-target', maxed ? 'nível máximo' : `nível ${lvl}/${costs.length} · próximo: ×${mult} por ${fmt(big(costs[lvl]))} 👁`));
     row.appendChild(info);
     if (!maxed) {
       const b = el('button', 'mini-btn hire', 'MELHORAR');
-      b.disabled = state.credits.lt(big(u.costs[lvl]));
+      b.disabled = state.credits.lt(big(costs[lvl]));
       b.onclick = () => {
-        const r = state.buyProducerUpgrade(u.slot);
-        if (r.ok) { SFX.stamp(); Analytics.track('upgrade_buy', { type: 'producer', slot: u.slot }); renderShop(); renderHUD(); }
+        const r = state.buyProducerUpgrade(def.id);
+        if (r.ok) { SFX.stamp(); Analytics.track('upgrade_buy', { type: 'producer', id: def.id }); renderShop(); renderHUD(); }
       };
       row.appendChild(b);
     } else {
@@ -779,16 +821,26 @@ function renderClickUpgrade() {
 function renderMap() {
   const wrap = $('map-list');
   wrap.innerHTML = '';
-  const cur = state.currentPhase();
-  for (const p of state.phaseList()) {
-    const locked = state.lifetimeCredits.lt(big(p.threshold));
-    const isCur = cur && cur.id === p.id;
-    const card = el('div', 'map-card' + (isCur ? ' current' : '') + (locked ? ' locked' : ''));
+  const info = state.phaseInfo();
+  for (const p of info) {
+    const locked = !p.unlocked;
+    const card = el('div', 'map-card' + (p.active ? ' current' : '') + (locked ? ' locked' : '') + (p.completed ? ' done' : ''));
     card.style.setProperty('--pc', p.color || '#D4AF37');
     card.appendChild(el('div', 'map-icon', p.icon || '🗺️'));
     card.appendChild(el('div', 'map-name', p.name));
     card.appendChild(el('div', 'map-flavor', p.flavor || ''));
-    card.appendChild(el('div', 'map-threshold', locked ? `🔒 requer ${fmt(big(p.threshold))}` : (isCur ? '📍 você está aqui' : '✓ dominada')));
+    let status;
+    if (p.active && p.gate) status = `🎯 missão final: ${p.gate.name}`;
+    else if (p.active) status = '📍 você está aqui';
+    else if (p.completed) status = '✓ dominado (pode revisitar)';
+    else if (locked) status = `🔒 conclua o mapa anterior`;
+    else status = '✔ liberado';
+    card.appendChild(el('div', 'map-threshold', status));
+    if (p.active && p.gate) {
+      const b = el('button', 'mini-btn hire', `IR PARA A MISSÃO: ${p.gate.icon || ''} ${p.gate.name}`);
+      b.onclick = () => { go('screen-sede'); };
+      card.appendChild(b);
+    }
     wrap.appendChild(card);
   }
 }
