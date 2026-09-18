@@ -1,101 +1,17 @@
 {
-  "_comment": "Fase 1 (Deep Web) — 12 produtores em ordem lógica (spec §27-§31). Os 4 primeiros são o PLAYABLE CORE (§246-§247); os demais já catalogados para o vertical slice.",
+  "_comment": "Fase 1 (Deep Web) — 12 produtores. Custos base = curva de referência do gênero (12, 60, 700, 8340, 90680, 1.04M, 14.93M, 179.16M, 2.15B, 25.8B + extrapolação ×~11). Modelo de CICLO: valuePerCycle e cycleSeconds formam a produção; sem Coordenador o lucro fica 'pronto' e o jogador coleta.",
   "phase1": [
-    {
-      "id": "PRD_phase1_01",
-      "name": "Comprar Big Techs com cripto",
-      "slot": 1,
-      "baseCost": 15,
-      "baseProduction": 0.1,
-      "flavor": "Deram lances em ações da bolsa usando uma carteira que só o chefe entende (e olhe lá)."
-    },
-    {
-      "id": "PRD_phase1_02",
-      "name": "Barriga Viral Misteriosa",
-      "slot": 2,
-      "baseCost": 100,
-      "baseProduction": 1,
-      "flavor": "Aquele vídeo da barriga que cresce sozinha. Ninguém sabe a fonte. Ninguém precisa."
-    },
-    {
-      "id": "PRD_phase1_03",
-      "name": "Amizade com Reptilianos",
-      "slot": 3,
-      "baseCost": 1100,
-      "baseProduction": 8,
-      "flavor": "Contatos frequentes no rolê errado na hora certa."
-    },
-    {
-      "id": "PRD_phase1_04",
-      "name": "Profeta Autoproclamado como Informante",
-      "slot": 4,
-      "baseCost": 12000,
-      "baseProduction": 47,
-      "flavor": "Ele entrega a 'verdade', você entrega o palanque."
-    },
-    {
-      "id": "PRD_phase1_05",
-      "name": "Espalhar Lenda de Ratanabá",
-      "slot": 5,
-      "baseCost": 130000,
-      "baseProduction": 260,
-      "flavor": "A cidade subterrânea que muda de local conforme a live."
-    },
-    {
-      "id": "PRD_phase1_06",
-      "name": "Mensagens Subliminares em Clipes",
-      "slot": 6,
-      "baseCost": 1.4e6,
-      "baseProduction": 1400,
-      "flavor": "Pause no frame certo e veja o que todo mundo 'já sabia'."
-    },
-    {
-      "id": "PRD_phase1_07",
-      "name": "Venda da Copa de 98",
-      "slot": 7,
-      "baseCost": 2e7,
-      "baseProduction": 7800,
-      "flavor": "Placar combinado? Alguns liqùidam histórias. Nós compramos."
-    },
-    {
-      "id": "PRD_phase1_08",
-      "name": "Internacionalizar a Amazônia pelo Wi-Fi",
-      "slot": 8,
-      "baseCost": 3.3e8,
-      "baseProduction": 44000,
-      "flavor": "Roteador com alcance duvidoso e jurisdição mais duvidosa ainda."
-    },
-    {
-      "id": "PRD_phase1_09",
-      "name": "Controlar Prefeitos e Governadores Fictícios",
-      "slot": 9,
-      "baseCost": 5.1e9,
-      "baseProduction": 260000,
-      "flavor": "Prefeitos de cidades que só existem nos grupos."
-    },
-    {
-      "id": "PRD_phase1_10",
-      "name": "Controle do Clima no Carnaval",
-      "slot": 10,
-      "baseCost": 7.5e10,
-      "baseProduction": 1.6e6,
-      "flavor": "Chuva premium: testada apenas em dia de bloco."
-    },
-    {
-      "id": "PRD_phase1_11",
-      "name": "Clonar Celebridades Fictícias",
-      "slot": 11,
-      "baseCost": 1e12,
-      "baseProduction": 1e7,
-      "flavor": "Sósias tão bons que ninguém nota a dublagem."
-    },
-    {
-      "id": "PRD_phase1_12",
-      "name": "Capturar o ET de Varginha",
-      "slot": 12,
-      "baseCost": 1.4e13,
-      "baseProduction": 6.2e7,
-      "flavor": "Ele sabe demais. Convertê-lo é o jeito."
-    }
+    { "id": "PRD_phase1_01", "name": "Comprar Big Techs com cripto", "slot": 1,  "baseCost": 12,       "valuePerCycle": 1,   "cycleSeconds": 1.0, "icon": "💻", "flavor": "Deram lances em ações usando uma carteira que só o chefe entende." },
+    { "id": "PRD_phase1_02", "name": "Barriga Viral Misteriosa",       "slot": 2,  "baseCost": 60,       "valuePerCycle": 8,    "cycleSeconds": 1.5, "icon": "🫃", "flavor": "Aquele vídeo da barriga que cresce sozinha. Ninguém sabe a fonte." },
+    { "id": "PRD_phase1_03", "name": "Amizade com Reptilianos",        "slot": 3,  "baseCost": 700,      "valuePerCycle": 50,   "cycleSeconds": 2.0, "icon": "🦎", "flavor": "Contatos frequentes no rolê errado na hora certa." },
+    { "id": "PRD_phase1_04", "name": "Profeta Autoproclamado como Informante", "slot": 4, "baseCost": 8340, "valuePerCycle": 300, "cycleSeconds": 2.5, "icon": "📜", "flavor": "Ele entrega a 'verdade', você entrega o palanque." },
+    { "id": "PRD_phase1_05", "name": "Espalhar Lenda de Ratanabá",     "slot": 5,  "baseCost": 90680,    "valuePerCycle": 1800, "cycleSeconds": 3.0, "icon": "🗺️", "flavor": "A cidade subterrânea que muda de local conforme a live." },
+    { "id": "PRD_phase1_06", "name": "Mensagens Subliminares em Clipes","slot": 6,  "baseCost": 1.04e6,   "valuePerCycle": 11000, "cycleSeconds": 3.5, "icon": "🎬", "flavor": "Pause no frame certo e veja o que todo mundo 'já sabia'." },
+    { "id": "PRD_phase1_07", "name": "Venda da Copa de 98",            "slot": 7,  "baseCost": 1.493e7,  "valuePerCycle": 70000, "cycleSeconds": 4.0, "icon": "⚽", "flavor": "Placar combinado? Alguns liquidam histórias. Nós compramos." },
+    { "id": "PRD_phase1_08", "name": "Internacionalizar a Amazônia pelo Wi-Fi", "slot": 8, "baseCost": 1.7916e8, "valuePerCycle": 450000, "cycleSeconds": 4.5, "icon": "📡", "flavor": "Roteador com alcance duvidoso e jurisdição mais duvidosa ainda." },
+    { "id": "PRD_phase1_09", "name": "Controlar Prefeitos e Governadores Fictícios", "slot": 9, "baseCost": 2.15e9, "valuePerCycle": 2.8e6, "cycleSeconds": 5.0, "icon": "🏛️", "flavor": "Prefeitos de cidades que só existem nos grupos." },
+    { "id": "PRD_phase1_10", "name": "Controle do Clima no Carnaval",   "slot": 10, "baseCost": 2.58e10,  "valuePerCycle": 1.7e7, "cycleSeconds": 5.5, "icon": "🌧️", "flavor": "Chuva premium: testada apenas em dia de bloco." },
+    { "id": "PRD_phase1_11", "name": "Clonar Celebridades Fictícias",   "slot": 11, "baseCost": 3.02e11,  "valuePerCycle": 1.1e8, "cycleSeconds": 6.0, "icon": "🎭", "flavor": "Sósias tão bons que ninguém nota a dublagem." },
+    { "id": "PRD_phase1_12", "name": "Capturar o ET de Varginha",       "slot": 12, "baseCost": 3.53e12,  "valuePerCycle": 7.0e8, "cycleSeconds": 6.5, "icon": "👽", "flavor": "Ele sabe demais. Convertê-lo é o jeito." }
   ]
 }

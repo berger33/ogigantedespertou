@@ -1,0 +1,13 @@
+{
+  "_comment": "Arquivo Secreto — conquistas (spec §130). Condições declarativas avaliadas sobre o GameState (campo/operador/valor).",
+  "list": [
+    { "id": "ACH_first", "name": "Primeiro Compartilhamento", "desc": "Encaminhe sua primeira corrente.", "icon": "📨", "cond": { "field": "totalClicks", "op": "gte", "value": 1 } },
+    { "id": "ACH_click100", "name": "Dedos Terceirizados", "desc": "Encaminhe 100 vezes.", "icon": "👆", "cond": { "field": "totalClicks", "op": "gte", "value": 100 } },
+    { "id": "ACH_prod10", "name": "Mini-Império", "desc": "Tenha 10 unidades de um único produtor.", "icon": "🏢", "cond": { "field": "producersMax", "op": "gte", "value": 10 } },
+    { "id": "ACH_manager", "name": "Chefia Fantasma", "desc": "Contrate seu primeiro Coordenador.", "icon": "🕴️", "cond": { "field": "managersOwned", "op": "gte", "value": 1 } },
+    { "id": "ACH_sosia", "name": "Sósia Fiel", "desc": "Revele seu primeiro sósia no Laboratório.", "icon": "🧪", "cond": { "field": "clonesOwned", "op": "gte", "value": 1 } },
+    { "id": "ACH_streak5", "name": "Curador do Grupo", "desc": "Acerte 5 Zaps seguidos.", "icon": "🪓", "cond": { "field": "zapStreak", "op": "gte", "value": 5 } },
+    { "id": "ACH_million", "name": "Influenciador Clandestino", "desc": "Acumule 1 milhão de Crédulos na vida.", "icon": "💸", "cond": { "field": "lifeCredits", "op": "gte", "value": "1e6" } },
+    { "id": "ACH_prestige", "name": "O Gigante Despertou", "desc": "Faça seu primeiro Despertar.", "icon": "🌋", "cond": { "field": "convictos", "op": "gte", "value": 1 } }
+  ]
+}

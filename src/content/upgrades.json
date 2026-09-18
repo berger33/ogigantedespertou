@@ -1,0 +1,154 @@
+{
+  "_comment": "Loja de Melhorias (spec §71). Mecânica = upgrades da referência: por produtor (×3) e globais (×3/×5), custos na mesma faixa (25k→15Qa Deep Web, + endgame Dtg).",
+  "perProducer": [
+    {
+      "slot": 1,
+      "costs": [
+        25000,
+        50000000.0,
+        250000000000.0
+      ],
+      "mult": 3,
+      "label": "Corporações"
+    },
+    {
+      "slot": 2,
+      "costs": [
+        50000,
+        90000000.0,
+        450000000000.0
+      ],
+      "mult": 3,
+      "label": "Mídia"
+    },
+    {
+      "slot": 3,
+      "costs": [
+        150000,
+        250000000.0,
+        1200000000000.0
+      ],
+      "mult": 3,
+      "label": "Reptilianos"
+    },
+    {
+      "slot": 4,
+      "costs": [
+        500000,
+        700000000.0,
+        3500000000000.0
+      ],
+      "mult": 3,
+      "label": "Governo"
+    },
+    {
+      "slot": 5,
+      "costs": [
+        5000000.0,
+        5000000000.0,
+        25000000000000.0
+      ],
+      "mult": 3,
+      "label": "Ratanabá"
+    },
+    {
+      "slot": 6,
+      "costs": [
+        15000000.0,
+        12000000000.0,
+        60000000000000.0
+      ],
+      "mult": 3,
+      "label": "Pop"
+    },
+    {
+      "slot": 7,
+      "costs": [
+        5000000000.0,
+        2500000000000.0,
+        1.2e+16
+      ],
+      "mult": 3,
+      "label": "Guerras"
+    },
+    {
+      "slot": 8,
+      "costs": [
+        150000000000.0,
+        50000000000000.0,
+        2.5e+17
+      ],
+      "mult": 3,
+      "label": "Wi-Fi"
+    },
+    {
+      "slot": 9,
+      "costs": [
+        50000000000000.0,
+        1.2e+16,
+        6e+19
+      ],
+      "mult": 3,
+      "label": "Governantes"
+    },
+    {
+      "slot": 10,
+      "costs": [
+        1.5e+16,
+        2.5e+18,
+        1.2e+22
+      ],
+      "mult": 3,
+      "label": "Clima"
+    },
+    {
+      "slot": 11,
+      "costs": [
+        5e+18,
+        1e+21,
+        5e+24
+      ],
+      "mult": 3,
+      "label": "Sósias"
+    },
+    {
+      "slot": 12,
+      "costs": [
+        1.5e+21,
+        2.5e+23,
+        1.2e+27
+      ],
+      "mult": 3,
+      "label": "ET"
+    }
+  ],
+  "global": [
+    {
+      "id": "UPG_GLOB_01",
+      "name": "Agora Tudo Faz Sentido",
+      "icon": "🧩",
+      "desc": "Todas as coincidências se encaixam.",
+      "cost": "5e25",
+      "mult": 3,
+      "label": "toda a Deep Web ×3"
+    },
+    {
+      "id": "UPG_GLOB_02",
+      "name": "O Gigante Despertou",
+      "icon": "👁",
+      "desc": "Um olho, uma verdade.",
+      "cost": "1e30",
+      "mult": 5,
+      "label": "toda a Deep Web ×5"
+    },
+    {
+      "id": "UPG_GLOB_03",
+      "name": "A Fonte É Confia",
+      "icon": "🔗",
+      "desc": "O primo do primo de uma fonte.",
+      "cost": "1e34",
+      "mult": 10,
+      "label": "toda a Deep Web ×10"
+    }
+  ]
+}
