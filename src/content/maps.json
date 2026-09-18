@@ -1,37 +1,36 @@
 {
-  "_comment": "Mapa da Dominação — campanha linear (spec §81-§84). Cada mapa tem missões ÚNICAS (produtores); ao concluir a ÚLTIMA missão de um mapa, o jogador avança para o próximo. Sátira de teorias da conspiração populares no Brasil; tudo fictício e humorístico.",
   "maps": [
     {
       "id": "phase1",
       "name": "Deep Web",
       "icon": "🕳️",
       "color": "#14532D",
-      "flavor": "A internet que ninguém admite frequentar. Baseline da paridade de custos.",
-      "finalNote": "Ativar o Algoritmo do Caos — a internet inteira vira o seu grupo de família."
+      "flavor": "A internet que ninguém admite frequentar.",
+      "finalNote": "dominar os sistemas de controle do clima"
     },
     {
       "id": "phase2",
-      "name": "O País que Não Existe",
-      "icon": "🗺️",
+      "name": "Democracia Relativa",
+      "icon": "🗳️",
       "color": "#B3261E",
-      "flavor": "Geografia alternativa: cidades secretas, fronteiras imaginárias e o Acre como lenda.",
-      "finalNote": "Abrir os Portões de Ratanabá — a cidade secreta enfim recebe o chefe."
+      "flavor": "Metade vota, a outra metade concorda. (sátira fictícia — sem candidatos reais)",
+      "finalNote": "proclamar a Democracia Relativa™"
     },
     {
       "id": "phase3",
-      "name": "Área 51 BR",
-      "icon": "🛸",
+      "name": "Ratanabá",
+      "icon": "🗺️",
       "color": "#39FF9C",
-      "flavor": "Óvnis no cerrado, luzes no interior e o mais famoso visitante de primeiro contato.",
-      "finalNote": "Abrir o Hangar do Tamanho de uma Fazenda — a Área 51 BR abre as portas."
+      "flavor": "A cidade secreta que todo mundo já viu no mapa.",
+      "finalNote": "revelar a entrada oficial (com catraca)"
     },
     {
       "id": "phase4",
-      "name": "Bancos",
-      "icon": "🏦",
+      "name": "Religião",
+      "icon": "🕯️",
       "color": "#D4AF37",
-      "flavor": "Onde o dinheiro dorme e ninguém acorda. A elite dos cofres.",
-      "finalNote": "Comprar o Banco dos Bancos — quando os cofres têm dono, vira dominó."
+      "flavor": "Milagres com nota fiscal. (sátira de vigaristas, sem ofender a fé de ninguém)",
+      "finalNote": "abrir a filial no céu"
     }
   ]
 }
