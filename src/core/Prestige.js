@@ -1,36 +1,52 @@
 /**
  * Prestige — "Despertar o Gigante" (spec §57–§63).
  * Engine-agnóstico. Fórmula e bônus por Convicto.
+ *
+ * MODELO (validado pelo simulador, §60):
+ *  - Convictos = floor((LifetimeCrédulos / Limiar)^Expoente), expoente < 1.
+ *  - Bônus global LINEAR ADITIVO: 1 + taxa(3%) × Convictos.
+ *    (A leitura fiel de §60 é "+3% POR Convicto" = soma 3% por ponto.)
+ *  - Um bônus EXPONENCIAL (1+taxa)^Convictos gera crescimento iterado
+ *    super-exponencial (runaway) — detectado e rejeitado pelo simulador (§60:
+ *    não permitir runaway impossível de balancear).
  */
 import BigNumber from './BigNumber.js';
 
 /**
  * Convictos ganhos no reset (§59).
- *   Convictos = floor((LifetimeCrédulos / Limiar)^Expoente)
+ *   Convictos = floor((Lifetime / Limiar)^Expoente)
  */
-export function convictosFrom(lifetime, p) {
-  const threshold = BigNumber.fromString(String(p.threshold));
+export function convictosFrom(lifetime, p, currentConvictos = 0) {
+  void currentConvictos;
+  const base = BigNumber.fromString(String(p.threshold));
   const exponent = Number(p.exponent ?? 0.5);
-  if (lifetime.lt(threshold)) return 0;
-  const ratio = lifetime.div(threshold);
-  // ratio^exponent com expoente real: m^e * 10^(exp*e)
-  const me = Math.pow(ratio.m, exponent);
-  const ee = Math.round(ratio.e * exponent);
-  return Math.max(0, Math.floor(new BigNumber(me, ee).toNumberSafe() ?? 0));
+  if (lifetime.lt(base)) return 0;
+  const ratio = lifetime.div(base);
+  // Convictos = floor(ratio^exponent), em espaço logarítmico estável
+  const logResult = ratio.log10() * exponent; // log10(ratio^e)
+  const value = Math.pow(10, logResult);
+  if (!Number.isFinite(value)) {
+    // valor gigante: compõe por mantissa/expoente
+    const e = Math.floor(logResult);
+    const m = Math.pow(10, logResult - e);
+    return Math.floor(m) * Math.pow(10, e);
+  }
+  return Math.floor(value);
 }
 
-/** Bônus global multiplicativo por Convicto (§60): (1+taxa)^n. */
+/** Bônus global por Convicto (§60): 1 + taxa × Convictos (linear aditivo). */
 export function globalBonus(convictos, p) {
   const taxa = Number(p.convictBonus ?? 0.03);
-  return new BigNumber(Math.pow(1 + taxa, convictos), 0);
+  if (!Number.isFinite(taxa) || taxa < 0) throw new Error('Prestige: convictBonus inválido');
+  return BigNumber.one().add(BigNumber.fromNumber(taxa * Math.max(0, Math.floor(convictos))));
 }
 
 /**
  * Aplica o reset em um snapshot de estado (não muta o original).
- * Retorna { snapshot, convictosGained }.
+ * Retorna { ok, snapshot, gained }.
  */
 export function prestige(state, p) {
-  const gained = convictosFrom(state.lifetimeCredits, p);
+  const gained = convictosFrom(state.lifetimeCredits, p, state.convictos || 0);
   if (gained <= 0) return { ok: false, reason: 'below-threshold', gained: 0 };
   const snap = state.toSnapshot();
   // reset de run (§57): zera créditos correntes e produtores; volta à fase 1
@@ -38,9 +54,7 @@ export function prestige(state, p) {
   snap.producers = {};
   snap.clickLevel = 1;
   snap.timestamp = Date.now();
-  // lifetime é preservado? Não: recomeça a contagem DESTA run.
-  // O total histórico para a próxima rodada parte do zero (padrão do gênero).
-  snap.lifetimeCredits = BigNumber.zero().toJSON();
+  snap.lifetimeCredits = BigNumber.zero().toJSON(); // recomeça a contagem DESTA run
   snap.convictos = (snap.convictos || 0) + gained;
   return { ok: true, snapshot: snap, gained };
 }

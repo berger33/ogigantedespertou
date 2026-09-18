@@ -23,10 +23,11 @@ test('convictosFrom: segue floor((lifetime/limiar)^exp)', () => {
   assert.equal(convictosFrom(BigNumber.fromString('4e6'), P), 2);
 });
 
-test('globalBonus: (1+taxa)^n', () => {
+test('globalBonus: linear aditivo 1 + taxa×n (especificação §60 "por Convicto")', () => {
   const b = globalBonus(10, P);
-  assert.ok(Math.abs(b.toNumber() - Math.pow(1.03, 10)) < 1e-9);
+  assert.ok(Math.abs(b.toNumber() - (1 + 0.03 * 10)) < 1e-9);
   assert.equal(globalBonus(0, P).toNumber(), 1);
+  assert.equal(globalBonus(100, P).toNumber(), 4); // 1 + 3
 });
 
 test('prestige: reseta run e preserva total de Convictos', () => {

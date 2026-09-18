@@ -190,12 +190,18 @@ export class BigNumber {
     return new BigNumber(this.m / o.m, this.e - o.e);
   }
 
-  /** Potência com expoente inteiro não-negativo: (m·10^e)^n = m^n · 10^(e·n). */
+  /** Potência com expoente inteiro não-negativo, calculada em espaço logarítmico. */
   pow(n) {
     n = Math.floor(n);
     if (n < 0) throw new Error('BigNumber: expoente negativo não suportado');
     if (n === 0) return BigNumber.one();
-    return new BigNumber(Math.pow(this.m, n), this.e * n);
+    if (this.isZero()) return BigNumber.zero();
+    const logVal = Math.log10(Math.abs(this.m)) + this.e; // log10(|valor|)
+    const logTotal = logVal * n;
+    const newE = Math.floor(logTotal);
+    const newM = Math.pow(10, logTotal - newE);
+    const sign = this.m < 0 && (n & 1) === 1 ? -1 : 1;
+    return new BigNumber(sign * newM, newE);
   }
 
   floor() {

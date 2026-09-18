@@ -1,9 +1,15 @@
 /**
  * GameState — estado agregado do jogo + comandos de gameplay (spec §13, §15).
  * Engine-agnóstico (espelho C# planejado). A UI só dispara comandos e renderiza.
+ *
+ * Multiplicadores (derivados e explícitos):
+ *  - globalMultiplier: bônus permanente de Convictos (§19/§60), aplicado à produção.
+ *  - boost: bônus genérico/explícito (shop, ads, eventos, payer) — aplica a
+ *    produção E ao clique. Persistido em save.
  */
 import BigNumber from './BigNumber.js';
 import * as Economy from './Economy.js';
+import { globalBonus } from './Prestige.js';
 
 // parse determinístico de custos de conteúdo ("1.5e6", "500", "0") → BigNumber
 function bn(str) {
@@ -25,16 +31,19 @@ export class GameState {
     // ---- estado mutável ----
     this.version = 1;
     this.credits = BigNumber.zero();
-    this.lifetimeCredits = BigNumber.zero(); // base do prestígio (§59)
+    this.lifetimeCredits = BigNumber.zero(); // base do prestígio desta run (§59)
     this.comboSteps = 0;                      // Engajamento Viral (§24)
     this.lastClickAt = 0;
     this.clickLevel = 1;                      // upgrade de clique atual (§26)
     this.producers = {};                      // id -> owned (int)
     this.totalClicks = 0;
+    this.convictos = 0;                       // §19: permanece após reset
+    this.boost = BigNumber.one();             // bônus genérico (shop/ads/evento)
     this.timestamp = Date.now();
 
     if (snapshot) this._loadSnapshot(snapshot);
 
+    this._recomputeGlobal();
     this._compute();
   }
 
@@ -63,6 +72,10 @@ export class GameState {
     return BigNumber.fromNumber(lvl ? lvl.power : 1);
   }
 
+  prestigeParams() {
+    return this.eco.prestige || { threshold: '1e6', exponent: 0.5, convictBonus: 0.03 };
+  }
+
   // ---------- combo viral (§24) ----------
 
   /** Multiplicador atual do Engajamento Viral (x1 → x1.1 → … → x2). */
@@ -79,8 +92,8 @@ export class GameState {
 
   /** Toque no Compartilhar no Zap (§22–§24). Retorna o ganho. */
   click(now = Date.now()) {
-    // §24: primeiro clique = x1; cliques consecutivos sobem até x2
-    const gain = this.clickPower().scale(this.viralMultiplier(now));
+    // §24: primeiro clique = x1; consecutivos sobem até x2
+    const gain = this.clickPower().scale(this.viralMultiplier(now)).mul(this.boost);
     this.comboSteps += 1;
     this.lastClickAt = now;
     this.totalClicks += 1;
@@ -90,7 +103,7 @@ export class GameState {
   }
 
   /** Compra `qty` de um produtor (§29). */
-  buyProducer(id, qty, now = Date.now()) {
+  buyProducer(id, qty) {
     const def = this.producerDef(id);
     if (!def) return { ok: false, reason: 'unknown' };
     if (qty <= 0) return { ok: false, reason: 'qty' };
@@ -119,14 +132,17 @@ export class GameState {
     if (cost.gt(this.credits)) return { ok: false, reason: 'cost', cost };
     this.credits = this.credits.sub(cost);
     this.clickLevel = next.level;
-    this._compute();
     return { ok: true, level: this.clickLevel };
   }
 
   // ---------- economia derivada ----------
 
-  /** Produção total por segundo (com milestones). */
+  /** Produção total por segundo (milestones + global + boost). */
   productionPerSecond() { return this._pps; }
+
+  _recomputeGlobal() {
+    this.globalMultiplier = globalBonus(this.convictos, this.prestigeParams());
+  }
 
   _compute() {
     let total = BigNumber.zero();
@@ -135,7 +151,7 @@ export class GameState {
       if (owned <= 0) continue;
       total = total.add(Economy.producerProduction(def.baseProduction, owned, this.milestones, owned));
     }
-    this._pps = total;
+    this._pps = total.mul(this.globalMultiplier).mul(this.boost);
   }
 
   /** Milestones já atingidos por produtor. */
@@ -148,7 +164,7 @@ export class GameState {
 
   // ---------- tempo / offline ----------
 
-  /** Ganho por tempo decorrido (idle). Substitui produção ao vivo. */
+  /** Ganho por tempo decorrido (idle). Usa produção/seg atual. */
   tick(elapsedMs) {
     if (elapsedMs <= 0) return BigNumber.zero();
     const gained = this._pps.scale(elapsedMs / 1000);
@@ -176,11 +192,13 @@ export class GameState {
 
   toSnapshot() {
     return {
-      version: 1,
+      version: this.version,
       credits: this.credits.toJSON(),
       lifetimeCredits: this.lifetimeCredits.toJSON(),
       clickLevel: this.clickLevel,
       totalClicks: this.totalClicks,
+      convictos: this.convictos,
+      boost: this.boost.toJSON(),
       producers: { ...this.producers },
       timestamp: this.timestamp,
     };
@@ -192,6 +210,8 @@ export class GameState {
     this.lifetimeCredits = BigNumber.fromJSON(s.lifetimeCredits);
     this.clickLevel = s.clickLevel ?? 1;
     this.totalClicks = s.totalClicks ?? 0;
+    this.convictos = s.convictos ?? 0;
+    this.boost = BigNumber.fromJSON(s.boost);
     this.producers = { ...(s.producers || {}) };
     this.timestamp = s.timestamp ?? Date.now();
   }

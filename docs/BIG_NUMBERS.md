@@ -27,6 +27,8 @@ valor = mantissa × 10^expoente      mantissa ∈ (-10, 10) \ {0}, expoente ∈ 
 - Multiplicação/divisão somam/subtraem expoentes → não há estouro de faixa.
 - Adição/subtração alinham expoentes; diferença > 17 despreza o menor operando
   (abaixo da precisão relativa da mantissa).
+- `pow(n)` é calculado em **espaço logarítmico** (`10^(n·log10|v|)`), então não
+  estoura mesmo para expoentes enormes — essencial para bônus de prestígio.
 
 ### Operações suportadas
 `add, sub, mul, div, pow(int≥0), scale, neg, floor, ceil, min, max, cmp`

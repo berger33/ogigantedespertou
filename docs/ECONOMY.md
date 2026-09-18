@@ -96,5 +96,7 @@ Horizontes: 1h, 1d, 7d, 30d, 90d. **Meta de relatório:** responder
 
 ## 7. Resultados atuais
 
-Ver `sim/report.md` (gerado por `npm run sim`). Resumo esperado mantido aqui
-após cada rodada de calibragem.
+Ver `sim/report.md` (gerado por `npm run sim`). Resumo v0.1: primeiro produtor e
+primeiro prestígio no **dia 1** (perfil médio); Fase 2 não é alcançada no core
+(esperado — depende de Sósias/Coordenadores/árvore de prestígio, fora do escopo
+do PLAYABLE CORE §246–§250). Detalhe: ver conclusão da calibragem no relatório.
