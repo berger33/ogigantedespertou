@@ -1,6 +1,6 @@
 {
-  "_comment": "Especificação de animação das missões (docs/ANIMATION_PLAN.md). Renderizador: app.js (AnimStage). Cena = dossiê conspiratório em camadas (sala secreta + Grifter + objeto sob holofote + plaqueta + efeitos). Estados: off/idle/running. Loops por classe no appendix de app.css.",
-  "version": 2,
+  "_comment": "Especificação de animação das missões (docs/ANIMATION_PLAN.md). Renderizador: app.js (AnimStage). Cenas `animated:true` são desenhos 2D reais (loop.webp em estilo desenho animado); as demais mantêm o SVG procedural em camadas. Estados: off/idle/running.",
+  "version": 3,
   "stage": {
     "width": 320,
     "height": 88
@@ -9,7 +9,9 @@
     "p1_01": {
       "label": "COMPRAR COM CRIPTO",
       "accent": "#B57BFF",
-      "src": "assets/anim/p1_01/scene.svg",
+      "src": "assets/anim/p1_01/loop.webp",
+      "poster": "assets/anim/p1_01/poster.webp",
+      "animated": true,
       "loops": [
         "marcha",
         "bracos",
@@ -24,6 +26,8 @@
       "label": "PLANTAR FAKE NEWS",
       "accent": "#39FF9C",
       "src": "assets/anim/p1_02/scene.svg",
+      "poster": null,
+      "animated": false,
       "loops": [
         "marcha",
         "bracos",
@@ -38,6 +42,8 @@
       "label": "AMIGOS REPTILIANOS",
       "accent": "#39FF9C",
       "src": "assets/anim/p1_03/scene.svg",
+      "poster": null,
+      "animated": false,
       "loops": [
         "marcha",
         "bracos",
@@ -52,6 +58,8 @@
       "label": "INFORMANTE NO GOVERNO",
       "accent": "#B57BFF",
       "src": "assets/anim/p1_04/scene.svg",
+      "poster": null,
+      "animated": false,
       "loops": [
         "marcha",
         "bracos",
@@ -66,6 +74,8 @@
       "label": "TEORIAS DA CONSPIRAÇÃO",
       "accent": "#D4AF37",
       "src": "assets/anim/p1_05/scene.svg",
+      "poster": null,
+      "animated": false,
       "loops": [
         "marcha",
         "bracos",
@@ -80,6 +90,8 @@
       "label": "LAVAR CÉREBROS POP",
       "accent": "#B57BFF",
       "src": "assets/anim/p1_06/scene.svg",
+      "poster": null,
+      "animated": false,
       "loops": [
         "marcha",
         "bracos",
@@ -94,6 +106,8 @@
       "label": "GUERRA POR LUCRO",
       "accent": "#B3261E",
       "src": "assets/anim/p1_07/scene.svg",
+      "poster": null,
+      "animated": false,
       "loops": [
         "marcha",
         "bracos",
@@ -108,6 +122,8 @@
       "label": "CONTROLAR PELO WI-FI",
       "accent": "#39FF9C",
       "src": "assets/anim/p1_08/scene.svg",
+      "poster": null,
+      "animated": false,
       "loops": [
         "marcha",
         "bracos",
@@ -122,6 +138,8 @@
       "label": "GOVERNANTES FANTOCHES",
       "accent": "#B57BFF",
       "src": "assets/anim/p1_09/scene.svg",
+      "poster": null,
+      "animated": false,
       "loops": [
         "marcha",
         "bracos",
@@ -136,6 +154,8 @@
       "label": "CONTROLAR O CLIMA",
       "accent": "#39FF9C",
       "src": "assets/anim/p1_10/scene.svg",
+      "poster": null,
+      "animated": false,
       "loops": [
         "marcha",
         "bracos",

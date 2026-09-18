@@ -176,21 +176,26 @@ def scene_svg(sc):
 def build_spec():
     scenes = {}
     for sc in DEEP_WEB:
-        rel = "assets/anim/%s/scene.svg" % sc["id"]
-        scenes[sc["id"]] = {
+        pid = sc["id"]
+        # cenas com desenho 2D real (loop.webp já montado) usam animação bitmap;
+        # as demais permanecem na camada SVG procedural até o lote de arte chegar.
+        animated = (Path(ASSETS / pid / "loop.webp").exists())
+        scenes[pid] = {
             "label": sc["line1"],
             "accent": sc["accent"],
-            "src": rel,
+            "src": "assets/anim/%s/loop.webp" % pid if animated else "assets/anim/%s/scene.svg" % pid,
+            "poster": "assets/anim/%s/poster.webp" % pid if animated else None,
+            "animated": animated,
             "loops": sc["loops"],
         }
     return {
         "_comment": (
             "Especificação de animação das missões (docs/ANIMATION_PLAN.md). "
-            "Renderizador: app.js (AnimStage). Cena = dossiê conspiratório em camadas "
-            "(sala secreta + Grifter + objeto sob holofote + plaqueta + efeitos). "
-            "Estados: off/idle/running. Loops por classe no appendix de app.css."
+            "Renderizador: app.js (AnimStage). Cenas `animated:true` são desenhos 2D "
+            "reais (loop.webp em estilo desenho animado); as demais mantêm o SVG "
+            "procedural em camadas. Estados: off/idle/running."
         ),
-        "version": 2,
+        "version": 3,
         "stage": {"width": 320, "height": 88},
         "scenes": scenes,
     }

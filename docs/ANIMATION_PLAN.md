@@ -201,6 +201,32 @@ no protótipo web + revisão visual sua + QA no device.
 **Ordem de prioridade** = ordem acima (core jogável primeiro; personagens por último —
 antes do conteúdo volumoso, provar o loop da economia/ritmo — regra MVP).
 
+### Estilo "desenho animado 2D real" (direção de arte v3, em andamento)
+
+A direção anterior (SVG geométrico) foi rejeitada como "muito amadora, feita com
+formas geométricas". Nova direção: **animações 2D pintadas, estilo desenho animado**,
+uma cena por missão — mesma ideia de "cena emoldurada" da referência (uma ação em
+loop), agora com personagem de verdade.
+
+Pipeline por missão:
+1. `gerar quadros` — 4+ PNGs por cena (personagem original "O Grifter", cartoon 2D
+   flat com contorno à tinta, cores vibrantes) compartilhando 1 quadro-mestre como
+   referência de consistência. Quadros brutos em `src/assets/anim/<id>/frames/f*.png`
+   (ignorados no Git; ficam no disco para regeneração).
+2. `tools/build_animation_loop.py <id>` — recorta 16:9, redimensiona 640px, exporta
+   `loop.webp` (animação em loop, ~217 KB) + `poster.webp` (estado "não comprado")
+   + `contact.png` (folha de contato para revisão de arte).
+3. `tools/gen_animations.py` — detecta `loop.webp` e marca a cena `animated:true`
+   no `animations.json` (spec v3); o renderizador exibe poster em `off` e o loop em
+   `idle`/`running`.
+
+Métricas de sanidade (ambiente sem visão): consistência entre quadros adjacentes
+(diferença em 64×64) < ~15 = mesmo cenário/personagem (mudou só a pose); usada como
+alarme de "o modelo redesenhou a cena".
+
+Status: `p1_01` (Comprar com cripto) entregue como **primeira prova de estilo**;
+demais 39 missões aguardam aprovação desta direção de arte.
+
 ### Status do Lote 1 (entregue) — Deep Web completa
 
 - Arte: `src/assets/anim/p1_01..p1_10/scene.svg` — cada missão vira um **dossiê

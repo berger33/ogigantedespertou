@@ -72,3 +72,6 @@ sim/report.html
 # ---- Python ----
 __pycache__/
 *.pyc
+
+# ---- Quadros brutos de animação (PNG gerado por IA; só os WebP otimizados vão pro repo) ----
+src/assets/anim/*/frames/f*.png

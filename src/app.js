@@ -340,7 +340,8 @@ async function loadSceneSvg(src) {
 /**
  * Monta o palco da cena de uma missão.
  * Estados (classes): off (sem posse), idle (possui, sem Coordenador) e
- * running (automatizado) — os loops são dirigidos por CSS no app.css.
+ * running (automatizado). Cenas `animated:true` exibem o desenho 2D real:
+ * poster estático em off/idle e o loop (loop.webp) animado em running.
  */
 function buildAnimStage(def, owned, automated) {
   const stage = el('div', 'anim-stage ' + (automated ? 'running' : (owned > 0 ? 'idle' : 'off')));
@@ -351,9 +352,23 @@ function buildAnimStage(def, owned, automated) {
   const spec = animSpecFor(def);
   if (spec) {
     if (spec.accent) stage.style.setProperty('--accent', spec.accent);
-    loadSceneSvg(spec.src).then((txt) => {
-      holder.innerHTML = namespaceSvg(txt, `a-${def.id}`);
-    }).catch(() => { /* mantém fallback de ícone */ });
+    if (spec.animated) {
+      // desenho 2D real: poster (parado) + loop (animado, só roda em running)
+      const poster = el('img', 'anim-poster');
+      poster.src = spec.poster || spec.src;
+      poster.alt = spec.label || def.name || '';
+      poster.loading = 'lazy';
+      const loop = el('img', 'anim-loop');
+      loop.src = spec.src;
+      loop.alt = spec.label || def.name || '';
+      loop.loading = 'lazy';
+      holder.prepend(poster);
+      holder.prepend(loop);
+    } else {
+      loadSceneSvg(spec.src).then((txt) => {
+        holder.innerHTML = namespaceSvg(txt, `a-${def.id}`);
+      }).catch(() => { /* mantém fallback de ícone */ });
+    }
   }
   return stage;
 }

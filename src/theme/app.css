@@ -188,6 +188,21 @@ html, body {
   justify-content: center; font-size: 40px; opacity: .9;
   filter: drop-shadow(0 3px 5px rgba(0,0,0,.5));
 }
+/* desenho 2D real (bitmap cartoon): poster parado + loop animado */
+.anim-poster, .anim-loop {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 32%; display: block;
+}
+.anim-loop { opacity: 0; transition: opacity .25s ease; }
+.anim-stage.running .anim-loop,
+.anim-stage.idle .anim-loop    { opacity: 1; }
+.anim-stage.running .anim-poster,
+.anim-stage.idle .anim-poster  { opacity: 0; }
+/* o loop é a assinatura de vida da cena: desenho animado em idle e running */
+.anim-stage.idle .anim-loop    { filter: saturate(.95); }
+.anim-stage.running .anim-loop { filter: none; }
+.anim-stage.off .anim-poster { filter: saturate(.15) brightness(.6) contrast(.9); }
+.anim-stage.idle .anim-poster { filter: saturate(.85); }
 /* moldura de dossiê: scanlines + vinheta (não atrapalham o toque) */
 .prod-frame::before {
   content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
