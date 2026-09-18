@@ -25,8 +25,11 @@ PUBLICAÇÃO → LIVEOPS → OTIMIZAÇÃO.
 ## Registro de progresso
 
 - **M0** — Estrutura de pastas, Git, documentos (GDD/TDD/Economia/Arte/Conteúdo/
-  Sátira/Analytics/Monetização/LiveOps/Privacy/QA/Build/Release), BigNumber,
-  Economy, Prestige, Save, Economy Simulator, Playable Core, testes.
+  Sátira/Analytics/Monetização/LiveOps/Privacy/QA/Build/Release/ARCHITECTURE/
+  BIG_NUMBERS), BigNumber (JS+C#), Economy, GameState, Prestige, Save, Economy
+  Simulator, Playable Core (Sede Secreta), testes (35/35 ✅), espelho C# parcial.
+- **Próximo** — M1 Vertical Slice: GameState.cs, 12 produtores, Coordenadores,
+  Zap Vazado, Laboratório de Sósias, Arquivo, arte ~final, áudio, VFX.
 
 ---
 
