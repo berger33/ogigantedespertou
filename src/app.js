@@ -64,7 +64,13 @@ async function boot() {
   bindUI();
   applyOfflineOnStart();
   Analytics.track('first_open', { version: 3 });
+  // faixa de mapas: remove o hidden (sem JS o topo já vinha num estado inofensivo)
+  const strip = $('map-strip');
+  if (strip) strip.classList.remove('hidden');
+  const mapHeader = $('map-header');
+  if (mapHeader) mapHeader.classList.remove('hidden');
   buildProducerRows();
+  renderMapStrip();
   renderAll();
   installBonusSoon();
   requestAnimationFrame(loop);
@@ -94,7 +100,7 @@ function showOfflineReport(res) {
   const h = Math.floor(secs / 3600);
   const m = Math.floor((secs % 3600) / 60);
   const quando = h > 0 ? `${h}h ${m}min` : `${m}min`;
-  $('offline-text').textContent = `Enquanto você sumiu (${quando}), a operação convenceu ${res.gained.format(numberFormat)} pessoas.`;
+  $('offline-text').textContent = `Enquanto você sumiu (${quando}), a operação convenceu ${res.gained.format(numberFormat)} mentes.`;
   $('offline-double').onclick = () => {
     state.credits = state.credits.add(res.gained);
     Analytics.track('rewarded_complete', { placement: 'offline_2x' });
@@ -125,6 +131,11 @@ function bindUI() {
   $('phone-btn').onclick = () => { toggleSheet('phone-sheet'); renderPhoneSheet(); };
   $('phone-close').onclick = () => hideSheet('phone-sheet');
   $('stopwatch-btn').onclick = doBoost;
+
+  // faixa de mapas (setas nas pontas ciclam os 4 mapas; centro abre a visão geral)
+  $('map-prev').onclick = cycleMap.bind(null, -1);
+  $('map-next').onclick = cycleMap.bind(null, 1);
+  $('map-strip-main').onclick = () => go('screen-map');
 
   // comprar tudo
   $('buy-all-btn').onclick = buyAll;
@@ -237,7 +248,7 @@ function doClick(x, y, fromRound = false) {
   SFX.click();
   Analytics.track('click_main', { combo: state.comboSteps, source: fromRound ? 'round' : 'panel' });
   const anchor = $('click-panel');
-  spawnFloater(anchor, `+${fmt(gain)} 👁`, { x: Math.max(20, x), y: Math.max(10, y), cls: 'credit' });
+  spawnFloater(anchor, `+${fmt(gain)} 🧠`, { x: Math.max(20, x), y: Math.max(10, y), cls: 'credit' });
   spawnPhone(anchor, { x: Math.max(24, x), y: Math.max(10, y) });
   renderHUD();
 }
@@ -258,6 +269,48 @@ function renderMapHeader() {
     const g = state.pendingGate(state.activeMapId());
     if (g) gate.innerHTML = `<span class="gate-ico">🚩</span> Missão final: <b>${g.icon || ''} ${g.name}</b> — ao concluir, libera o próximo mapa.`;
     else gate.innerHTML = '<span class="gate-ico">✅</span> Mapa concluído! O próximo mapa foi liberado.';
+  }
+  renderMapStrip();
+}
+
+// ---------- faixa de mapas ----------
+// Faixa horizontal no topo: nome do mapa ativo no centro, setas nas pontas ciclam
+// os 4 mapas (Deep Web ↔ Democracia Relativa ↔ Ratanabá ↔ Religião). Revisitável.
+function renderMapStrip() {
+  const pop = $('map-strip');
+  if (!pop) return;
+  const info = state.phaseInfo();
+  const active = info[state.activePhaseIndex()] || info[0] || null;
+  if (!active) return;
+  $('map-strip-ico').textContent = active.icon || '🗺️';
+  $('map-strip-name').textContent = active.name;
+  const done = state.producerList().filter((p) => (state.producers[p.id] || 0) > 0).length;
+  $('map-strip-sub').textContent = `missão ${Math.min(done + 1, state.producerList().length)} de ${state.producerList().length}`;
+  pop.style.setProperty('--pc', active.color || '#D4AF37');
+  // setas: estado de liberado/travado
+  const prev = info[(state.activePhaseIndex() - 1 + info.length) % info.length];
+  const next = info[(state.activePhaseIndex() + 1) % info.length];
+  const nb = $('map-next');
+  const pb = $('map-prev');
+  if (nb) { nb.classList.toggle('locked', !next || !next.unlocked); }
+  if (pb) { pb.classList.toggle('locked', !prev || !prev.unlocked); }
+}
+
+function cycleMap(dir) {
+  const info = state.phaseInfo();
+  const idx = (state.activePhaseIndex() + dir + info.length) % info.length;
+  const target = info[idx];
+  if (!target || !target.unlocked) {
+    toast(`🔒 ${target ? target.name : 'Mapa'} bloqueado. Conclua a missão final do mapa anterior.`);
+    return;
+  }
+  if (state.setActivePhase(idx)) {
+    SFX.stamp();
+    Analytics.track('map_cycle', { to: target.id, dir });
+    buildProducerRows();
+    renderMapHeader();
+    updateProducerRows();
+    renderHUD();
   }
 }
 
@@ -300,7 +353,7 @@ function buildProducerRow(def) {
   body.appendChild(top);
   // dono / renda
   body.appendChild(el('div', 'producer-owned',
-    `possuídos: <b>${owned}</b> · +${fmt(BigNumber.fromNumber(def.valuePerCycle).scale(Math.max(owned, 0)).mul(state.producerMult(id)))} 👁/${def.cycleSeconds}s`));
+    `possuídos: <b>${owned}</b> · +${fmt(BigNumber.fromNumber(def.valuePerCycle).scale(Math.max(owned, 0)).mul(state.producerMult(id)))} 🧠/${def.cycleSeconds}s`));
   if (def.flavor) body.appendChild(el('div', 'producer-flavor', def.flavor));
 
   // linha inferior: timer (esq) + upgrade/tanque (dir)
@@ -334,7 +387,7 @@ function buildProducerRow(def) {
   body.appendChild(actions);
 
   // coletar (manual) — aparece quando há lucro pronto
-  const colBtn = el('button', 'collect-btn hidden', `COLETAR <b>+0</b> 👁`);
+  const colBtn = el('button', 'collect-btn hidden', `COLETAR <b>+0</b> 🧠`);
   colBtn.onclick = () => collectProducer(id);
   body.appendChild(colBtn);
 
@@ -345,7 +398,7 @@ function buildProducerRow(def) {
       mgrRow.appendChild(el('span', '', `🕴️ ${manager.icon || ''} ${manager.name} automatiza.`));
     } else {
       const cost = big(manager.cost);
-      mgrRow.appendChild(el('span', '', `🕴️ ${manager.icon || ''} <b>${manager.name}</b> — ${fmt(cost)} 👁`));
+      mgrRow.appendChild(el('span', '', `🕴️ ${manager.icon || ''} <b>${manager.name}</b> — ${fmt(cost)} 🧠`));
       const hire = el('button', 'mini-btn hire', 'CONTRATAR');
       hire.disabled = state.credits.lt(cost);
       hire.onclick = () => hireManager(manager.id, id);
@@ -381,7 +434,7 @@ function updateProducerRows() {
     const automated = state.isAutomated(def.id);
     const starLvl = state.starLevelOf(def.id);
     row.querySelector('.producer-owned').innerHTML =
-      `possuídos: <b>${owned}</b> · +${fmt(BigNumber.fromNumber(def.valuePerCycle).scale(Math.max(owned, 0)).mul(state.producerMult(def.id)))} 👁/${def.cycleSeconds}s`;
+      `possuídos: <b>${owned}</b> · +${fmt(BigNumber.fromNumber(def.valuePerCycle).scale(Math.max(owned, 0)).mul(state.producerMult(def.id)))} 🧠/${def.cycleSeconds}s`;
     // estrelas
     const badgeEl = row.querySelector('.stars');
     if (badgeEl) badgeEl.replaceWith(starBadge(starLvl));
@@ -402,7 +455,7 @@ function updateProducerRows() {
     const acc = state.collectables[def.id];
     const colBtn = row.querySelector('.collect-btn');
     if (!automated && acc && !acc.isZero()) {
-      colBtn.innerHTML = `COLETAR <b>+${fmt(acc)}</b> 👁`;
+      colBtn.innerHTML = `COLETAR <b>+${fmt(acc)}</b> 🧠`;
       colBtn.classList.remove('hidden');
     } else {
       colBtn.classList.add('hidden');
@@ -448,9 +501,10 @@ function buyProducer(id, mode) {
       renderMapHeader();
     }
     updateProducerRows();
+    renderMapStrip();
     renderHUD();
   } else if (res.reason === 'cost') {
-    toast('Faltam Crédulos. 👁');
+    toast('Faltam Mentes. 🧠');
   }
 }
 
@@ -474,7 +528,7 @@ function hireManager(mgrId, producerId) {
     updateNav();
     renderHUD();
   } else if (res.reason === 'cost') {
-    toast('Faltam Crédulos. 👁');
+    toast('Faltam Mentes. 🧠');
   }
 }
 
@@ -616,7 +670,7 @@ function decideZap(approve) {
   const r = res.reward || {};
   const bits = [];
   bits.push(res.correct ? `✅ Certeiro! Streak ×${state.zapStreak}` : '⛔ Errou. Streak zerado.');
-  if (r.credits && !r.credits.isZero()) bits.push(`+${fmt(r.credits)} 👁`);
+  if (r.credits && !r.credits.isZero()) bits.push(`+${fmt(r.credits)} 🧠`);
   if (r.chumbo) bits.push(`+${r.chumbo} 🥫`);
   toast(bits.join(' · '));
   nextZap();
@@ -637,7 +691,7 @@ function renderLodge() {
 
 function openGiantBomb() {
   const gained = Prestige.convictosFrom(state.lifetimeCredits, state.prestigeParams(), state.convictos);
-  $('prestige-gain').textContent = `+${gained} Convictos 👁‍🗨`;
+  $('prestige-gain').textContent = `+${gained} Convictos 🙇`;
   $('prestige-confirm').disabled = gained <= 0;
   $('prestige-modal').classList.remove('hidden');
 }
@@ -741,7 +795,7 @@ function renderShop() {
   // melhorias das MISSÕES DO MAPA ATIVO (paridade: cada missão tem sua melhoria ×3)
   for (const def of state.producerList()) {
     const lvl = state.upgradeLevelOf(def.id);
-    const cfg = config.upgrades?.perProducer?.find((u) => u.slot === def.slot) || null;
+    const cfg = state._producerUpgradeDef(def.id) || null;
     const costs = cfg ? cfg.costs : [25000, 5e7, 2.5e11, 1.25e15, 6.25e18];
     const mult = cfg ? cfg.mult : 3;
     const maxed = lvl >= costs.length;
@@ -749,7 +803,7 @@ function renderShop() {
     row.appendChild(el('div', 'mgr-icon', def.icon || '🛠'));
     const info = el('div', 'mgr-info');
     info.appendChild(el('div', 'mgr-name', `${def.name}`));
-    info.appendChild(el('div', 'mgr-target', maxed ? 'nível máximo' : `nível ${lvl}/${costs.length} · próximo: ×${mult} por ${fmt(big(costs[lvl]))} 👁`));
+    info.appendChild(el('div', 'mgr-target', maxed ? 'nível máximo' : `nível ${lvl}/${costs.length} · próximo: ×${mult} por ${fmt(big(costs[lvl]))} 🧠`));
     row.appendChild(info);
     if (!maxed) {
       const b = el('button', 'mini-btn hire', 'MELHORAR');
@@ -777,11 +831,11 @@ function renderShopClicks() {
     row.appendChild(el('div', 'mgr-icon', '👆'));
     const info = el('div', 'mgr-info');
     info.appendChild(el('div', 'mgr-name', `Toque: ${current.name}`));
-    info.appendChild(el('div', 'mgr-target', `poder ${fmt(state.clickPower())} 👁/toque`));
+    info.appendChild(el('div', 'mgr-target', `poder ${fmt(state.clickPower())} 🧠/toque`));
     row.appendChild(info);
     if (next) {
       const cost = big(next.cost);
-      info.appendChild(el('div', 'mgr-target', `próximo: “${next.name}” por ${fmt(cost)} 👁`));
+      info.appendChild(el('div', 'mgr-target', `próximo: “${next.name}” por ${fmt(cost)} 🧠`));
       const b = el('button', 'mini-btn hire', 'UPGRADE');
       b.disabled = state.credits.lt(cost);
       b.onclick = () => {
@@ -800,7 +854,7 @@ function renderClickUpgrade() {
   const next = state.nextClickLevel();
   if (current) {
     $('click-lvl-name').textContent = current.name;
-    $('click-lvl-power').textContent = `poder: ${fmt(state.clickPower())} 👁`;
+    $('click-lvl-power').textContent = `poder: ${fmt(state.clickPower())} 🧠`;
   }
   if (next) {
     const cost = big(next.cost);
@@ -911,8 +965,8 @@ function watchAd(kind) {
   SFX.stamp();
   Analytics.track('rewarded_complete', { placement: kind, simulated: true });
   switch (kind) {
-    case 'warp2': { const g = state.productionPerSecond().scale(WARP2_SECONDS); state.credits = state.credits.add(g); state.lifetimeCredits = state.lifetimeCredits.add(g); toast(`Buraco de Minhoca: +${fmt(g)} 👁`); break; }
-    case 'warp4': { const g = state.productionPerSecond().scale(WARP4_SECONDS); state.credits = state.credits.add(g); state.lifetimeCredits = state.lifetimeCredits.add(g); toast(`Buraco XL: +${fmt(g)} 👁`); break; }
+    case 'warp2': { const g = state.productionPerSecond().scale(WARP2_SECONDS); state.credits = state.credits.add(g); state.lifetimeCredits = state.lifetimeCredits.add(g); toast(`Buraco de Minhoca: +${fmt(g)} 🧠`); break; }
+    case 'warp4': { const g = state.productionPerSecond().scale(WARP4_SECONDS); state.credits = state.credits.add(g); state.lifetimeCredits = state.lifetimeCredits.add(g); toast(`Buraco XL: +${fmt(g)} 🧠`); break; }
     case 'x5': state.applyBoost(5, 260); toast('Viral de 5× ativo por 260s! ⚡'); break;
     case 'double': loyaltyBump = 50; toast('+50% de Convictos no próximo Despertar! 👥'); break;
   }
@@ -1032,7 +1086,7 @@ function renderHUD() {
   $('credits').textContent = fmt(state.credits);
   $('chumbo').textContent = String(state.chumbo);
   $('convictos').textContent = String(state.convictos);
-  $('pps').textContent = `${fmt(state.productionPerSecond())} 👁/s`;
+  $('pps').textContent = `${fmt(state.productionPerSecond())} 🧠/s`;
   $('combo').textContent = `viral ×${state.viralMultiplier(performance.now()).toFixed(1)}`;
   // cronômetro de boost
   const rem = state.boostRemaining();

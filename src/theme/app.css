@@ -74,6 +74,32 @@ html, body {
 }
 .phone-ring { display: inline-block; }
 #phone-btn.ringing .phone-ring { animation: ring .5s ease-in-out 0s 6; }
+.brain-ico { display: inline-flex; align-items: center; filter: drop-shadow(0 1px 1px rgba(0,0,0,.5)); }
+
+/* ===================== Faixa de mapas (§81-§84) ===================== */
+#map-strip {
+  display: flex; align-items: stretch; gap: 6px; flex-shrink: 0;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding: 4px; box-shadow: var(--shadow);
+}
+#map-strip .map-arrow {
+  flex: 0 0 40px; border: none; border-radius: 9px;
+  background: rgba(57,255,156,.10); color: var(--green-neon);
+  font-size: 16px; font-weight: 900; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+}
+#map-strip .map-arrow.locked { opacity: .35; filter: grayscale(1); }
+.map-strip-main {
+  flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 8px;
+  background: linear-gradient(90deg, rgba(0,0,0,.25), rgba(0,0,0,.05), rgba(0,0,0,.25));
+  border: 1px solid var(--line); border-top: 3px solid var(--pc, var(--gold));
+  border-radius: 10px; color: var(--paper); cursor: pointer; padding: 5px 10px;
+}
+.map-strip-ico { font-size: 24px; line-height: 1; filter: drop-shadow(0 2px 3px rgba(0,0,0,.5)); }
+.map-strip-text { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+#map-strip-name { font-weight: 900; font-size: 14px; letter-spacing: .5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+#map-strip-sub { font-size: 10.5px; color: var(--green-neon); font-weight: 700; }
+#map-strip.hidden { display: none; }
 @keyframes ring {
   0%,100% { transform: rotate(0); }
   20% { transform: rotate(-18deg); }
