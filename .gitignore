@@ -1,0 +1,70 @@
+# ============================================================
+# O GIGANTE DESPERTOU — .gitignore
+# ============================================================
+
+# ---- Unity (produção futura) ----
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]serSettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+*.csproj
+*.sln
+*.user
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+sysinfo.txt
+.stackdump
+crashlytics-build.properties
+
+# ---- Credenciais / segredos (NUNCA commitar) ----
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+*.mobileprovision
+*.provisionprofile
+/google-services.json
+/GoogleService-Info.plist
+secrets/
+*.env
+.env*
+config/local*.json
+
+# ---- Node ----
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+.npm/
+.yarn/
+.pnp.*
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.iml
+
+# ---- Saídas geradas ----
+/dist/
+/out/
+/target/
+*.log
+sim/report.html
