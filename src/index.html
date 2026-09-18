@@ -2,68 +2,168 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#0E2A1C" />
   <title>O GIGANTE DESPERTOU 👁</title>
   <link rel="stylesheet" href="theme/app.css" />
 </head>
 <body>
   <div id="app">
-    <!-- ===== TOP HUD (§66, §65) ===== -->
+    <!-- ===== TOP HUD (§65/§66) ===== -->
     <header id="hud">
-      <div id="hud-left">
-        <div class="chip currency" title="Crédulos">
-          <span class="ico">👁</span><span id="credits">0</span>
-        </div>
-        <div class="chip currency" title="Convictos (prestígio)">
-          <span class="ico">👁‍🗨</span><span id="chumbo">0</span>
-        </div>
+      <div class="chip currency big" title="Crédulos (moeda principal)">
+        <span class="ico">👁</span><span id="credits">0</span>
       </div>
-      <div id="hud-right">
-        <div class="chip stat" title="produção por segundo">
-          <span id="pps">0 👁/s</span>
-        </div>
-        <div class="chip stat" title="Engajamento Viral">
-          <span id="combo">viral ×1,0</span>
-        </div>
+      <div class="chip currency" title="Chumbo (moeda premium)">
+        <span class="ico">🥫</span><span id="chumbo">0</span>
+      </div>
+      <div class="chip currency" title="Convictos (prestígio)">
+        <span class="ico">👁‍🗨</span><span id="convictos">0</span>
+      </div>
+      <div class="chip stat" title="produção por segundo">
+        <span id="pps">0 👁/s</span>
       </div>
     </header>
 
-    <!-- ===== ZONA DE AÇÃO PRINCIPAL (§22) ===== -->
-    <section id="click-panel">
-      <button id="click-zone" aria-label="Compartilhar no Zap">
-        <span class="phone-ico">📱</span>
-        <span class="click-title">COMPARTILHAR NO ZAP</span>
-        <span class="click-sub">encaminhar → convencer → dominar</span>
-      </button>
-      <div id="click-upgrade" class="hidden">
-        <div class="upgrade-current">
-          <span id="click-lvl-name">Dedo Cansado</span>
-          <span id="click-lvl-power">poder: 1 👁</span>
-        </div>
-        <div class="upgrade-next">
-          <span id="click-next-name">→ Upgrade</span>
-          <button id="click-buy" class="buy-btn big" disabled>
-            <span id="click-next-cost">0</span>
+    <!-- ===== TELAS (§74) ===== -->
+    <main id="screens">
+      <!-- 1. Sede Secreta -->
+      <section id="screen-sede" class="screen active">
+        <div id="click-panel">
+          <button id="click-zone" aria-label="Compartilhar no Zap">
+            <span class="phone-ico">📱</span>
+            <span class="click-title">COMPARTILHAR NO ZAP</span>
+            <span class="click-sub">encaminhar → convencer → dominar</span>
           </button>
+          <div id="combo" class="combo-chip">viral ×1,0</div>
         </div>
-      </div>
-    </section>
+        <div id="click-upgrade" class="upgrade-strip hidden">
+          <div class="up-expand"></div>
+          <div class="upgrade-current">
+            <span id="click-lvl-name">Dedo Cansado</span>
+            <span id="click-lvl-power">poder: 1 👁</span>
+          </div>
+          <div class="upgrade-next">
+            <span id="click-next-name">→ Upgrade</span>
+            <button id="click-buy" class="buy-btn big" disabled><span id="click-next-cost">0</span></button>
+          </div>
+        </div>
+        <div id="sede-producers">
+          <div class="list-head">
+            <span>PRODUTORES</span>
+            <button id="buy-all-btn" class="mini-btn" title="Comprar tudo (Zé do Chapéu de Alumínio)">👔 comprar tudo</button>
+          </div>
+          <div id="producers" aria-label="Produtores"></div>
+        </div>
+      </section>
 
-    <!-- ===== LISTA DE PRODUTORES (§66, §325) ===== -->
-    <section id="producers" aria-label="Produtores"></section>
+      <!-- 2. Coordenadores -->
+      <section id="screen-managers" class="screen">
+        <h2 class="screen-title">🧑‍💼 COORDENADORES</h2>
+        <p class="screen-sub">Automatizam seus produtores. Sem eles, o lucro fica pronto para você coletar.</p>
+        <div id="managers-list" class="list"></div>
+        <button id="buy-zé" class="btn-accent block" onclick="window.__buyZe()">👔 Zé do Chapéu de Alumínio — comprar tudo (10 Convictos)</button>
+      </section>
 
-    <!-- ===== DOCK INFERIOR (§75) ===== -->
+      <!-- 3. Laboratório de Sósias -->
+      <section id="screen-clones" class="screen">
+        <h2 class="screen-title">🧪 LABORATÓRIO DE SÓSIAS</h2>
+        <p class="screen-sub">Cada sósia multiplica um produtor. Duplicatas viram Puxa-Sacos (+1% global cada).</p>
+        <div id="clone-rates" class="rates"></div>
+        <button id="clone-open" class="btn-accent block">🧬 ABRIR TANQUE — <span id="clone-cost">15</span> 🥫</button>
+        <div id="clone-pity" class="pity">Pity: Raro garantido a cada 25 aberturas</div>
+        <div id="clones-list" class="grid"></div>
+      </section>
+
+      <!-- 4. Zap Vazado -->
+      <section id="screen-zap" class="screen">
+        <h2 class="screen-title">🕵️ ZAP VAZADO</h2>
+        <p class="screen-sub">Notícias duvidosas caem na sua mesa. Aprove as úteis e negue as que queimam o filme. Recompensa em Crédulos e Chumbo.</p>
+        <div class="zap-meter"><div id="zap-desconfianca" style="width:0%"></div></div>
+        <div class="zap-card" id="zap-card">
+          <div id="zap-sender" class="zap-sender"></div>
+          <p id="zap-text" class="zap-text"></p>
+        </div>
+        <div id="zap-buttons" class="zap-actions hidden">
+          <button id="zap-approve" class="btn-approve">✅ APROVAR</button>
+          <button id="zap-deny" class="btn-deny">⛔ NEGAR</button>
+        </div>
+      </section>
+
+      <!-- 5. Maçonaria Nacional -->
+      <section id="screen-lodge" class="screen">
+        <h2 class="screen-title">🏛️ MAÇONARIA NACIONAL</h2>
+        <p class="screen-sub">Onde o Chefe mede seus lucros e decide se já pode acordar o Gigante.</p>
+        <div class="stats-card">
+          <div class="stat-row"><span>Crédulos na vida</span><b id="stat-life">0</b></div>
+          <div class="stat-row"><span>Crédulos agora</span><b id="stat-credits">0</b></div>
+          <div class="stat-row"><span>Produção / segundo</span><b id="stat-pps">0</b></div>
+          <div class="stat-row"><span>Convictos acumulados</span><b id="stat-convictos">0</b></div>
+          <div class="stat-row"><span>Poder do toque</span><b id="stat-power">1</b></div>
+          <div class="stat-row"><span>Puxa-Sacos</span><b id="stat-puxasacos">0</b></div>
+        </div>
+        <div class="upgrades-head">MELHORIAS GLOBAIS</div>
+        <div id="global-upgrades" class="list"></div>
+      </section>
+
+      <!-- 6. Loja de Melhorias -->
+      <section id="screen-shop" class="screen">
+        <h2 class="screen-title">🛒 LOJA DE MELHORIAS</h2>
+        <p class="screen-sub">Compre melhorias para um produtor e veja sua produção explodir (×3 por nível).</p>
+        <div id="shop-charge" class="shop-charge hidden">
+          <span>MELHORANDO:</span> <b id="shop-target">—</b>
+        </div>
+        <div id="shop-list" class="list"></div>
+        <div class="upgrades-head">MELHORIAS DE TOQUE</div>
+        <div id="shop-clicks" class="list"></div>
+      </section>
+
+      <!-- 7. Mapa da Dominação -->
+      <section id="screen-map" class="screen">
+        <h2 class="screen-title">🗺️ MAPA DA DOMINAÇÃO</h2>
+        <p class="screen-sub">Quatro fases de pura teoria. Progrida por lucro vitalício.</p>
+        <div id="map-list" class="grid"></div>
+      </section>
+
+      <!-- 8. Loja de Chumbo -->
+      <section id="screen-lead" class="screen">
+        <h2 class="screen-title">🥫 LOJA DE CHUMBO</h2>
+        <p class="screen-sub">Moeda premium para o Laboratório e benefícios. (IAP simulado — ambiente de desenvolvimento.)</p>
+        <div id="lead-packs" class="list"></div>
+      </section>
+
+      <!-- 9. Arquivo Secreto -->
+      <section id="screen-archive" class="screen">
+        <h2 class="screen-title">🗄️ ARQUIVO SECRETO</h2>
+        <p class="screen-sub">Conquistas. Conclua feitos para marcar território.</p>
+        <div id="archive-list" class="list"></div>
+      </section>
+    </main>
+
+    <!-- ===== DOCK (§75) ===== -->
     <nav id="dock">
-      <button id="prestige-btn" class="dock-btn" title="Despertar o Gigante">🌋<span>Prestígio</span></button>
-      <button id="sound-toggle" class="dock-btn" title="Som">🔊<span>Som</span></button>
-      <div class="dock-sep"></div>
-      <div id="format-group">
-        <button id="format-full" class="fmt">completo</button>
-        <button id="format-short" class="fmt active">abrev.</button>
-        <button id="format-sci" class="fmt">cient.</button>
-      </div>
+      <button class="dock-btn active" data-screen="screen-sede"><span class="d-ico">🏢</span><span>HQ</span></button>
+      <button class="dock-btn" data-screen="screen-managers"><span class="d-ico">🧑‍💼</span><span>Chefes</span></button>
+      <button class="dock-btn" data-screen="screen-clones"><span class="d-ico">🧪</span><span>Sósias</span></button>
+      <button class="dock-btn" data-screen="screen-zap"><span class="d-ico">🕵️</span><span>Zap</span></button>
+      <button class="dock-btn" data-screen="screen-lodge"><span class="d-ico">🌋</span><span>Gigante</span></button>
+      <button class="dock-btn more" data-screen="screen-menu"><span class="d-ico">☰</span><span>Mais</span></button>
     </nav>
+
+    <!-- ===== MENU "MAIS" (§76) ===== -->
+    <div id="menu-sheet" class="sheet hidden">
+      <div class="sheet-head"><span>MAIS</span><button id="menu-close" class="mini-btn">✕</button></div>
+      <div class="sheet-grid">
+        <button class="sheet-btn" data-screen="screen-shop"><span>🛒</span>Melhorias</button>
+        <button class="sheet-btn" data-screen="screen-map"><span>🗺️</span>Mapa</button>
+        <button class="sheet-btn" data-screen="screen-lead"><span>🥫</span>Chumbo</button>
+        <button class="sheet-btn" data-screen="screen-archive"><span>🗄️</span>Arquivo</button>
+        <button class="sheet-btn" id="sound-toggle"><span id="sound-ico">🔊</span>Som</button>
+        <button class="sheet-btn" id="format-btn"><span>🔢</span><span id="format-label">abrev.</span></button>
+        <button class="sheet-btn" id="prestige-btn"><span>🌋</span>Despertar</button>
+        <button class="sheet-btn danger" id="reset-btn"><span>🗑️</span>Resetar</button>
+      </div>
+    </div>
 
     <!-- ===== MODAIS ===== -->
     <div id="offline-report" class="modal hidden">
@@ -80,7 +180,7 @@
     <div id="prestige-modal" class="modal hidden">
       <div class="modal-card">
         <h2>🌋 Despertar o Gigante</h2>
-        <p class="warn">Tem certeza que quer acordar esse negócio? Você perderá o progresso da operação.</p>
+        <p class="warn">Você perderá crédulos, produtores, coordenadores e melhorias desta operação. Sósias, Chumbo e Convictos são preservados.</p>
         <p class="gain" id="prestige-gain">+0 Convictos</p>
         <div class="modal-actions">
           <button id="prestige-confirm" class="btn-accent" onclick="window.__confirmPrestige()">DESPERTAR</button>
@@ -89,11 +189,24 @@
       </div>
     </div>
 
+    <div id="clone-modal" class="modal hidden">
+      <div class="modal-card center">
+        <div id="clone-reveal-rarity" class="reveal-rarity">COMUM</div>
+        <div id="clone-reveal-icon" class="reveal-icon">🕵️</div>
+        <h2 id="clone-reveal-name">Sósia</h2>
+        <p id="clone-reveal-line"></p>
+        <p id="clone-reveal-eff" class="gain"></p>
+        <div class="modal-actions">
+          <button class="btn-accent" onclick="window.__closeClone()">MASSA! 🤝</button>
+        </div>
+      </div>
+    </div>
+
     <div id="toast" class="toast"></div>
     <div id="save-flash" class="save-flash">● salvo</div>
 
     <footer id="satire-note">
-      Este jogo é uma obra de ficção e sátira. Teorias, organizações e acontecimentos apresentados fazem parte de um universo humorístico e não devem ser interpretados como fatos.
+      Este jogo é uma obra de ficção e sátira. Nomes, organizações, teorias e acontecimentos aqui retratados são fictícios e humorísticos; não devem ser interpretados como fatos.
     </footer>
   </div>
   <script type="module" src="app.js"></script>
