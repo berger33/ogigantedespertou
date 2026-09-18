@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0E2A1C" />
+  <title>O GIGANTE DESPERTOU 👁</title>
+  <link rel="stylesheet" href="theme/app.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- ===== TOP HUD (§66, §65) ===== -->
+    <header id="hud">
+      <div id="hud-left">
+        <div class="chip currency" title="Crédulos">
+          <span class="ico">👁</span><span id="credits">0</span>
+        </div>
+        <div class="chip currency" title="Convictos (prestígio)">
+          <span class="ico">👁‍🗨</span><span id="chumbo">0</span>
+        </div>
+      </div>
+      <div id="hud-right">
+        <div class="chip stat" title="produção por segundo">
+          <span id="pps">0 👁/s</span>
+        </div>
+        <div class="chip stat" title="Engajamento Viral">
+          <span id="combo">viral ×1,0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== ZONA DE AÇÃO PRINCIPAL (§22) ===== -->
+    <section id="click-panel">
+      <button id="click-zone" aria-label="Compartilhar no Zap">
+        <span class="phone-ico">📱</span>
+        <span class="click-title">COMPARTILHAR NO ZAP</span>
+        <span class="click-sub">encaminhar → convencer → dominar</span>
+      </button>
+      <div id="click-upgrade" class="hidden">
+        <div class="upgrade-current">
+          <span id="click-lvl-name">Dedo Cansado</span>
+          <span id="click-lvl-power">poder: 1 👁</span>
+        </div>
+        <div class="upgrade-next">
+          <span id="click-next-name">→ Upgrade</span>
+          <button id="click-buy" class="buy-btn big" disabled>
+            <span id="click-next-cost">0</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LISTA DE PRODUTORES (§66, §325) ===== -->
+    <section id="producers" aria-label="Produtores"></section>
+
+    <!-- ===== DOCK INFERIOR (§75) ===== -->
+    <nav id="dock">
+      <button id="prestige-btn" class="dock-btn" title="Despertar o Gigante">🌋<span>Prestígio</span></button>
+      <button id="sound-toggle" class="dock-btn" title="Som">🔊<span>Som</span></button>
+      <div class="dock-sep"></div>
+      <div id="format-group">
+        <button id="format-full" class="fmt">completo</button>
+        <button id="format-short" class="fmt active">abrev.</button>
+        <button id="format-sci" class="fmt">cient.</button>
+      </div>
+    </nav>
+
+    <!-- ===== MODAIS ===== -->
+    <div id="offline-report" class="modal hidden">
+      <div class="modal-card">
+        <h2>📄 Enquanto você sumiu…</h2>
+        <p id="offline-text"></p>
+        <div class="modal-actions">
+          <button id="offline-double" class="btn-accent">DUPLICAR RELATÓRIO</button>
+          <button id="offline-close" class="btn-ghost">fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="prestige-modal" class="modal hidden">
+      <div class="modal-card">
+        <h2>🌋 Despertar o Gigante</h2>
+        <p class="warn">Tem certeza que quer acordar esse negócio? Você perderá o progresso da operação.</p>
+        <p class="gain" id="prestige-gain">+0 Convictos</p>
+        <div class="modal-actions">
+          <button id="prestige-confirm" class="btn-accent" onclick="window.__confirmPrestige()">DESPERTAR</button>
+          <button class="btn-ghost" onclick="window.__closePrestige()">ainda não</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <div id="save-flash" class="save-flash">● salvo</div>
+
+    <footer id="satire-note">
+      Este jogo é uma obra de ficção e sátira. Teorias, organizações e acontecimentos apresentados fazem parte de um universo humorístico e não devem ser interpretados como fatos.
+    </footer>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

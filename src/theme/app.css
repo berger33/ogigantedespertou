@@ -1,0 +1,235 @@
+/* ============================================================
+   O GIGANTE DESPERTOU — tema "OS clandestino" (spec §112)
+   Paleta: ART_BIBLE §13. Cromo visível do PLAYABLE CORE.
+   ============================================================ */
+:root {
+  --ink: #16130F;
+  --paper: #F2E9D0;
+  --green-deep: #0E2A1C;
+  --green-mid: #14532D;
+  --green-neon: #39FF9C;
+  --stamp: #B3261E;
+  --gold: #D4AF37;
+  --alert: #F5A623;
+  --muted: #7A7A6E;
+  --line: rgba(22,19,15,.18);
+  --card: #FBF5E6;
+  --shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0; padding: 0;
+  height: 100%;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(57,255,156,.08), transparent 55%),
+    repeating-linear-gradient(0deg, rgba(22,19,15,.03) 0 1px, transparent 1px 22px),
+    var(--green-deep);
+  color: var(--paper);
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top) 10px env(safe-area-inset-bottom);
+  gap: 8px;
+}
+
+/* ---------- HUD ---------- */
+#hud {
+  display: flex; justify-content: space-between; gap: 8px;
+  padding: 6px 4px;
+}
+#hud-left, #hud-right { display: flex; gap: 6px; }
+.chip {
+  background: rgba(11,22,16,.55);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 5px 9px;
+  display: flex; align-items: center; gap: 5px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  box-shadow: var(--shadow);
+}
+.chip .ico { filter: drop-shadow(0 1px 1px rgba(0,0,0,.5)); }
+.chip.stat { font-size: 12.5px; font-weight: 600; color: var(--green-neon); }
+
+/* ---------- Zona de ação ---------- */
+#click-panel { position: relative; flex: 0 0 148px; }
+#click-zone {
+  width: 100%; height: 100%;
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 50% 120%, rgba(57,255,156,.25), transparent 60%),
+    linear-gradient(160deg, #123A24, #0B1F15);
+  color: var(--paper);
+  cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  box-shadow: inset 0 0 40px rgba(57,255,156,.08), var(--shadow);
+  transition: transform .06s ease;
+  touch-action: manipulation;
+}
+#click-zone:active { transform: scale(.965); }
+#click-zone .phone-ico { font-size: 40px; filter: drop-shadow(0 3px 6px rgba(0,0,0,.5)); }
+#click-zone .click-title { font-size: 19px; font-weight: 900; letter-spacing: 2px; }
+#click-zone .click-sub { font-size: 12px; opacity: .7; }
+
+#click-upgrade {
+  position: absolute; left: 10px; right: 10px; bottom: 8px;
+  background: rgba(14,42,28,.88);
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  padding: 6px 10px;
+  display: flex; justify-content: space-between; align-items: center; gap: 6px;
+  font-size: 12.5px;
+}
+.upgrade-current { display: flex; flex-direction: column; }
+.upgrade-current span:first-child { font-weight: 800; }
+.upgrade-next { display: flex; align-items: center; gap: 8px; }
+
+/* ---------- Produtores ---------- */
+#producers {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 8px;
+  padding-bottom: 6px;
+  padding-right: 2px;
+}
+.producer {
+  background: var(--card);
+  color: var(--ink);
+  border-radius: 12px;
+  padding: 9px 10px;
+  display: flex; flex-direction: column; gap: 6px;
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--gold);
+  position: relative;
+}
+.producer-name { font-weight: 800; font-size: 14.5px; }
+.producer-owned { font-size: 12px; color: var(--muted); }
+.producer-owned b { color: var(--ink); }
+.milestone { color: var(--stamp); font-weight: 800; }
+.producer-flavor { font-size: 11px; color: var(--muted); font-style: italic; }
+.producer-actions { display: flex; gap: 5px; flex-wrap: wrap; }
+
+.buy-btn {
+  flex: 1 1 auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 4px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.1;
+  display: flex; flex-direction: column;
+  cursor: pointer;
+  color: var(--ink);
+}
+.buy-btn span { font-size: 10.5px; color: var(--muted); font-weight: 600; }
+.buy-btn:disabled { opacity: .45; cursor: default; }
+.buy-btn.big { padding: 8px 12px; font-size: 14px; }
+
+/* ---------- Dock ---------- */
+#dock {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(11,22,16,.6);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 7px 10px;
+}
+.dock-btn {
+  display: flex; flex-direction: column; align-items: center;
+  background: none; border: none; color: var(--paper);
+  font-size: 10.5px; font-weight: 700; cursor: pointer; gap: 2px;
+}
+.dock-btn.off { opacity: .4; }
+.dock-sep { flex: 1; }
+#format-group { display: flex; gap: 4px; }
+.fmt {
+  background: none; border: 1px solid var(--line); color: var(--muted);
+  border-radius: 8px; padding: 5px 7px; font-size: 11px; cursor: pointer;
+}
+.fmt.active { color: var(--ink); background: var(--gold); border-color: var(--gold); font-weight: 800; }
+
+/* ---------- Modais ---------- */
+.modal {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50; padding: 22px;
+}
+.modal-card {
+  background: var(--card); color: var(--ink);
+  border-radius: 16px; max-width: 360px; width: 100%;
+  padding: 18px; box-shadow: 0 10px 40px rgba(0,0,0,.5);
+  border: 2px solid var(--gold);
+}
+.modal-card h2 { margin: 0 0 8px; font-size: 20px; }
+.modal-card .warn { color: var(--stamp); font-size: 13.5px; }
+.modal-card .gain { font-size: 20px; font-weight: 900; color: var(--green-mid); }
+.modal-actions { display: flex; gap: 8px; margin-top: 12px; }
+.btn-accent {
+  background: var(--stamp); color: #fff; border: none; border-radius: 10px;
+  padding: 11px 14px; font-weight: 900; cursor: pointer; flex: 1;
+}
+.btn-ghost {
+  background: none; border: 1px solid var(--line); border-radius: 10px;
+  padding: 10px 12px; cursor: pointer; color: var(--ink);
+}
+
+/* ---------- Toast / save flash ---------- */
+.toast {
+  position: fixed; left: 50%; bottom: 92px; transform: translateX(-50%) translateY(20px);
+  background: var(--ink); color: var(--green-neon); padding: 10px 16px;
+  border-radius: 999px; font-weight: 700; opacity: 0; pointer-events: none;
+  transition: all .25s ease; z-index: 60; font-size: 13.5px;
+  box-shadow: var(--shadow);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.save-flash {
+  position: fixed; top: 10px; right: 12px; color: var(--green-neon); font-size: 11px;
+  opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 60;
+}
+.save-flash.show { opacity: 1; }
+
+/* ---------- Floaters / VFX ---------- */
+.floater {
+  position: absolute; font-weight: 900; pointer-events: none;
+  animation: floatUp .8s ease-out forwards; z-index: 40;
+  text-shadow: 0 1px 2px rgba(0,0,0,.4);
+}
+.floater.credit { color: var(--green-neon); font-size: 15px; }
+.floater.buy { color: var(--alert); font-size: 13px; }
+.phone {
+  position: absolute; font-size: 18px; pointer-events: none;
+  animation: fly .55s ease-out forwards; z-index: 41;
+}
+@keyframes floatUp {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(-46px) scale(1.1); }
+}
+@keyframes fly {
+  from { opacity: 1; transform: translate(0,0) rotate(0); }
+  to { opacity: 0; transform: translate(-22px,-60px) rotate(-25deg); }
+}
+
+/* ---------- Rodapé satírico ---------- */
+#satire-note {
+  font-size: 10px; color: var(--muted); text-align: center; line-height: 1.4;
+  padding: 3px 8px;
+}
+
+.hidden { display: none !important; }
+
+/* scrollbar discreta */
+#producers::-webkit-scrollbar { width: 5px; }
+#producers::-webkit-scrollbar-thumb { background: rgba(57,255,156,.25); border-radius: 4px; }
