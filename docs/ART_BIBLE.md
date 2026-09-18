@@ -55,7 +55,8 @@ cabos, antenas, OVNIs, cofres, roteador suspeito, gráficos de barbante.
 
 ## 5. Personagens & coordenadores (§108)
 
-- **12 bustos** de Coordenadores + variantes cosméticas de fase quando necessário
+- **40 bustos** de Coordenadores (um por missão; 4 mapas × 10) + variantes
+  cosméticas quando necessário.
   (4 variantes max).
 - Estados de expressão: `idle`, `feliz`, `suspeito`, `surpreso` (animação idle própria).
 - Silhueta + paleta exclusivas por personagem (reconhecíveis em thumb).
@@ -79,7 +80,10 @@ base verde/creme.
 
 ## 7. Produtores (48 ícones/mini-cenas §110) e backgrounds (§111)
 
-- 48 mini-cenas legíveis em celular (12 por fase, mesma posição lógica §27).
+- 40 mini-cenas/mappings de missão legíveis em celular (10 por mapa, mesma
+  posição lógica §27), com 2 estados de animação (parado/funcionando) por cena.
+  Cenas de animação: 1º nível FULL (render/vídeo), 1º marco GOOD-ENOUGH
+  (trilhas 2.5D vazias + recortes).
 - Backgrounds mínimos: Deep Web HQ, Democracia Relativa HQ, Ratanabá HQ, Religião HQ, Lab,
   Maçonaria, Arquivo, Mapa (8+ esquemas de fundo §111).
 
@@ -126,7 +130,7 @@ Haptics moderados (clique grande, Sósia raro, prestige); sempre configurável/d
 ## 11. Nomenclatura de assets (§223)
 
 `TIPO_SISTEMA_ID` — ex.: `CHR_Manager_01`, `CHR_Alu_Zé`, `PRD_Phase1_01`,
-`UI_Currency_Credulos`, `VFX_Click_Viral`, `BGM_HQ_01`, `SFX_Stamp_Upgrade`.
+`UI_Currency_Mentes`, `VFX_Click_Viral`, `BGM_HQ_01`, `SFX_Stamp_Upgrade`.
 
 ---
 
