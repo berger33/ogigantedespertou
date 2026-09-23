@@ -70,6 +70,15 @@ desenho É o poster). Lint novo **Q8_smoothness**: max Δ entre desenhos consecu
 Keyframe reprovado no QA de frames (ex.: k05) é **excluído da sequência** — o tween entre
 os vizinhos cobre o beat, e o quadro é regenerado por IA na rodada seguinte.
 
+### 4.1.1 Auditoria do dono (2ª rodada) — correções no tween (v3)
+
+| Achado | Causa raiz | Correção |
+|---|---|---|
+| "Ponteiro bagunçado, não sobe de forma contínua" | o template matching **traduzia** o ponteiro (que na verdade **gira**) → dois ponteiros fantasmas interpolados + vai-e-vem | `tween.json → crossfade_rects`: zona do mostrador faz **crossfade puro**; arco contínuo garantido por **keyframe IA intermediário (k05b)** — rotação sobe em 2 estágios |
+| "Gotas caindo aparecem acima de onde deveriam" | *motion trail duplo*: o elemento de A avançava E o de B recuava → cópias no caminho de volta | **Pareamento 1:1 com caminho único**: só o elemento de A viaja A→B e some; elemento sem par faz fade **no lugar** |
+
+Resultado medido: 51 desenhos, Δ médio 1,34, emenda do loop 0,0, 10/10 lints.
+
 ## 5. Especificação de entrega (por missão)
 
 | Item | Valor |

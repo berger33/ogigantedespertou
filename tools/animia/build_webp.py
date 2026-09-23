@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-tools/animia/build_webp.py — entrega v6.1: loop SUAVE (poses IA + tweens).
+tools/animia/build_webp.py — entrega v6.1: loop SUAVE (poses IA + tweens v3).
 
-  * sequência = Q01, 4 tweens, Q02, 4 tweens, … Q10  (41 desenhos @ ~122 ms)
+  * sequência = keyframes em ordem natural (k01=poster, k02…kNN, suporta
+    intermediários como k05b) com 4 tweens entre cada par (pareamento 1:1,
+    caminho único, zonas de crossfade via tween.json)
   * loop.webp (5 s, loop=0) + frames/ff_XX.webp + contact.png + meta.json
   * QA integrado: Q8_smoothness = max Δ entre desenhos consecutivos ≤ 12
+  * keyframes reprovados no qa.json (Q5) saem da sequência
 
 Uso: python3 tools/animia/build_webp.py --dir src/assets/anim/p5_02/v6
 """
 from __future__ import annotations
 import argparse
+import glob
 import json
 import os
+import re
 import sys
 
 import numpy as np
@@ -31,35 +36,39 @@ def _font(sz):
         return ImageFont.load_default()
 
 
-def load_keys(kdir: str) -> dict:
-    """Carrega Q01 (poster) + keyframes aprovados no qa.json (reprovados saem
-    da sequência — o tween entre vizinhos cobre o beat)."""
+def _natkey(path: str):
+    m = re.match(r"k(\d+)([a-z]?)*\.png$", os.path.basename(path))
+    return (int(m.group(1)), m.group(2) or "")
+
+
+def load_keys(kdir: str):
+    """Q01 = poster; depois todos k*.png em ordem natural, menos os reprovados."""
     poster = Image.open(os.path.join(kdir, "..", "poster.webp")).convert("RGB")
     keys = {"k01": np.asarray(poster.resize(SIZE, Image.LANCZOS), dtype=np.float32)}
-    qa = {}
+    bad = set()
     qap = os.path.join(kdir, "qa.json")
     if os.path.exists(qap):
         qa = json.load(open(qap))
-    bad = set()
-    if isinstance(qa.get("Q5_palette_shift"), dict) and not qa["Q5_palette_shift"]["ok"]:
-        bad.add(f"k{qa['Q5_palette_shift'].get('frame', -1):02d}")
-    for k in range(2, 11):
-        name = f"k{k:02d}"
+        q5 = qa.get("Q5_palette_shift", {})
+        if isinstance(q5, dict) and q5.get("ok") is False and q5.get("frame"):
+            bad.add(q5["frame"])  # nome do keyframe (ex.: 'k05b')
+    for p in sorted(glob.glob(os.path.join(kdir, "k*.png")), key=_natkey):
+        name = os.path.basename(p)[:-4]
         if name in bad:
             continue
-        p = os.path.join(kdir, f"{name}.png")
-        if os.path.exists(p):
-            keys[name] = np.asarray(Image.open(p).convert("RGB").resize(
-                SIZE, Image.LANCZOS), dtype=np.float32)
-    return keys
+        keys[name] = np.asarray(Image.open(p).convert("RGB").resize(
+            SIZE, Image.LANCZOS), dtype=np.float32)
+    return keys, sorted(bad)
 
 
 def build(kdir: str, quality: int = 78, n_tweens: int = 4) -> dict:
-    keys = load_keys(kdir)
-    seq = tween_mod.build_sequence(keys, n_tweens)
-    # o ciclo termina no ESTADO DO POSTER (o último desenho é o próprio Q01),
-    # então a emenda do loop fecha com delta 0
-    seq[-1] = np.clip(keys["k01"], 0, 255).astype(np.uint8)
+    cfg = {}
+    cj = os.path.join(kdir, "tween.json")
+    if os.path.exists(cj):
+        cfg = json.load(open(cj))
+    keys, excluded = load_keys(kdir)
+    seq = tween_mod.build_sequence(keys, n_tweens, cfg)
+    seq[-1] = np.clip(keys["k01"], 0, 255).astype(np.uint8)  # emenda = poster (Δ0)
     n = len(seq)
     durs = [round(5000 / n)] * n
     durs[-1] += 5000 - sum(durs)
@@ -87,27 +96,28 @@ def build(kdir: str, quality: int = 78, n_tweens: int = 4) -> dict:
         d.text((x + 5, y + th + 2), f"#{i:02d}", fill=(225, 228, 238), font=_font(12))
     sheet.save(os.path.join(kdir, "contact.png"))
 
-    # ---- Q8 smoothness: max Δ médio entre desenhos consecutivos ----
     lums = [f.mean(axis=2) for f in seq]
     deltas = [float(np.abs(lums[i + 1] - lums[i]).mean()) for i in range(n - 1)]
     q8 = dict(ok=max(deltas) <= 12, max_delta=round(max(deltas), 2),
               mean_delta=round(float(np.mean(deltas)), 2),
               wrap_delta=round(float(np.abs(lums[-1] - lums[0]).mean()), 2))
     qa = dict(Q8_smoothness=q8, n_drawings=n,
-              keys_used=sorted(keys), tween_per_pair=n_tweens)
+              keys_used=sorted(keys), keys_excluded=sorted(excluded),
+              tween_per_pair=n_tweens, tween_config=cfg)
     json.dump(qa, open(os.path.join(kdir, "qa_smooth.json"), "w"), indent=1)
 
     meta_path = os.path.join(kdir, "meta.json")
     meta = json.load(open(meta_path)) if os.path.exists(meta_path) else {}
-    meta.update({"version": "6.1", "method": "ai-keyframes+tween",
+    meta.update({"version": "6.1", "method": "ai-keyframes+tween-v3",
                  "duration_ms": 5000, "drawings": n, "step_ms": 5000 // n,
-                 "keys": sorted(keys), "tweens_per_pair": n_tweens,
-                 "smoothness": q8, "anchor": "../poster.webp"})
+                 "keys": sorted(keys), "keys_excluded": sorted(excluded),
+                 "tweens_per_pair": n_tweens, "smoothness": q8,
+                 "anchor": "../poster.webp"})
     json.dump(meta, open(meta_path, "w"), indent=1, ensure_ascii=False)
 
     return {"frames": n, "duration_ms": sum(durs),
             "loop_kb": round(os.path.getsize(loop_path) / 1024, 1),
-            "Q8": q8}
+            "keys": sorted(keys), "excluded": sorted(excluded), "Q8": q8}
 
 
 if __name__ == "__main__":

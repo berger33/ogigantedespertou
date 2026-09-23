@@ -1,7 +1,7 @@
 {
  "id": "p5_02",
  "version": "6.1",
- "method": "ai-keyframes+tween",
+ "method": "ai-keyframes+tween-v3",
  "duration_ms": 5000,
  "frames": 10,
  "drawing_ms": 500,
@@ -35,16 +35,17 @@
   "Q09 · cientista relaxa os braços (assentamento)",
   "Q10 · volta exata ao estado do Q01 (loop perfeito)"
  ],
- "gate2": "CANDIDATA v6.1 — 10/10 lints de quadro verdes + Q8 suavidade verde (41+ desenhos). Aguarda o dono assistir.",
+ "gate2": "Candidata v6.1-auditada — ponteiro contínuo e gotas em física correta. Aguarda o dono.",
  "qa_status": "10/10 (Q1–Q7) + Q8 suave",
- "drawings": 46,
- "step_ms": 108,
+ "drawings": 51,
+ "step_ms": 98,
  "keys": [
   "k01",
   "k02",
   "k03",
   "k04",
   "k05",
+  "k05b",
   "k06",
   "k07",
   "k08",
@@ -55,7 +56,22 @@
  "smoothness": {
   "ok": true,
   "max_delta": 8.71,
-  "mean_delta": 1.44,
+  "mean_delta": 1.34,
   "wrap_delta": 0.0
+ },
+ "keys_excluded": [],
+ "audit": {
+  "ronda": "pós-feedback do dono (2ª auditoria)",
+  "achados": [
+   "ponteiro 'bagunçado': tween traduzia elemento em ROTAÇÃO → ponteiros fantasmas e vai-e-vem",
+   "gotas 'acima de onde deveriam': motion trail duplo (A avança E B recua) duplicava elementos"
+  ],
+  "correções": [
+   "tween v3: pareamento 1:1 + caminho ÚNICO (A→B), sem trilha de retorno",
+   "elemento sem par faz fade no lugar (nunca viaja)",
+   "tween.json crossfade_rects: mostrador [420,75,525,180] — rotação vira crossfade puro",
+   "k05b (keyframe IA intermediário): ponteiro sobe em 2 estágios — arco contínuo"
+  ],
+  "resultado": "10/10 lints + Q8 (51 desenhos, média 1.34, emenda 0.0)"
  }
 }
