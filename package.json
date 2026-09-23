@@ -1,0 +1,16 @@
+{
+  "name": "ogigantedespertou",
+  "version": "0.1.0",
+  "private": true,
+  "description": "O GIGANTE DESPERTOU — idle clicker / incremental satírico brasileiro. Estrutura de produção, documentos, simulador de economia e núcleo jogável.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "sim": "node sim/simulate.js",
+    "serve": "python3 -m http.server 8000 --bind 0.0.0.0 --directory src",
+    "serve:node": "node tools/serve.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "_comment": "Progressão temática dos upgrades de clique (spec §26). Cada nível altera o poder do clique e um pequeno elemento visual.",
+  "levels": [
+    { "level": 1,  "name": "Dedo Cansado",            "cost": "0",      "power": 1,    "visual": "polegar_enfaixado" },
+    { "level": 2,  "name": "Grupo da Família no Zap", "cost": "500",    "power": 5,    "visual": "ícone_família" },
+    { "level": 3,  "name": "Áudio de 8 Minutos",      "cost": "25e3",   "power": 25,   "visual": "headphone_velho" },
+    { "level": 4,  "name": "Corrente Viral",          "cost": "1e6",    "power": 150,  "visual": "cadeia_de_setas" },
+    { "level": 5,  "name": "Cunhado Especialista em Tudo", "cost": "5e7", "power": 750, "visual": "bigode_autoridade" },
+    { "level": 6,  "name": "Live 'Isso a Mídia Não Mostra'", "cost": "2e9", "power": 4e3, "visual": "luz_de_live" },
+    { "level": 7,  "name": "Grupo 'Só Verdade'",      "cost": "8e11",   "power": 6e4,  "visual": "selo_so_verdade" },
+    { "level": 8,  "name": "Comentário Sem Ler a Matéria", "cost": "3e14", "power": 2.5e6, "visual": "balão_de_comentário" },
+    { "level": 9,  "name": "Print Sem Fonte",         "cost": "1e17",   "power": 1e8,  "visual": "recorte_de_print" },
+    { "level": 10, "name": "O Gigante Finalmente Acordou", "cost": "5e19", "power": 5e9, "visual": "olho_aberto_dourado" }
+  ]
+}

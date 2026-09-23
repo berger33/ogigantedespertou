@@ -1,0 +1,33 @@
+{
+  "_comment": "Zap Vazado (spec §50-§56). Cada zap: tipo (pro/anti), decisão correta (aprovar pro, negar anti). Recompensas: créditos/chumbo/fragmento. Streak multiplica.",
+  "rewards": {
+    "credits": { "min": "50", "max": "2000" },
+    "chumbo":  { "min": "1",  "max": "3" }
+  },
+  "messages": [
+    { "id": "ZAP_01", "sender": "Tia do Grupo", "text": "Áudio de 11 minutos afirma que a água do filtro está ouvindo a conversa.", "pro": true },
+    { "id": "ZAP_02", "sender": "Primo Cético", "text": "Gente, isso de água que escuta é coisa da cabeça de vocês.", "pro": false },
+    { "id": "ZAP_03", "sender": "Rock Star", "text": "Foto mostra suposto disco voador estacionado em vaga de idoso.", "pro": true },
+    { "id": "ZAP_04", "sender": "Veterinário", "text": "Print afirma que Ratanabá tem estacionamento subterrâneo.", "pro": true },
+    { "id": "ZAP_05", "sender": "Mad Cientista", "text": "A tia do grupo diz que a Lua mudou de CEP.", "pro": true },
+    { "id": "ZAP_06", "sender": "Repórter", "text": "Nada disso é verdade, pessoal. Vamos consultar as fontes.", "pro": false },
+    { "id": "ZAP_07", "sender": "General", "text": "A Taça de 98 foi leiloada num grupo de WhatsApp fechado.", "pro": true },
+    { "id": "ZAP_08", "sender": "Historiador", "text": "Copa de 98: existe documentação oficial. Confia.", "pro": false },
+    { "id": "ZAP_09", "sender": "Guru", "text": "Mensagens subliminares: pause o clipe no frame 1:23 e veja.", "pro": true },
+    { "id": "ZAP_10", "sender": "Social Media", "text": "O filtro também está gravando? Perdi a conta de quem ouve o quê.", "pro": false },
+    { "id": "ZAP_11", "sender": "Cunhado", "text": "Vi um reptiliano no mercado. Ele pagou com cédula de 200.", "pro": true },
+    { "id": "ZAP_12", "sender": "Biólogo", "text": "Lagartos existem. Reptilianos, não. Nem no hortifruti.", "pro": false },
+    { "id": "ZAP_13", "sender": "ET da Vizinhança", "text": "Nosso grupo agora tem plano de carreira intergaláctico.", "pro": true },
+    { "id": "ZAP_14", "sender": "Astrônomo", "text": "Astrônomos: o céu está normal. De novo.", "pro": false },
+    { "id": "ZAP_15", "sender": "Técnico", "text": "O roteador piscou 3 vezes. É sinal. Alguém anote a hora.", "pro": true },
+    { "id": "ZAP_16", "sender": "Engenheiro", "text": "Roteador piscando é... roteador roteirando.", "pro": false },
+    { "id": "ZAP_17", "sender": "Prefeito Fictício", "text": "Ratanabá agora tem CEP próprio. Aguardem os Correios secretos.", "pro": true },
+    { "id": "ZAP_18", "sender": "Cartógrafo", "text": "Não existe CEP subterrâneo, gente.", "pro": false },
+    { "id": "ZAP_19", "sender": "DJ Subliminar", "text": "Minha música toca pescador: quem dormiu, acordou convencido.", "pro": true },
+    { "id": "ZAP_20", "sender": "Produtor", "text": "Convencido de que a mixagem estava boa?", "pro": false },
+    { "id": "ZAP_21", "sender": "Agência do Óbvio", "text": "ATENÇÃO: desmentimos o boato de que somos uma fachada.", "pro": false },
+    { "id": "ZAP_22", "sender": "O Arquivista", "text": "Tudo que está em pasta, permanece em pasta.", "pro": true },
+    { "id": "ZAP_23", "sender": "Climatologista", "text": "Chuva no bloco B é só... chuva no bloco B.", "pro": false },
+    { "id": "ZAP_24", "sender": "Meteorologista Sinistro", "text": "Granizo seletivo entra em teste no próximo Carnaval.", "pro": true }
+  ]
+}
