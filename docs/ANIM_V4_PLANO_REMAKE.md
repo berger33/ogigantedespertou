@@ -1,6 +1,9 @@
 # PLANO DE REMAKE DAS ANIMAÇÕES — v4 "animação de verdade"
 
-> **Status:** plano de execução submetido à aprovação do dono (set/2026).
+> **Status:** plano APROVADO pelo dono (set/2026). **Passo 0 concluído:** piloto `p4_10`
+> promovido a oficial com 9/9 checagens verdes (commit da promoção em
+> `arena/01a0cc5f-ogigantedespertou`); padrão de camadas/fps/lints **congelado**.
+> Lote 1 em andamento — boards em `docs/ANIM_V4_LOTE1_BOARDS.md`.
 > **Sucessor de:** `ANIM_V2_PLANO_LOTES.md` (loops narrativos v2 — **reprovados**: "viraram gelatinas") e
 > `ANIMATION_PLAN.md` (v1, movimento sutil).
 > **Escopo:** **reconstruir do zero as 50 animações de missão**, 5 s por clip, padrão profissional,
