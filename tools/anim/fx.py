@@ -276,9 +276,29 @@ def lightbits(canvas: Image.Image, t_ms: float, p: dict, atlas: Image.Image) -> 
     _additive(canvas, ov)
 
 
+def atlas_stamp(canvas: Image.Image, t_ms: float, p: dict, atlas: Image.Image) -> None:
+    """Carimbo aditivo de um atlas inteiro num retângulo (lens flare, letreiro)."""
+    t0, t1 = p["t0"], p["t1"]
+    if not (t0 <= t_ms <= t1):
+        return
+    u = (t_ms - t0) / max(1, (t1 - t0))
+    rin, rout = p.get("rin", 0.15), p.get("rout", 0.3)
+    a = p.get("alpha", 0.9) * min(1.0, u / rin) * min(1.0, (1 - u) / rout)
+    if a <= 0.02:
+        return
+    x, y, w, h = [int(v) for v in p["rect"]]
+    spr = atlas.resize((w, h), Image.LANCZOS)
+    r_, g_, b_, al = spr.split()
+    al = al.point(lambda v: int(v * a))
+    ov = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+    ov.alpha_composite(Image.merge("RGBA", (r_, g_, b_, al)), (x, y))
+    _additive(canvas, ov)
+
+
 KINDS = {
     "beam_glow": beam_glow, "scan_sweep": scan_sweep, "light_sweep": light_sweep,
     "smear": smear, "window_flick": window_flick, "console_glow": console_glow,
 }
 ATLAS_KINDS = {"sparkles": sparkles, "halo_twinkle": halo_twinkle,
-               "dust_puff": dust_puff, "lightbits": lightbits}
+               "dust_puff": dust_puff, "lightbits": lightbits,
+               "atlas_stamp": atlas_stamp}

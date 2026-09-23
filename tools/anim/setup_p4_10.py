@@ -78,7 +78,8 @@ def main() -> None:
               f"comps={rinf['comps_kept']}/{rinf['comps_total']} edge={inf['edge_frac']}")
 
     # copia atlases de FX para a pasta entregue
-    for f in ("fx_sparkles.png", "fx_halos.png", "fx_dust.png"):
+    for f in ("fx_sparkles.png", "fx_halos.png", "fx_dust.png",
+              "fx_lens.png", "fx_screen_live.png", "fx_lightbits.png"):
         src = os.path.join(WORK, f)
         if os.path.exists(src):
             Image.open(src).convert("RGBA").save(os.path.join(V4, "fx", f), optimize=True)
@@ -163,6 +164,19 @@ def main() -> None:
         dict(kind="beam_glow", t0=3400, t1=4000, footprint=[bmx - 120, 0, bmx + bmw + 120, bmy + bmh + 60],
              params=dict(apex=[beam_cx, bmy + bmh - 30], top=[beam_cx + 60, 0],
                          width0=120, width1=320, intensity=1.7, seed=5)),
+        dict(kind="atlas_stamp", t0=950, t1=1600, atlas="fx/fx_lens.png",
+             footprint=[495, 465, 690, 605],
+             params=dict(rect=[500, 470, 180, 130], alpha=0.9, rin=0.15, rout=0.5)),
+        dict(kind="atlas_stamp", t0=4000, t1=4400, atlas="fx/fx_lens.png",
+             footprint=[505, 475, 660, 590],
+             params=dict(rect=[510, 480, 140, 100], alpha=0.55, rin=0.2, rout=0.6)),
+        dict(kind="atlas_stamp", t0=1000, t1=4400, atlas="fx/fx_screen_live.png",
+             footprint=[470, 537, 604, 600],
+             params=dict(rect=[473, 540, 127, 57], alpha=0.85, rin=0.06, rout=0.06)),
+        dict(kind="lightbits", t0=3400, t1=4000, atlas="fx/fx_lightbits.png",
+             footprint=[bmx, 0, bmx + bmw, 460],
+             params=dict(region=[bmx + 40, 80, bmx + bmw - 40, 300], n=12,
+                         grid=[5, 2], seed=31)),
         dict(kind="light_sweep", t0=950, t1=1400, footprint=[0, 0, W, H],
              params=dict(width=170, color=[255, 244, 200])),
         dict(kind="sparkles", t0=1500, t1=3400, atlas="fx/fx_sparkles.png",
@@ -232,6 +246,9 @@ def main() -> None:
             dict(file="fx/fx_sparkles.png", prov="ai", role="atlas de sparkles dourados"),
             dict(file="fx/fx_halos.png", prov="ai", role="atlas de auréolas"),
             dict(file="fx/fx_dust.png", prov="ai", role="atlas de poeira de impacto"),
+            dict(file="fx/fx_lens.png", prov="ai", role="lens flare do projetor (ignição/colapso)"),
+            dict(file="fx/fx_screen_live.png", prov="ai", role="lettering 'AO VIVO' do console"),
+            dict(file="fx/fx_lightbits.png", prov="ai", role="confete de luz do overdrive"),
             dict(file="tools/anim/motion.py", prov="proc", role="curvas, tokens, agenda de fps"),
             dict(file="tools/anim/rig.py", prov="proc", role="camadas afins, pivôs, squash ≤8%"),
             dict(file="tools/anim/fx.py", prov="proc", role="FX: glow, sweeps, partículas, smear"),

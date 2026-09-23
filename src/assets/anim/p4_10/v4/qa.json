@@ -10,7 +10,7 @@
  },
  "L8_perf": {
   "ok": true,
-  "loop_kb": 2132.4,
+  "loop_kb": 2143.8,
   "limit_kb": 2600,
   "timeline_frames": 60,
   "encoded": 55
@@ -52,7 +52,7 @@
     0.0029
    ]
   ],
-  "halo_ring": 1.527
+  "halo_ring": 1.53
  },
  "L5_scale_consistency": {
   "ok": true,
@@ -61,7 +61,7 @@
  "L6_palette_outline": {
   "ok": true,
   "hue_share": 0.961,
-  "outline_dE": 2.84
+  "outline_dE": 2.74
  },
  "L7_occlusion": {
   "ok": true,
@@ -94,16 +94,14 @@
   ]
  },
  "L9_provenance": {
-  "ok": false,
-  "ai": 10,
+  "ok": true,
+  "ai": 13,
   "frames": 60,
-  "pct": 16.7,
+  "pct": 21.7,
   "level": "warn"
  },
  "_summary": {
   "fail": [],
-  "warn": [
-   "L9_provenance"
-  ]
+  "warn": []
  }
 }

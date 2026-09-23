@@ -667,6 +667,101 @@
    }
   },
   {
+   "kind": "atlas_stamp",
+   "t0": 950,
+   "t1": 1600,
+   "atlas": "fx/fx_lens.png",
+   "footprint": [
+    495,
+    465,
+    690,
+    605
+   ],
+   "params": {
+    "rect": [
+     500,
+     470,
+     180,
+     130
+    ],
+    "alpha": 0.9,
+    "rin": 0.15,
+    "rout": 0.5
+   }
+  },
+  {
+   "kind": "atlas_stamp",
+   "t0": 4000,
+   "t1": 4400,
+   "atlas": "fx/fx_lens.png",
+   "footprint": [
+    505,
+    475,
+    660,
+    590
+   ],
+   "params": {
+    "rect": [
+     510,
+     480,
+     140,
+     100
+    ],
+    "alpha": 0.55,
+    "rin": 0.2,
+    "rout": 0.6
+   }
+  },
+  {
+   "kind": "atlas_stamp",
+   "t0": 1000,
+   "t1": 4400,
+   "atlas": "fx/fx_screen_live.png",
+   "footprint": [
+    470,
+    537,
+    604,
+    600
+   ],
+   "params": {
+    "rect": [
+     473,
+     540,
+     127,
+     57
+    ],
+    "alpha": 0.85,
+    "rin": 0.06,
+    "rout": 0.06
+   }
+  },
+  {
+   "kind": "lightbits",
+   "t0": 3400,
+   "t1": 4000,
+   "atlas": "fx/fx_lightbits.png",
+   "footprint": [
+    429,
+    0,
+    890,
+    460
+   ],
+   "params": {
+    "region": [
+     469,
+     80,
+     850,
+     300
+    ],
+    "n": 12,
+    "grid": [
+     5,
+     2
+    ],
+    "seed": 31
+   }
+  },
+  {
    "kind": "light_sweep",
    "t0": 950,
    "t1": 1400,
@@ -943,6 +1038,21 @@
    "file": "fx/fx_dust.png",
    "prov": "ai",
    "role": "atlas de poeira de impacto"
+  },
+  {
+   "file": "fx/fx_lens.png",
+   "prov": "ai",
+   "role": "lens flare do projetor (ignição/colapso)"
+  },
+  {
+   "file": "fx/fx_screen_live.png",
+   "prov": "ai",
+   "role": "lettering 'AO VIVO' do console"
+  },
+  {
+   "file": "fx/fx_lightbits.png",
+   "prov": "ai",
+   "role": "confete de luz do overdrive"
   },
   {
    "file": "tools/anim/motion.py",
