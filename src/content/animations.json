@@ -1,6 +1,6 @@
 {
- "_comment": "Especificação de animação das 40 missões (docs/ANIMATION_PLAN.md, spec v4). Renderizador: app.js (AnimStage). Cenas `animated:true` são desenhos 2D reais (loop.webp em estilo flat-toon; 8 com mestre pintado + motion composto e 11 com keyframes desenhados em código — tools/scene_draw.py); as demais mantêm o SVG procedural em camadas. Estados: off/idle/running.",
- "version": 4,
+ "_comment": "Spec v6 — RESET de animações (pedido do dono): nenhuma missão animada; apenas o frame original (poster.webp). Remake passa a ser por IA — keyframes gerados em sequência (docs/ANIM_V6_METODO_IA.md).",
+ "version": 6,
  "stage": {
   "width": 320,
   "height": 88
@@ -9,858 +9,322 @@
   "p1_01": {
    "label": "COMPRAR COM CRIPTO",
    "accent": "#B57BFF",
-   "src": "assets/anim/p1_01/loop.webp",
    "poster": "assets/anim/p1_01/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p1_02": {
    "label": "PLANTAR FAKE NEWS",
    "accent": "#39FF9C",
-   "src": "assets/anim/p1_02/loop.webp",
    "poster": "assets/anim/p1_02/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p1_03": {
    "label": "AMIGOS REPTILIANOS",
    "accent": "#39FF9C",
-   "src": "assets/anim/p1_03/loop.webp",
    "poster": "assets/anim/p1_03/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "sway",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p1_04": {
    "label": "INFORMANTE NO GOVERNO",
    "accent": "#B57BFF",
-   "src": "assets/anim/p1_04/loop.webp",
    "poster": "assets/anim/p1_04/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "levitate",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p1_05": {
    "label": "TEORIAS DA CONSPIRAÇÃO",
    "accent": "#D4AF37",
-   "src": "assets/anim/p1_05/loop.webp",
    "poster": "assets/anim/p1_05/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "drop",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p1_06": {
    "label": "LAVAR CÉREBROS POP",
    "accent": "#B57BFF",
-   "src": "assets/anim/p1_06/loop.webp",
    "poster": "assets/anim/p1_06/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "spin",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p1_07": {
    "label": "GUERRA POR LUCRO",
    "accent": "#B3261E",
-   "src": "assets/anim/p1_07/loop.webp",
    "poster": "assets/anim/p1_07/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p1_08": {
    "label": "CONTROLAR PELO WI-FI",
    "accent": "#39FF9C",
-   "src": "assets/anim/p1_08/loop.webp",
    "poster": "assets/anim/p1_08/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p1_09": {
    "label": "GOVERNANTES FANTOCHES",
    "accent": "#B57BFF",
-   "src": "assets/anim/p1_09/loop.webp",
    "poster": "assets/anim/p1_09/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "sway",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p1_10": {
    "label": "CONTROLAR O CLIMA",
    "accent": "#39FF9C",
-   "src": "assets/anim/p1_10/loop.webp",
    "poster": "assets/anim/p1_10/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rain",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p2_01": {
    "label": "COMPRAR VOTO DO TIO",
    "accent": "#D4AF37",
-   "src": "assets/anim/p2_01/loop.webp",
    "poster": "assets/anim/p2_01/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "drop",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p2_02": {
    "label": "PESQUISA QUE PROVA",
    "accent": "#4DC3FF",
-   "src": "assets/anim/p2_02/loop.webp",
    "poster": "assets/anim/p2_02/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p2_03": {
    "label": "PARTIDO DO MEIO-TERMO",
    "accent": "#39FF9C",
-   "src": "assets/anim/p2_03/loop.webp",
    "poster": "assets/anim/p2_03/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "sway",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p2_04": {
    "label": "EMENDA TOTALMENTE PÚBLICA",
    "accent": "#D4AF37",
-   "src": "assets/anim/p2_04/loop.webp",
    "poster": "assets/anim/p2_04/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p2_05": {
    "label": "PLENÁRIA COM ROBÔS",
    "accent": "#4DC3FF",
-   "src": "assets/anim/p2_05/loop.webp",
    "poster": "assets/anim/p2_05/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p2_06": {
    "label": "CABO COM MEGAFONE",
    "accent": "#B3261E",
-   "src": "assets/anim/p2_06/loop.webp",
    "poster": "assets/anim/p2_06/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p2_07": {
    "label": "COMÍCIO EM DUPLA",
    "accent": "#FF9F45",
-   "src": "assets/anim/p2_07/loop.webp",
    "poster": "assets/anim/p2_07/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "spin",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p2_08": {
    "label": "CONSTITUIÇÃO DO ZAP",
    "accent": "#39FF9C",
-   "src": "assets/anim/p2_08/loop.webp",
    "poster": "assets/anim/p2_08/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p2_09": {
    "label": "SÓSIA POR PROCURAÇÃO",
    "accent": "#B57BFF",
-   "src": "assets/anim/p2_09/loop.webp",
    "poster": "assets/anim/p2_09/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "levitate",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p2_10": {
    "label": "PROCLAMAR DEMOCRACIA™",
    "accent": "#D4AF37",
-   "src": "assets/anim/p2_10/loop.webp",
    "poster": "assets/anim/p2_10/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p3_01": {
    "label": "ESCAVAR A CIDADE SECRETA",
    "accent": "#FF9F45",
-   "src": "assets/anim/p3_01/loop.webp",
    "poster": "assets/anim/p3_01/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "drop",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p3_02": {
    "label": "O E.T. DE VARGINHA",
    "accent": "#4DC3FF",
-   "src": "assets/anim/p3_02/loop.webp",
    "poster": "assets/anim/p3_02/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "levitate",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p3_03": {
    "label": "INDÚSTRIA DA MULTA",
    "accent": "#D4AF37",
-   "src": "assets/anim/p3_03/loop.webp",
    "poster": "assets/anim/p3_03/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p3_04": {
    "label": "O CHUPA-CABRA",
    "accent": "#B3261E",
-   "src": "assets/anim/p3_04/loop.webp",
    "poster": "assets/anim/p3_04/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "sway",
-    "drop",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p3_05": {
    "label": "CARRO ELÉTRICO NACIONAL",
    "accent": "#39FF9C",
-   "src": "assets/anim/p3_05/loop.webp",
    "poster": "assets/anim/p3_05/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "spin",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p3_06": {
    "label": "O TÚNEL SUBTERRÂNEO",
    "accent": "#D4AF37",
-   "src": "assets/anim/p3_06/loop.webp",
    "poster": "assets/anim/p3_06/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "drop",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p3_07": {
    "label": "CELULARES MONITORES",
    "accent": "#4DC3FF",
-   "src": "assets/anim/p3_07/loop.webp",
    "poster": "assets/anim/p3_07/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p3_08": {
    "label": "CHIPS NOS DOCUMENTOS",
    "accent": "#B57BFF",
-   "src": "assets/anim/p3_08/loop.webp",
    "poster": "assets/anim/p3_08/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "levitate",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p3_09": {
    "label": "DINHEIRO INSTANTÂNEO",
    "accent": "#39FF9C",
-   "src": "assets/anim/p3_09/loop.webp",
    "poster": "assets/anim/p3_09/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p3_10": {
    "label": "MOEDA MAGNÉTICA",
    "accent": "#D4AF37",
-   "src": "assets/anim/p3_10/loop.webp",
    "poster": "assets/anim/p3_10/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p4_01": {
    "label": "VINIL INVERTIDO",
    "accent": "#B57BFF",
-   "src": "assets/anim/p4_01/loop.webp",
    "poster": "assets/anim/p4_01/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "spin",
-    "rise",
-    "blink",
-    "flicker"
-   ],
-   "v2": true,
-   "frames": 12,
+   "animated": false,
    "story": "O disco gira, a agulha vibra e as caixas soltam notas espelhadas; o letreiro pisca e revela a mensagem invertida — e tudo volta ao normal.",
    "duration_ms": 1560
   },
   "p4_02": {
    "label": "DESENHO DA INDUÇÃO",
    "accent": "#4DC3FF",
-   "src": "assets/anim/p4_02/loop.webp",
    "poster": "assets/anim/p4_02/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ],
-   "v2": true,
-   "frames": 12,
+   "animated": false,
    "story": "A TV pulsa a espiral hipnótica, o diabinho balança e os olhos do menino e do gato giram; pipocas saltam da tigela — e o desenho volta ao neutro.",
    "duration_ms": 1560
   },
   "p4_03": {
    "label": "BRINQUEDOS POSSUÍDOS",
    "accent": "#B3261E",
-   "src": "assets/anim/p4_03/loop.webp",
    "poster": "assets/anim/p4_03/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "sway",
-    "rise",
-    "blink",
-    "flicker"
-   ],
-   "v2": true,
-   "frames": 16,
+   "animated": false,
    "story": "A esteira anda com as bonecas; a possuída flutua com olhos acesos, chave girando e aura roxa; o pincel pinga tinta — e o ciclo recomeça.",
    "duration_ms": 2080
   },
   "p4_04": {
    "label": "CIDADE OCULTISTA",
    "accent": "#39FF9C",
-   "src": "assets/anim/p4_04/loop.webp",
    "poster": "assets/anim/p4_04/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "sway",
-    "rise",
-    "blink",
-    "flicker"
-   ],
-   "v2": true,
-   "frames": 12,
+   "animated": false,
    "story": "O mapa limpa: o sigilo geométrico se desenha do centro para fora sobre a capital, o olho alado circula e o alfinete crava — o traço brilha e apaga.",
    "duration_ms": 1650
   },
   "p4_05": {
    "label": "MILAGRE NA TV",
    "accent": "#D4AF37",
-   "src": "assets/anim/p4_05/loop.webp",
    "poster": "assets/anim/p4_05/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ],
-   "v2": true,
-   "frames": 16,
+   "animated": false,
    "story": "Palco escuro: o holofote acende no arco, a lágrima gigante cai, o confete de luz desce e a plateia entra em êxtase — e a luz apaga.",
    "duration_ms": 2480
   },
   "p4_06": {
    "label": "A IMAGEM QUE CHORA",
    "accent": "#D4AF37",
-   "src": "assets/anim/p4_06/loop.webp",
    "poster": "assets/anim/p4_06/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "sway",
-    "drop",
-    "blink",
-    "flicker"
-   ],
-   "v2": true,
-   "frames": 16,
+   "animated": false,
    "story": "O quadro chora xarope: as gotas formam no fio, caem e enchem o copo; o comerciante mergulha a colher, serve o vidro no pote e as velas tremulam.",
    "duration_ms": 2480
   },
   "p4_07": {
    "label": "O 13º MANDAMENTO",
    "accent": "#B57BFF",
-   "src": "assets/anim/p4_07/loop.webp",
    "poster": "assets/anim/p4_07/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ],
-   "v2": true,
-   "frames": 12,
+   "animated": false,
    "story": "Os dois rolos giram, a onda de áudio corre pela fita e o '13' pisca na tábua enquanto as agulhas do painel tremem — e a onda volta ao mínimo.",
    "duration_ms": 1560
   },
   "p4_08": {
    "label": "ÁGUA ABENÇOADA",
    "accent": "#4DC3FF",
-   "src": "assets/anim/p4_08/loop.webp",
    "poster": "assets/anim/p4_08/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rain",
-    "blink",
-    "flicker"
-   ],
-   "v2": true,
-   "frames": 16,
+   "animated": false,
    "story": "As esteiras andam: a torneira enche a garrafa vazia, a cheia segue para o outro lado e ganha o adesivo de auréola; o inspetor olha, anota, e o vapor, as bolhas, a goteira e as engrenagens não param.",
    "duration_ms": 2290
   },
   "p4_09": {
    "label": "APOCALIPSE ADIADO",
    "accent": "#FF9F45",
-   "src": "assets/anim/p4_09/loop.webp",
    "poster": "assets/anim/p4_09/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "sway",
-    "drop",
-    "blink",
-    "flicker"
-   ],
-   "v2": true,
-   "frames": 12,
+   "animated": false,
    "story": "Ele empurra o bloco do X no calendário (de novo): a sirene gira, papéis voam, o carimbo marca mais um dia — e o calendário zera no reset.",
    "duration_ms": 1660
   },
   "p4_10": {
    "label": "PROJETAR O ARREBATAMENTO EM LED",
    "accent": "#4DC3FF",
-   "src": "assets/anim/p4_10/loop.webp",
    "poster": "assets/anim/p4_10/poster.webp",
-   "animated": true,
-   "loops": [
-    "act",
-    "anticipate",
-    "blink",
-    "follow",
-    "hold",
-    "impact",
-    "settle"
-   ],
-   "frames": 60,
+   "animated": false,
    "story": "Luz apagada e gente na rua: o cientista ergue a mão (antecipação), aperta o botão (impacto), o feixe de LED acende, as pessoas sobem aureoladas em duas poses e saem pelo topo; o feixe entra em overdrive, colapsa com poeira, e no escuro o holograma rematerializa a fila — o loop fecha idêntico ao frame 0. (É um show de LED: roda de novo.)",
-   "duration_ms": 5000,
-   "v4": true,
-   "fps_segments": [
-    {
-     "start_s": 0.0,
-     "end_s": 3.4,
-     "fps": 10
-    },
-    {
-     "start_s": 3.4,
-     "end_s": 5.0,
-     "fps": 16
-    }
-   ],
-   "assets": {
-    "ai": 13,
-    "proc": 4
-   }
+   "duration_ms": 5000
   },
   "p5_01": {
    "label": "O FEIXE DO CERRADO",
    "accent": "#39FF9C",
-   "src": "assets/anim/p5_01/loop.webp",
    "poster": "assets/anim/p5_01/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p5_02": {
    "label": "A FÓRMULA DA ÁGUA",
    "accent": "#4DC3FF",
-   "src": "assets/anim/p5_02/loop.webp",
    "poster": "assets/anim/p5_02/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rain",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p5_03": {
    "label": "O APAGÃO CIBERNÉTICO",
    "accent": "#B3261E",
-   "src": "assets/anim/p5_03/loop.webp",
    "poster": "assets/anim/p5_03/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "flicker",
-    "blink",
-    "drop"
-   ]
+   "animated": false
   },
   "p5_04": {
    "label": "SKYNET",
    "accent": "#B57BFF",
-   "src": "assets/anim/p5_04/loop.webp",
    "poster": "assets/anim/p5_04/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p5_05": {
    "label": "APARELHOS ESPIONANDO",
    "accent": "#4DC3FF",
-   "src": "assets/anim/p5_05/loop.webp",
    "poster": "assets/anim/p5_05/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p5_06": {
    "label": "PRESIDENTE 2.0",
    "accent": "#B3261E",
-   "src": "assets/anim/p5_06/loop.webp",
    "poster": "assets/anim/p5_06/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "levitate",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p5_07": {
    "label": "POMBOS DRONES",
    "accent": "#39FF9C",
-   "src": "assets/anim/p5_07/loop.webp",
    "poster": "assets/anim/p5_07/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "sway",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p5_08": {
    "label": "TORRES DE 5G",
    "accent": "#FF9F45",
-   "src": "assets/anim/p5_08/loop.webp",
    "poster": "assets/anim/p5_08/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p5_09": {
    "label": "QR NO PRATO",
    "accent": "#39FF9C",
-   "src": "assets/anim/p5_09/loop.webp",
    "poster": "assets/anim/p5_09/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "throb",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   },
   "p5_10": {
    "label": "O CHIP",
    "accent": "#B57BFF",
-   "src": "assets/anim/p5_10/loop.webp",
    "poster": "assets/anim/p5_10/poster.webp",
-   "animated": true,
-   "loops": [
-    "marcha",
-    "bracos",
-    "cabeca",
-    "levitate",
-    "rise",
-    "blink",
-    "flicker"
-   ]
+   "animated": false
   }
  }
 }

@@ -365,9 +365,18 @@ function buildAnimStage(def, owned, automated) {
       holder.prepend(poster);
       holder.prepend(loop);
     } else {
-      loadSceneSvg(spec.src).then((txt) => {
-        holder.innerHTML = namespaceSvg(txt, `a-${def.id}`);
-      }).catch(() => { /* mantém fallback de ícone */ });
+      // sem animação (reset v6): mostra apenas o frame original (poster)
+      if (spec.poster) {
+        const poster = el('img', 'anim-poster');
+        poster.src = spec.poster;
+        poster.alt = spec.label || def.name || '';
+        poster.loading = 'lazy';
+        holder.prepend(poster);
+      } else {
+        loadSceneSvg(spec.src).then((txt) => {
+          holder.innerHTML = namespaceSvg(txt, `a-${def.id}`);
+        }).catch(() => { /* mantém fallback de ícone */ });
+      }
     }
   }
   return stage;
