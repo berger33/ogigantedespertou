@@ -1,0 +1,965 @@
+{
+ "id": "p4_10",
+ "version": 4,
+ "profile": "P2",
+ "duration_ms": 5000,
+ "size": [
+  1280,
+  720
+ ],
+ "title": "Projetar o arrebatamento em LED",
+ "flavor": "Céu de verdade, nuvem de LED. Fé com nota fiscal.",
+ "accent": "#4DC3FF",
+ "quality": 72,
+ "frames_planned": 60,
+ "fps_segments": [
+  {
+   "start_s": 0.0,
+   "end_s": 3.4,
+   "fps": 10
+  },
+  {
+   "start_s": 3.4,
+   "end_s": 5.0,
+   "fps": 16
+  }
+ ],
+ "plate": "plate.png",
+ "story": "Luz apagada e gente na rua: o cientista ergue a mão (antecipação), aperta o botão (impacto), o feixe de LED acende, as pessoas sobem aureoladas em duas poses e saem pelo topo; o feixe entra em overdrive, colapsa com poeira, e no escuro o holograma rematerializa a fila — o loop fecha idêntico ao frame 0. (É um show de LED: roda de novo.)",
+ "beats": [
+  {
+   "t": [
+    0,
+    300
+   ],
+   "name": "establish: fila na rua, feixe off",
+   "tokens": [
+    "hold"
+   ]
+  },
+  {
+   "t": [
+    300,
+    600
+   ],
+   "name": "antecipação: mão ergue",
+   "tokens": [
+    "anticipate"
+   ]
+  },
+  {
+   "t": [
+    600,
+    800
+   ],
+   "name": "hold da mão erguida",
+   "tokens": [
+    "hold"
+   ]
+  },
+  {
+   "t": [
+    800,
+    950
+   ],
+   "name": "impacto: aperta o botão",
+   "tokens": [
+    "impact"
+   ]
+  },
+  {
+   "t": [
+    950,
+    1300
+   ],
+   "name": "ignição do feixe + luz varrendo",
+   "tokens": [
+    "blink",
+    "act"
+   ]
+  },
+  {
+   "t": [
+    1300,
+    1600
+   ],
+   "name": "antecipação: fila agacha",
+   "tokens": [
+    "anticipate"
+   ]
+  },
+  {
+   "t": [
+    1600,
+    2400
+   ],
+   "name": "subida 1 (pose em pé)",
+   "tokens": [
+    "act"
+   ]
+  },
+  {
+   "t": [
+    2400,
+    2462
+   ],
+   "name": "smear: troca para pose flutuando",
+   "tokens": [
+    "impact"
+   ]
+  },
+  {
+   "t": [
+    2462,
+    3400
+   ],
+   "name": "subida 2 + saída pelo topo",
+   "tokens": [
+    "follow"
+   ]
+  },
+  {
+   "t": [
+    3400,
+    4000
+   ],
+   "name": "overdrive: pulso + varredura",
+   "tokens": [
+    "impact"
+   ]
+  },
+  {
+   "t": [
+    4000,
+    4400
+   ],
+   "name": "colapso do feixe + poeira",
+   "tokens": [
+    "follow"
+   ]
+  },
+  {
+   "t": [
+    4400,
+    4600
+   ],
+   "name": "hold escuro",
+   "tokens": [
+    "hold"
+   ]
+  },
+  {
+   "t": [
+    4600,
+    4900
+   ],
+   "name": "materialização holográfica da fila",
+   "tokens": [
+    "settle"
+   ]
+  },
+  {
+   "t": [
+    4900,
+    5000
+   ],
+   "name": "settle = frame 0 (loop fecha)",
+   "tokens": [
+    "settle"
+   ]
+  }
+ ],
+ "layers": [
+  {
+   "name": "beam",
+   "file": "layers/beam.png",
+   "z": 20,
+   "kind": "sprite",
+   "bbox": [
+    429,
+    0,
+    461,
+    601
+   ],
+   "pivot": [
+    0.5,
+    1.0
+   ],
+   "fx_layer": true,
+   "edge_frac": 0.0054
+  },
+  {
+   "name": "people_stand",
+   "file": "layers/people_stand.png",
+   "z": 30,
+   "kind": "sprite",
+   "bbox": [
+    813,
+    542,
+    219,
+    176
+   ],
+   "pivot": [
+    0.5,
+    1.0
+   ],
+   "soft_squash": true,
+   "edge_frac": 0.0038
+  },
+  {
+   "name": "people_float",
+   "file": "layers/people_float.png",
+   "z": 31,
+   "kind": "sprite",
+   "bbox": [
+    707,
+    330,
+    278,
+    251
+   ],
+   "pivot": [
+    0.5,
+    0.85
+   ],
+   "edge_frac": 0.0027
+  },
+  {
+   "name": "people_float_b",
+   "file": "layers/people_float_b.png",
+   "z": 32,
+   "kind": "sprite",
+   "bbox": [
+    688,
+    13,
+    315,
+    306
+   ],
+   "pivot": [
+    0.5,
+    0.85
+   ],
+   "edge_frac": 0.0046
+  },
+  {
+   "name": "hand_raise",
+   "file": "layers/hand_raise.png",
+   "z": 40,
+   "kind": "patch",
+   "bbox": [
+    359,
+    469,
+    258,
+    251
+   ],
+   "pivot": [
+    0.5,
+    0.8
+   ],
+   "patch_over": "plate",
+   "edge_frac": 0.006
+  },
+  {
+   "name": "hand_press",
+   "file": "layers/hand_press.png",
+   "z": 41,
+   "kind": "patch",
+   "bbox": [
+    359,
+    502,
+    201,
+    138
+   ],
+   "pivot": [
+    0.5,
+    0.8
+   ],
+   "patch_over": "plate",
+   "edge_frac": 0.0029
+  }
+ ],
+ "tracks": {
+  "beam": {
+   "alpha": [
+    [
+     0,
+     0
+    ],
+    [
+     900,
+     0
+    ],
+    [
+     1000,
+     0.55,
+     "step"
+    ],
+    [
+     1100,
+     1.0
+    ],
+    [
+     3950,
+     1.0
+    ],
+    [
+     4350,
+     0.0,
+     "cubic_in"
+    ],
+    [
+     5000,
+     0
+    ]
+   ],
+   "sy": [
+    [
+     0,
+     1
+    ],
+    [
+     4000,
+     1
+    ],
+    [
+     4350,
+     0.06,
+     "cubic_in"
+    ],
+    [
+     5000,
+     0.06
+    ]
+   ]
+  },
+  "people_stand": {
+   "dy": [
+    [
+     0,
+     0
+    ],
+    [
+     1300,
+     0
+    ],
+    [
+     1500,
+     6,
+     "back_in"
+    ],
+    [
+     1600,
+     6
+    ],
+    [
+     2400,
+     -150,
+     "cubic_in"
+    ],
+    [
+     4400,
+     -150
+    ],
+    [
+     4500,
+     0,
+     "step"
+    ],
+    [
+     5000,
+     0
+    ]
+   ],
+   "alpha": [
+    [
+     0,
+     1
+    ],
+    [
+     2380,
+     1
+    ],
+    [
+     2440,
+     0,
+     "step"
+    ],
+    [
+     4600,
+     0
+    ],
+    [
+     4900,
+     1,
+     "back_out"
+    ],
+    [
+     5000,
+     1
+    ]
+   ],
+   "sy": [
+    [
+     0,
+     1
+    ],
+    [
+     4600,
+     0.94
+    ],
+    [
+     4780,
+     1.0,
+     "settle"
+    ],
+    [
+     5000,
+     1
+    ]
+   ]
+  },
+  "people_float": {
+   "dy": [
+    [
+     0,
+     62
+    ],
+    [
+     2400,
+     62
+    ],
+    [
+     3400,
+     -348,
+     "cubic_in"
+    ],
+    [
+     5000,
+     -348
+    ]
+   ],
+   "dx": [
+    [
+     2400,
+     0
+    ],
+    [
+     2800,
+     9,
+     "quad_out"
+    ],
+    [
+     3200,
+     -7,
+     "cubic_inout"
+    ],
+    [
+     3400,
+     0
+    ]
+   ],
+   "alpha": [
+    [
+     0,
+     0
+    ],
+    [
+     2400,
+     0
+    ],
+    [
+     2462,
+     1,
+     "step"
+    ],
+    [
+     2980,
+     1
+    ],
+    [
+     3020,
+     0,
+     "step"
+    ],
+    [
+     5000,
+     0
+    ]
+   ]
+  },
+  "people_float_b": {
+   "dy": [
+    [
+     0,
+     290.44
+    ],
+    [
+     3000,
+     290.44
+    ],
+    [
+     3400,
+     -9.560000000000002,
+     "cubic_in"
+    ],
+    [
+     5000,
+     -9.560000000000002
+    ]
+   ],
+   "alpha": [
+    [
+     0,
+     0
+    ],
+    [
+     2980,
+     0
+    ],
+    [
+     3020,
+     1,
+     "step"
+    ],
+    [
+     5000,
+     1
+    ]
+   ]
+  },
+  "hand_raise": {
+   "alpha": [
+    [
+     0,
+     0
+    ],
+    [
+     300,
+     0
+    ],
+    [
+     560,
+     1,
+     "back_out"
+    ],
+    [
+     800,
+     1
+    ],
+    [
+     840,
+     0,
+     "step"
+    ],
+    [
+     5000,
+     0
+    ]
+   ]
+  },
+  "hand_press": {
+   "alpha": [
+    [
+     0,
+     0
+    ],
+    [
+     840,
+     0
+    ],
+    [
+     860,
+     1,
+     "step"
+    ],
+    [
+     4380,
+     1
+    ],
+    [
+     4440,
+     0,
+     "step"
+    ],
+    [
+     5000,
+     0
+    ]
+   ]
+  }
+ },
+ "fx": [
+  {
+   "kind": "console_glow",
+   "t0": 850,
+   "footprint": [
+    239,
+    412,
+    720,
+    730
+   ],
+   "params": {
+    "at": [
+     459.5,
+     584.8
+    ],
+    "life": 420,
+    "size": 230,
+    "color": [
+     255,
+     110,
+     80
+    ]
+   }
+  },
+  {
+   "kind": "beam_glow",
+   "t0": 950,
+   "t1": 4350,
+   "footprint": [
+    339,
+    0,
+    980,
+    661
+   ],
+   "params": {
+    "apex": [
+     622.62,
+     571
+    ],
+    "top": [
+     682.62,
+     0
+    ],
+    "width0": 90,
+    "width1": 260,
+    "intensity": 0.9,
+    "seed": 3
+   }
+  },
+  {
+   "kind": "beam_glow",
+   "t0": 3400,
+   "t1": 4000,
+   "footprint": [
+    309,
+    0,
+    1010,
+    661
+   ],
+   "params": {
+    "apex": [
+     622.62,
+     571
+    ],
+    "top": [
+     682.62,
+     0
+    ],
+    "width0": 120,
+    "width1": 320,
+    "intensity": 1.7,
+    "seed": 5
+   }
+  },
+  {
+   "kind": "light_sweep",
+   "t0": 950,
+   "t1": 1400,
+   "footprint": [
+    0,
+    300,
+    1280,
+    720
+   ],
+   "params": {
+    "width": 170,
+    "color": [
+     255,
+     244,
+     200
+    ]
+   }
+  },
+  {
+   "kind": "sparkles",
+   "t0": 1500,
+   "t1": 3400,
+   "atlas": "fx/fx_sparkles.png",
+   "footprint": [
+    369,
+    0,
+    950,
+    601
+   ],
+   "params": {
+    "region": [
+     449,
+     481,
+     870,
+     581
+    ],
+    "n": 12,
+    "rise": 130,
+    "sway": 12,
+    "size": 46,
+    "grid": [
+     4,
+     3
+    ],
+    "seed": 11
+   }
+  },
+  {
+   "kind": "smear",
+   "t0": 2380,
+   "t1": 2462,
+   "footprint": [
+    647,
+    110,
+    1045,
+    581
+   ],
+   "params": {
+    "bbox": [
+     717,
+     140,
+     975,
+     551
+    ],
+    "alpha": 80,
+    "blur": 10,
+    "color": [
+     190,
+     240,
+     255
+    ]
+   }
+  },
+  {
+   "kind": "smear",
+   "t0": 2980,
+   "t1": 3060,
+   "footprint": [
+    628,
+    0,
+    1063,
+    319
+   ],
+   "params": {
+    "bbox": [
+     698,
+     0,
+     993,
+     299
+    ],
+    "alpha": 70,
+    "blur": 10,
+    "color": [
+     190,
+     240,
+     255
+    ]
+   }
+  },
+  {
+   "kind": "scan_sweep",
+   "t0": 3400,
+   "t1": 3950,
+   "footprint": [
+    339,
+    0,
+    980,
+    601
+   ],
+   "params": {
+    "y0": 620,
+    "y1": 30,
+    "band": 30,
+    "alpha": 0.9,
+    "color": [
+     170,
+     242,
+     255
+    ]
+   }
+  },
+  {
+   "kind": "scan_sweep",
+   "t0": 4600,
+   "t1": 4900,
+   "footprint": [
+    753,
+    282,
+    1092,
+    748
+   ],
+   "params": {
+    "y0": 700,
+    "y1": 470,
+    "band": 26,
+    "alpha": 0.8,
+    "color": [
+     170,
+     242,
+     255
+    ]
+   }
+  },
+  {
+   "kind": "dust_puff",
+   "t0": 4050,
+   "atlas": "fx/fx_dust.png",
+   "footprint": [
+    289,
+    481,
+    1090,
+    720
+   ],
+   "params": {
+    "origins": [
+     [
+      582.62,
+      591
+     ],
+     [
+      682.62,
+      597
+     ],
+     [
+      922.5,
+      712
+     ]
+    ],
+    "size": 110,
+    "life": 760,
+    "alpha": 0.8,
+    "grid": [
+     3,
+     1
+    ],
+    "seed": 21
+   }
+  },
+  {
+   "kind": "window_flick",
+   "t0": 3400,
+   "t1": 4100,
+   "footprint": [
+    640,
+    480,
+    1280,
+    720
+   ],
+   "params": {
+    "points": [
+     [
+      880,
+      600,
+      4
+     ],
+     [
+      1010,
+      640,
+      3
+     ],
+     [
+      760,
+      640,
+      3
+     ],
+     [
+      1120,
+      600,
+      4
+     ],
+     [
+      940,
+      560,
+      3
+     ]
+    ],
+    "on_above": 140,
+    "color": [
+     255,
+     214,
+     120
+    ]
+   }
+  }
+ ],
+ "groups": {},
+ "assets": [
+  {
+   "file": "plate.png",
+   "prov": "ai",
+   "role": "backplate limpo (estado S0 pintado por IA)"
+  },
+  {
+   "file": "layers/people_stand.png",
+   "prov": "ai",
+   "role": "pose-chave: fila em pé (diff S1−S0)"
+  },
+  {
+   "file": "layers/beam.png",
+   "prov": "ai",
+   "role": "feixe pintado (diff S2−S0), camada de luz"
+  },
+  {
+   "file": "layers/people_float.png",
+   "prov": "ai",
+   "role": "pose-chave: flutuando (diff S3−S2)"
+  },
+  {
+   "file": "layers/people_float_b.png",
+   "prov": "ai",
+   "role": "pose-chave: flutuando alto (diff S3b−S2)"
+  },
+  {
+   "file": "layers/hand_press.png",
+   "prov": "ai",
+   "role": "patch de pose: mão apertando (S4−S3)"
+  },
+  {
+   "file": "layers/hand_raise.png",
+   "prov": "ai",
+   "role": "patch de pose: mão erguida (S5−S1)"
+  },
+  {
+   "file": "fx/fx_sparkles.png",
+   "prov": "ai",
+   "role": "atlas de sparkles dourados"
+  },
+  {
+   "file": "fx/fx_halos.png",
+   "prov": "ai",
+   "role": "atlas de auréolas"
+  },
+  {
+   "file": "fx/fx_dust.png",
+   "prov": "ai",
+   "role": "atlas de poeira de impacto"
+  },
+  {
+   "file": "tools/anim/motion.py",
+   "prov": "proc",
+   "role": "curvas, tokens, agenda de fps"
+  },
+  {
+   "file": "tools/anim/rig.py",
+   "prov": "proc",
+   "role": "camadas afins, pivôs, squash ≤8%"
+  },
+  {
+   "file": "tools/anim/fx.py",
+   "prov": "proc",
+   "role": "FX: glow, sweeps, partículas, smear"
+  },
+  {
+   "file": "tools/anim/build_clip.py",
+   "prov": "proc",
+   "role": "composição + encode WebP"
+  }
+ ],
+ "gate1": "Board + assets desta página. Aprovando, o padrão de camadas congela.",
+ "gate2": "Assista ao clip 5 s ao lado da v2. Aprovando, v4 vira o loop oficial e o Lote 1 começa."
+}

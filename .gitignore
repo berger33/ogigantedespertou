@@ -80,3 +80,4 @@ src/assets/anim/*/plates/
 # ---- Python (tools locais) ----
 .venv/
 __pycache__/
+src/assets/anim/*/v4/_work/
