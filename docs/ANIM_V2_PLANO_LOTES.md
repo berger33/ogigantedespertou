@@ -144,7 +144,7 @@ aprovou estas imagens. O loop é montado por recorte:
 | p1_09 | Manipular governantes fantoches | marionete parada → **cordas se puxam**, marionete acena/abaixa o braço → cordas relaxam | 16 |
 | p1_10 | Gerenciar sistemas de controle do clima | painel parado → **botão SOL/CHUVA alterna**, **nuvem + sol + raio cômico** trocam → painel pisca | 16 |
 
-### Mapa 5 — Singularidade (Lote 6)
+### Mapa 5 — Singularidade (Lote 5)
 
 | ID | Missão | Loop (setup → ação → resolução) | Qtd. |
 |---|---|---|---|
@@ -218,7 +218,51 @@ cabia. A revisão também fica em `src/review/lote1.html`.
 6. **Testes:** `npm test` 100% verde (especialmente `tests/Animations.test.js`).
 7. **`scene.svg` preservado** (rig articulada — exigido pelos testes).
 
-## 7. Como rodar o pipeline (dev)
+## 7. Plano de ação em 5 partes (1 parte = 1 sessão = 10 missões)
+
+> Entrega combinada com o dono (2026-09-23): **5 partes**, cada uma com
+> 10 missões, commit + push + relatório no fim, e **validação do dono
+> antes da parte seguinte**. O pipeline narrativo é construído na Parte 1
+> e reutilizado (só troca o roteiro) nas Partes 2–5.
+
+### Parte 1 — RELIGIÃO (p4_01…p4_10) · padrão-ouro
+1. Construir `tools/narrative/` (kit de recorte/inpaint + compositor de
+   keyframes + build de loop) — a infraestrutura de todas as partes.
+2. Animar as 10 missões de Religião no nível dos 3 exemplos do dono:
+   **p4_10** (luz apagada → botão → luz acende → pessoas sobem e somem →
+   apaga), **p4_08** (esteiras andam, torneira enche, adesivo de auréola,
+   vapor/goteiras/engrenagens vivos, inspetor anota na prancheta) e
+   **p4_06** (quadro chora xarope, gotas enchem o copo, personagem troca o
+   copo, velas tremulam) com 16 quadros; as outras 7 com 12–16.
+3. Spec aditiva (`v2`, `frames`, `story`) + página de revisão
+   `src/review/lote1.html` + `npm test` verde.
+4. **Entrega:** relatório + preview → **validação do dono**.
+
+### Parte 2 — DEEP WEB (p1_01…p1_10)
+Reaproveita o kit da Parte 1. Destaques: p1_09 marionete (cordas puxam,
+16 q) e p1_10 clima (botão SOL/CHUVA alterna, 16 q); as demais 12 q.
+Mesmo ritual de entrega (commit + push + relatório + validação).
+
+### Parte 3 — DEMOCRACIA RELATIVA (p2_01…p2_10)
+12 quadros cada. Destaques: p2_01 troca santinho⇄cédula e voto voa à
+urna; p2_02 barras sobem a 99% + carimbo CONFIRMADO; p2_10 martelo bate e
+"50%" gigante explode em confete.
+
+### Parte 4 — PINDORAMA (p3_01…p3_10)
+12 quadros cada. Destaques: p3_01 broca vibra/fura com terra voando;
+p3_03 radar gira e multa sai impressa voando; p3_09 ampulheta de moedas
+vira no reset.
+
+### Parte 5 — SINGULARIDADE (p5_01…p5_10) + auditoria final
+Destaques: p5_03 "apagar o país" (22h01 apaga tudo → 22h02 volta, 16 q) e
+p5_10 chip em todos (pontos acendem um a um → SINCRONIZADO, 16 q).
+Fecha com **auditoria das 50**: loop fechado (f(N-1)→f(0)), posters
+intactos, spec completa, `npm test` 100% verde, review final.
+
+**Ritual idêntico em toda parte:** executar → testes → commit → push →
+relatório (o que foi feito / próximo passo) → aguardar validação.
+
+## 8. Como rodar o pipeline (dev)
 
 ```bash
 python3 tools/narrative/render_lote1.py      # 10 missões de Religião
