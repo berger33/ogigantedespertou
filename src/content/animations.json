@@ -500,7 +500,11 @@
         "rise",
         "blink",
         "flicker"
-      ]
+      ],
+      "v2": true,
+      "frames": 12,
+      "story": "O disco gira, a agulha vibra e as caixas soltam notas espelhadas; o letreiro pisca e revela a mensagem invertida — e tudo volta ao normal.",
+      "duration_ms": 1560
     },
     "p4_02": {
       "label": "DESENHO DA INDUÇÃO",
@@ -516,7 +520,11 @@
         "rise",
         "blink",
         "flicker"
-      ]
+      ],
+      "v2": true,
+      "frames": 12,
+      "story": "A TV pulsa a espiral hipnótica, o diabinho balança e os olhos do menino e do gato giram; pipocas saltam da tigela — e o desenho volta ao neutro.",
+      "duration_ms": 1560
     },
     "p4_03": {
       "label": "BRINQUEDOS POSSUÍDOS",
@@ -532,7 +540,11 @@
         "rise",
         "blink",
         "flicker"
-      ]
+      ],
+      "v2": true,
+      "frames": 16,
+      "story": "A esteira anda com as bonecas; a possuída flutua com olhos acesos, chave girando e aura roxa; o pincel pinga tinta — e o ciclo recomeça.",
+      "duration_ms": 2080
     },
     "p4_04": {
       "label": "CIDADE OCULTISTA",
@@ -548,7 +560,11 @@
         "rise",
         "blink",
         "flicker"
-      ]
+      ],
+      "v2": true,
+      "frames": 12,
+      "story": "O mapa limpa: o sigilo geométrico se desenha do centro para fora sobre a capital, o olho alado circula e o alfinete crava — o traço brilha e apaga.",
+      "duration_ms": 1650
     },
     "p4_05": {
       "label": "MILAGRE NA TV",
@@ -564,7 +580,11 @@
         "rise",
         "blink",
         "flicker"
-      ]
+      ],
+      "v2": true,
+      "frames": 16,
+      "story": "Palco escuro: o holofote acende no arco, a lágrima gigante cai, o confete de luz desce e a plateia entra em êxtase — e a luz apaga.",
+      "duration_ms": 2480
     },
     "p4_06": {
       "label": "A IMAGEM QUE CHORA",
@@ -580,7 +600,11 @@
         "drop",
         "blink",
         "flicker"
-      ]
+      ],
+      "v2": true,
+      "frames": 16,
+      "story": "O quadro chora xarope: as gotas formam no fio, caem e enchem o copo; o comerciante mergulha a colher, serve o vidro no pote e as velas tremulam.",
+      "duration_ms": 2480
     },
     "p4_07": {
       "label": "O 13º MANDAMENTO",
@@ -596,7 +620,11 @@
         "rise",
         "blink",
         "flicker"
-      ]
+      ],
+      "v2": true,
+      "frames": 12,
+      "story": "Os dois rolos giram, a onda de áudio corre pela fita e o '13' pisca na tábua enquanto as agulhas do painel tremem — e a onda volta ao mínimo.",
+      "duration_ms": 1560
     },
     "p4_08": {
       "label": "ÁGUA ABENÇOADA",
@@ -612,7 +640,11 @@
         "rain",
         "blink",
         "flicker"
-      ]
+      ],
+      "v2": true,
+      "frames": 16,
+      "story": "As esteiras andam: a torneira enche a garrafa vazia, a cheia segue para o outro lado e ganha o adesivo de auréola; o inspetor olha, anota, e o vapor, as bolhas, a goteira e as engrenagens não param.",
+      "duration_ms": 2290
     },
     "p4_09": {
       "label": "APOCALIPSE ADIADO",
@@ -628,7 +660,11 @@
         "drop",
         "blink",
         "flicker"
-      ]
+      ],
+      "v2": true,
+      "frames": 12,
+      "story": "Ele empurra o bloco do X no calendário (de novo): a sirene gira, papéis voam, o carimbo marca mais um dia — e o calendário zera no reset.",
+      "duration_ms": 1660
     },
     "p4_10": {
       "label": "ARREBATAMENTO HOLOGRÁFICO",
@@ -644,7 +680,11 @@
         "rise",
         "blink",
         "flicker"
-      ]
+      ],
+      "v2": true,
+      "frames": 16,
+      "story": "Luz azul desligada e botão sem mão: o personagem aperta o botão, o feixe acende, as pessoas sobem aureoladas e somem — a luz apaga e o loop recomeça.",
+      "duration_ms": 2660
     },
     "p5_01": {
       "label": "O FEIXE DO CERRADO",
