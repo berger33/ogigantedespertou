@@ -1,0 +1,90 @@
+{
+ "Q1_anchor_diff": {
+  "ok": true,
+  "diffs": [
+   2.3,
+   3.8,
+   5.3,
+   3.4,
+   6.7,
+   3.8,
+   4.3,
+   5.5,
+   3.2
+  ]
+ },
+ "Q2_anchor_hue": {
+  "ok": true,
+  "shares": [
+   0.957,
+   0.962,
+   0.952,
+   0.932,
+   0.954,
+   0.956,
+   0.963,
+   0.95,
+   0.965
+  ]
+ },
+ "Q3_delta_progress": {
+  "ok": true,
+  "deltas": [
+   1.7,
+   1.7,
+   3.6,
+   4.6,
+   6.1,
+   5.3,
+   2.4,
+   3.5,
+   3.0
+  ]
+ },
+ "Q4_brightness": {
+  "ok": true,
+  "std": 1.24,
+  "means": [
+   82.9,
+   82.3,
+   81.5,
+   83.9,
+   83.9,
+   86.2,
+   83.1,
+   82.5,
+   82.5,
+   82.5
+  ]
+ },
+ "Q5_palette_shift": {
+  "ok": false,
+  "worst_bin": 0.0668,
+  "frame": 5
+ },
+ "Q6_loop_closure": {
+  "ok": true,
+  "close": 3.17
+ },
+ "Q7_palette_count": {
+  "ok": true,
+  "counts": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "poster": 3
+ },
+ "_summary": {
+  "fail": [
+   "Q5_palette_shift"
+  ],
+  "n_frames": 10
+ }
+}

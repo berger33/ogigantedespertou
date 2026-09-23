@@ -1,0 +1,40 @@
+{
+ "id": "p5_02",
+ "version": 6,
+ "method": "ai-keyframes",
+ "duration_ms": 5000,
+ "frames": 10,
+ "drawing_ms": 500,
+ "size": [
+  640,
+  360
+ ],
+ "loop": "perfect (Q10 = Q01)",
+ "anchor": "../poster.webp",
+ "keyframes": [
+  "k02.png",
+  "k03.png",
+  "k04.png",
+  "k05.png",
+  "k06.png",
+  "k07.png",
+  "k08.png",
+  "k09.png",
+  "k10.png"
+ ],
+ "qa": "qa.json",
+ "beats": [
+  "Q01 · repouso: cientista segura a pipeta com uma gota prestes a cair (o POSTER)",
+  "Q02 · a gota estica e duas companhias se soltam (antecipação da dose)",
+  "Q03 · três gotas caem em linha (a fórmula being dosada)",
+  "Q04 · SPLASH: coroa de líquido brilha no poço (o pico da ação)",
+  "Q05 · espuma e ondulação assentam (a dose foi absorvida)  [reprovado no Q5 — regenerar]",
+  "Q06 · manômetro estoura no vermelho + torneira pinga (a máquina reage)",
+  "Q07 · o copinho da mesa TRANSBORDA brilhando (a piada: nunca é suficiente)",
+  "Q08 · poço calmo, ponteiro voltando (resolução)",
+  "Q09 · cientista relaxa os braços (assentamento)",
+  "Q10 · volta exata ao estado do Q01 (loop perfeito)"
+ ],
+ "gate2": "CANDIDATA — k05 reprovado no lint Q5 (poço brilhando além do beat; regeneração por IA na próxima rodada). Não promovido: aguarda QA 10/10 verde e o ok do dono.",
+ "qa_status": "9/10 verdes (Q5 falha no k05)"
+}
