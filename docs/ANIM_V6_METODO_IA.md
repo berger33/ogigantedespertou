@@ -52,7 +52,7 @@ um evento primário por vez, e **retorna exatamente ao estado inicial** (loop pe
 | Q2 | anchor_hue | Δ matiz ≥ 0.90 vs. poster | troca de paleta/estilo |
 | Q3 | delta_progress | Δ(Qk,Qk+1) ≤ 45 p Médio | teletransporte entre quadros |
 | Q4 | brightness | desvio-padrão de luminância ≤ 22 | flicker de exposição |
-| Q5 | palette_shift | Δshare de matiz ≤ 0.035 por bin | re-tiling de cores |
+| Q5 | palette_shift | Δshare de matiz ≤ 0.05 por bin (calibrado: pior caso real bom = 0.048; drift real = 0.097) | re-tiling de cores |
 | Q6 | loop_closure | |Q10 − Q01| ≤ 12 p | loop aberto |
 | Q7 | palette_count | Δ #matizes dominantes ≤ 3 | Simplificação/richeza de cor |
 

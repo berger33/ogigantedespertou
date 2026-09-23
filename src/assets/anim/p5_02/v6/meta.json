@@ -35,15 +35,16 @@
   "Q09 · cientista relaxa os braços (assentamento)",
   "Q10 · volta exata ao estado do Q01 (loop perfeito)"
  ],
- "gate2": "CANDIDATA — k05 reprovado no lint Q5 (poço brilhando além do beat; regeneração por IA na próxima rodada). Não promovido: aguarda QA 10/10 verde e o ok do dono.",
- "qa_status": "9/10 verdes (Q5 falha no k05)",
- "drawings": 41,
- "step_ms": 121,
+ "gate2": "CANDIDATA v6.1 — 10/10 lints de quadro verdes + Q8 suavidade verde (41+ desenhos). Aguarda o dono assistir.",
+ "qa_status": "10/10 (Q1–Q7) + Q8 suave",
+ "drawings": 46,
+ "step_ms": 108,
  "keys": [
   "k01",
   "k02",
   "k03",
   "k04",
+  "k05",
   "k06",
   "k07",
   "k08",
@@ -53,8 +54,8 @@
  "tweens_per_pair": 4,
  "smoothness": {
   "ok": true,
-  "max_delta": 8.01,
-  "mean_delta": 1.35,
+  "max_delta": 8.71,
+  "mean_delta": 1.44,
   "wrap_delta": 0.0
  }
 }

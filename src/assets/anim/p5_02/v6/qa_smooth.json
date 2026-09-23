@@ -1,16 +1,17 @@
 {
  "Q8_smoothness": {
   "ok": true,
-  "max_delta": 8.01,
-  "mean_delta": 1.35,
+  "max_delta": 8.71,
+  "mean_delta": 1.44,
   "wrap_delta": 0.0
  },
- "n_drawings": 41,
+ "n_drawings": 46,
  "keys_used": [
   "k01",
   "k02",
   "k03",
   "k04",
+  "k05",
   "k06",
   "k07",
   "k08",

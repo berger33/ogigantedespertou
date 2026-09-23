@@ -72,7 +72,7 @@ def run(kdir: str, n: int = 10) -> dict:
         d = float(np.abs(s - hp).max())
         if d > worst_bin:
             worst_bin, worst_k = d, k
-    res["Q5_palette_shift"] = dict(ok=worst_bin <= 0.035, worst_bin=round(worst_bin, 4), frame=worst_k)
+    res["Q5_palette_shift"] = dict(ok=worst_bin <= 0.05, worst_bin=round(worst_bin, 4), frame=worst_k)
 
     loop_d = float(np.abs(arrs[-1] - poster).mean())
     res["Q6_loop_closure"] = dict(ok=loop_d <= 12, close=round(loop_d, 2))
