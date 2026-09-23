@@ -1,6 +1,6 @@
 # Relatório — Parte 1 (Lote 1): Religião
 
-> Execução do plano `docs/ANIM_V2_PLANO_LOTES.md`, Parte 1: as 10 missões do mapa
+> Execução do plano `docs/ANIM_V2_PLANO_LOTES.md` (método **descartado** — ver aviso no topo daquele documento).
 > **Religião** (`p4_01`…`p4_10`) deixaram de ser "movimento sutil" e passaram a ser
 > **loops narrativos**: setup → ação → resolução → reset, com emenda fechada.
 > Este é o lote padrão-ouro, porque contém os três exemplos de complexidade do dono.

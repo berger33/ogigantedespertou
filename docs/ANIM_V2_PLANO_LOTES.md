@@ -1,6 +1,12 @@
 # PLANO DE ANIMAÇÃO V3 — LOOPS NARRATIVOS (50 missões, lotes de 10)
 
-> **Status:** vigente a partir de 2026-09-23. Substitui o plano v2
+> ⚠️ **SUPERADO / REPROVADO (2026-09-23).** A Parte 1 (Religião) foi executada e o dono **reprovou**:
+> "as animações viraram gelatinas". Causa raiz: o método esticava a própria pintura (warp com máscara
+> sobre placa única) e usava clips de 1,5 s / 12 quadros sem antecipação, holds nem follow-through.
+> **Plano vigente:** `docs/ANIM_V4_PLANO_REMAKE.md` — remake total: 5 s por clip, 10 fps + 12–18 fps,
+> separação real de camadas, 8 lints anti-gelatina. Este documento permanece apenas como registro.
+>
+> **Status original:** vigente a partir de 2026-09-23. Substitui o plano v2
 > (mesmo arquivo, lotes de 3+7) e o estado v1 (50/50 loops de movimento
 > sutil). Este é o plano de **produção** pedido pelo dono: história de
 > verdade em cada missão, validação de **10 em 10**.
