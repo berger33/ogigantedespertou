@@ -1,7 +1,7 @@
 {
  "id": "p5_02",
- "version": 6,
- "method": "ai-keyframes",
+ "version": "6.1",
+ "method": "ai-keyframes+tween",
  "duration_ms": 5000,
  "frames": 10,
  "drawing_ms": 500,
@@ -36,5 +36,25 @@
   "Q10 · volta exata ao estado do Q01 (loop perfeito)"
  ],
  "gate2": "CANDIDATA — k05 reprovado no lint Q5 (poço brilhando além do beat; regeneração por IA na próxima rodada). Não promovido: aguarda QA 10/10 verde e o ok do dono.",
- "qa_status": "9/10 verdes (Q5 falha no k05)"
+ "qa_status": "9/10 verdes (Q5 falha no k05)",
+ "drawings": 41,
+ "step_ms": 121,
+ "keys": [
+  "k01",
+  "k02",
+  "k03",
+  "k04",
+  "k06",
+  "k07",
+  "k08",
+  "k09",
+  "k10"
+ ],
+ "tweens_per_pair": 4,
+ "smoothness": {
+  "ok": true,
+  "max_delta": 8.01,
+  "mean_delta": 1.35,
+  "wrap_delta": 0.0
+ }
 }

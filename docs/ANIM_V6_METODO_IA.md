@@ -59,6 +59,17 @@ um evento primário por vez, e **retorna exatamente ao estado inicial** (loop pe
 Reprovou → o keyframe é re-gerado com instrução mais dura (até 3 tentativas;
 persistindo, o quadro volta ao estado do poster + regeneração só da região).
 
+## 4.1 Suavidade — camada de in-betweens (v6.1)
+
+Crítica do dono ao primeiro piloto: "movimentações aleatórias e não contínuas". Correção:
+entre cada par de poses-chave IA o pipeline gera **4 in-betweens** (`tools/animia/tween.py`)
+com translação estimada por correlação FFT dos elementos em movimento (sem deformar pintura)
++ crossfade smoothstep no resto. Resultado: **41 desenhos @ ~122 ms**, delta médio entre
+desenhos **1,35** (era o salto inteiro entre poses), emenda do loop **delta 0** (o último
+desenho É o poster). Lint novo **Q8_smoothness**: max Δ entre desenhos consecutivos ≤ 12.
+Keyframe reprovado no QA de frames (ex.: k05) é **excluído da sequência** — o tween entre
+os vizinhos cobre o beat, e o quadro é regenerado por IA na rodada seguinte.
+
 ## 5. Especificação de entrega (por missão)
 
 | Item | Valor |

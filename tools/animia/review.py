@@ -24,7 +24,7 @@ table{{width:100%%;border-collapse:collapse;font-size:13.5px}}td,th{{padding:6px
 <div class="wrap">
 <div class="grid">
  <div class="card"><h2>Candidata v6 — 5 s, 10 desenhos IA, loop perfeito</h2><img class="clip" src="{rel}v6/loop.webp">
- <p class="mut">10 keyframes gerados por IA a partir do poster (âncora única, 1 mudança por edição). Contêiner 10 fps · 500 ms por desenho.</p></div>
+ <p class="mut">Keyframes IA (âncora única, 1 mudança por edição) + 4 in-betweens por par (tools/animia/tween.py) → {ndraw} desenhos suaves. Loop fecha no próprio poster (delta 0).</p></div>
  <div class="card"><h2>Frame original (Q01) — a âncora</h2><img class="clip" src="{rel}poster.webp">
  <p class="mut">Poster aprovado: entrada de todas as gerações e quadro de abertura/fechamento. Nunca é substituído.</p></div>
 </div>
@@ -39,6 +39,10 @@ table{{width:100%%;border-collapse:collapse;font-size:13.5px}}td,th{{padding:6px
 def build(kdir: str, out: str) -> str:
     meta = json.load(open(os.path.join(kdir, "meta.json")))
     qa = json.load(open(os.path.join(kdir, "qa.json")))
+    try:
+        qa["Q8_smoothness"] = json.load(open(os.path.join(kdir, "qa_smooth.json")))["Q8_smoothness"]
+    except Exception:
+        pass
     aj = json.load(open("src/content/animations.json"))
     sid = meta["id"]; sc = aj["scenes"][sid]
     root = os.path.dirname(os.path.abspath(out))
@@ -51,7 +55,9 @@ def build(kdir: str, out: str) -> str:
     keys = "".join(f"<img src='{rel}frames/ff_{i:02d}.webp'>" for i in range(10))
     beats = "".join(f"<tr><td>Q{k:02d} · {k*500}–{(k+1)*500} ms</td><td>{b}</td></tr>"
                     for k, b in enumerate(meta.get("beats", [])))
-    html = HTML.format(id=sid, title=sc.get("label", "").title(), flavor=sc.get("flavor", ""),
+    import json as _j
+    ndraw = _j.load(open(os.path.join(kdir, "qa_smooth.json"))).get("n_drawings", "?")
+    html = HTML.format(ndraw=ndraw, id=sid, title=sc.get("label", "").title(), flavor=sc.get("flavor", ""),
                        accent=sc.get("accent", "#4DC3FF"),
                        chips="".join(f"<span class='chip'>{c}</span>" for c in
                                      ["5,00 s", "10 desenhos IA", "âncora = poster", "loop perfeito", "câmera travada"]),
