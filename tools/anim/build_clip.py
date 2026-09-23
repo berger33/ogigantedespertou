@@ -79,6 +79,8 @@ def compose_frame(meta: dict, plate: Image.Image, layers: dict,
             if "region" in p:
                 x0, y0, x1, y1 = p["region"]
                 p["region"] = [x0 + dx, y0 + dy, x1 + dx, y1 + dy]
+        if not (p["t0"] <= t_ms <= p["t1"]):
+            continue                      # janela do FX (vale para todos os kinds)
         kind = f["kind"]
         if kind in fx.ATLAS_KINDS:
             fx.ATLAS_KINDS[kind](canvas, t_ms, p, atlases[f["atlas"]])
@@ -125,6 +127,10 @@ def build(meta_path: str, quality: int | None = None) -> dict:
     if len(frames) > 2 and np.array_equal(np.asarray(frames[-1]), np.asarray(frames[0])):
         durs[0] += durs.pop(-1)
         frames.pop(-1); masks.pop(-1)
+    # fecha exatamente em duration_ms (compensa arredondamentos dos steps)
+    delta = meta["duration_ms"] - sum(durs)
+    if delta:
+        durs[-1] += delta
 
     out = os.path.join(root)
     os.makedirs(os.path.join(out, "frames"), exist_ok=True)

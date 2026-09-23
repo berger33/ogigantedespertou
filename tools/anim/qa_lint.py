@@ -66,19 +66,18 @@ def run(meta_path: str, limit_kb: int) -> dict:
     plate = Image.open(os.path.join(root, meta["plate"])).convert("RGB").resize((W, H))
     res = {}
 
-    # ---- L4 timing
+    sched = motion.build_schedule(meta["profile"])
+    # ---- L4 timing (segmentos vêm da agenda autoritativa; o total, do encode)
     total = sum(durs)
-    seg_a = [d for d, s in zip(durs, _frame_fps(meta, durs)) if s == 10]
-    seg_b = [d for d, s in zip(durs, _frame_fps(meta, durs)) if s != 10]
-    sa, sb = sum(seg_a) / 1000, sum(seg_b) / 1000
-    fps_b = sorted(set(_frame_fps(meta, durs)) - {10})
+    st = motion.schedule_stats(sched)
+    sa, sb = st["segA_s"], st["segB_s"]
+    fps_b = st["segB_fps"]
     ok4 = abs(total - 5000) <= 50 and 3.0 <= sa <= 4.0 and 1.0 <= sb <= 2.0 \
         and all(12 <= f <= 18 for f in fps_b)
     res["L4_timing"] = dict(ok=ok4, total_ms=total, segA_s=round(sa, 3),
                             segB_s=round(sb, 3), segB_fps=fps_b)
 
     # ---- L8 perf
-    sched = motion.build_schedule(meta["profile"])
     kb = os.path.getsize(loop) / 1024
     ok8 = kb <= limit_kb and 52 <= len(sched) <= 66
     res["L8_perf"] = dict(ok=ok8, loop_kb=round(kb, 1), limit_kb=limit_kb,
