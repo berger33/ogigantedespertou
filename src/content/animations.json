@@ -1,6 +1,6 @@
 {
- "_comment": "Spec v6 — RESET de animações (pedido do dono): nenhuma missão animada; apenas o frame original (poster.webp). Remake passa a ser por IA — keyframes gerados em sequência (docs/ANIM_V6_METODO_IA.md).",
- "version": 6,
+ "_comment": "Spec v7 — piloto p5_02 animado pelo RIG ESTRUTURAL (docs/ANIM_V7_RIG.md): 30 quadros @ 5 fps, 6 s, loop perfeito; fundo = poster imutável. Demais missões permanecem só com o frame original (poster.webp).",
+ "version": 7,
  "stage": {
   "width": 320,
   "height": 88
@@ -276,7 +276,13 @@
    "label": "A FÓRMULA DA ÁGUA",
    "accent": "#4DC3FF",
    "poster": "assets/anim/p5_02/poster.webp",
-   "animated": false
+   "animated": true,
+   "src": "assets/anim/p5_02/v7/loop.webp",
+   "method": "rig-v7",
+   "fps": 5,
+   "frames": 30,
+   "duration_ms": 6000,
+   "loop_perfect": true
   },
   "p5_03": {
    "label": "O APAGÃO CIBERNÉTICO",

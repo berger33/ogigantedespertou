@@ -1,0 +1,26 @@
+{
+ "id": "p5_02",
+ "version": "7",
+ "method": "rig-estrutural",
+ "fps": 5,
+ "duration_ms": 6000,
+ "frames": 30,
+ "step_ms": 200,
+ "size": [
+  640,
+  360
+ ],
+ "loop": "perfect (frame30 == frame0, meanabsdiff=0.0000)",
+ "anchor": "poster.webp (fundo imutável)",
+ "ai_assets": [
+  "ai/splash.png (chroma-key)"
+ ],
+ "drop_sprite": "recortada dos pixels do poster (diff vs base)",
+ "beats": [
+  "k00–02 · gota no ponto do poster, assenta no líquido",
+  "k03–08 · SPLASH (sprite IA) + anéis de ondulação",
+  "k09–19 · brilho da superfície reage; ponteiro coiceia e volta",
+  "k20–29 · gota se forma no bico da pipeta e desce até o ponto do poster",
+  "torneira: gotinha cai no copinho 1× por ciclo (k28–02) + glint"
+ ]
+}
