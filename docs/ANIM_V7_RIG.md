@@ -85,5 +85,20 @@ beirada). Idempotente.
 ## 6. Rollout das demais missões
 
 Mesmo rig, missão a missão: medir geometria no poster (bicos, superfícies,
-mostradores), definir beats, rodar `rig_v7.py --mission <id>` + `qa_v7.py` +
-`review_v7.py`, promover na spec só com QA 6/6 e portão do dono.
+mostradores), definir beats, rodar QA + review, promover na spec só com QA 6/6
+e portão do dono. A partir do p1_01 o código comum mora em `tools/animia/riglib.py`
+(paste/glow/ring/star, inpaint, contact sheet, `finalize()` que renderiza os 30
+quadros + loop.webp + loop.gif + meta + QA num comando só); cada cena nova é um
+script fino por cima (`rig_p1_01.py`, depois `rig_p2_01.py`…).
+
+### 6.1 p1_01 “COMPRAR COM CRIPTO” (pronta, aguardando portão do dono)
+
+100% overlays, personagem nunca cortado. Beats: ticker do gráfico rolando no
+retângulo coberto (437,0)–(598,48) com deslocamento exato de 1 padrão por loop
+(PAT=80 → fechamento perfeito); ponto da ponta piscando; ENTER no k11 com pulso
+de luz na tela e no rosto; moeda de ouro voa k10–14 por corredor limpo (abaixo da
+orelha, por cima do colarinho) com anéis de impacto no botão; flash de pump
+k14–17 clareando a linha do gráfico; vapor do café procedural (o original foi
+inpaintado pra fora); brilhos de digitação no teclado; pulso da luminária.
+QA 6/6, closure 0.0, cobertura 28.1%. Spec ainda intacta: promoção só após o
+dono ver o loop.gif.
