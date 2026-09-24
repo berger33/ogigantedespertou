@@ -11,16 +11,14 @@
   360
  ],
  "loop": "perfect (frame30 == frame0, meanabsdiff=0.0000)",
- "anchor": "poster.webp (fundo imutável)",
- "ai_assets": [
-  "ai/splash.png (chroma-key)"
- ],
- "drop_sprite": "recortada dos pixels do poster (diff vs base)",
+ "anchor": "poster.webp (fundo imutável, veneno verde)",
+ "ai_assets": [],
+ "drop_sprite": "recortada dos pixels do poster (máscara colorida limitada à silhueta — sem beirada do tanque)",
  "beats": [
-  "k00–02 · gota no ponto do poster, assenta no líquido",
-  "k03–08 · SPLASH (sprite IA) + anéis de ondulação",
-  "k09–19 · brilho da superfície reage; ponteiro coiceia e volta",
-  "k20–29 · gota se forma no bico da pipeta e desce até o ponto do poster",
-  "torneira: gotinha cai no copinho 1× por ciclo (k28–02) + glint"
+  "k00–02 · gota de veneno no ponto do poster, cai no líquido",
+  "k03–04 · gota afunda e se mistura (squash + fade) + anéis",
+  "k05–19 · brilho da superfície reage; ponteiro coiceia e volta",
+  "k20–29 · gota se forma no bico da pipeta e desce até o poster",
+  "torneira: gotinha de água cai no copinho 1× por ciclo + glint"
  ]
 }

@@ -18,8 +18,8 @@ cima. Não há nenhuma imagem re-desenhada por quadro — logo, não há deriva 
 | Camada | Origem | Movimento |
 |---|---|---|
 | Fundo (base) | poster + 2 furos inpaintados por interpolação horizontal das faixas vizinhas (procedural) | **nenhum — imutável nos 30 quadros** |
-| Gota principal | recortada dos **próprios pixels do poster** (máscara = diff poster×base, limitada a silhueta de gota paramétrica) | forma no bico → desce → some no splash (periódico) |
-| Splash | **único asset de IA** (`v7/ai/splash.png`, sprite isolado em fundo magenta, chroma-key) | pop + fade no impacto |
+| Gota principal | recortada dos **próprios pixels do poster** (flood-fill bloqueado no outline — a água do tanque tem a mesma cor, mas fica fora; a silhueta paramétrica e o outline limitam a máscara) | forma no bico → desce → **afunda e se mistura** (squash + fade + anéis; sem coroa) |
+| Gotinha da torneira | recortada do poster (sprite próprio, ciano = água do tanque) | 1 queda por ciclo + glint no copinho |
 | Anéis/brilhos/sparkles/glint | vetores procedurais (gaussianas, estrelas) | funções periódicas de k |
 | Ponteiro do manômetro | tampa o original e redesenha (vetor) | balança + coice no splash, periódico |
 | Gotinha da torneira | mesmo sprite da gota do poster em escala .38 | 1 queda por ciclo + glint no copinho |
@@ -50,14 +50,23 @@ gaussianas com suporte dentro do ciclo → **frame(30) ≡ frame(0) exato**
 | Q5 | step_delta: diff média entre consecutivos ≤ 20 | máx 1.2 |
 | Q6 | entrega: RIFF, 30× ANMF 200 ms, ≤ 900 KB | 296 KB |
 
-## 5. IA neste método — papel deliberadamente pequeno
+## 5. IA neste método — papel zero
 
-A IA entra **uma vez**, para gerar um sprite de estilo (o splash), isolado em
-fundo magenta e aplicado por chroma-key. Tentativas de usar IA para editar o
+O piloto final é **100% procedural**: nem o splash veio da IA (a coroa foi
+substituída pela própria gota afundando). Tentativas de usar IA para editar o
 cenário (plates “sem a gota”) foram testadas e **descartadas**: o modelo
 re-desenha a composição inteira (pose/rosto/ponteiro mudam), exatamente a deriva
 que o método existe para eliminar. Tudo que exige fidelidade de pixel é
 procedural ou recortado do poster.
+
+### 5.1 Veneno verde (recolor_v7.py)
+
+Pedido do dono: o líquido da pipeta e as gotas que caem dela são **verde
+veneno**; a água do tanque/torneira/copinho continua ciano. Implementação:
+hue shift −45° (S/V preservados) restrito ao bbox da pipeta, e a gota central é
+recortada limpa, recolored e colada de volta sobre o furo inpaintado — o halo
+vira overlay procedural no rig (nunca baked, para não carregar pixels da
+beirada). Idempotente.
 
 ## 6. Rollout das demais missões
 

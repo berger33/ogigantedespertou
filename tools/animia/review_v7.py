@@ -34,9 +34,10 @@ table{{width:100%;border-collapse:collapse;font-size:13.5px}}td,th{{padding:6px 
 <ul>
 <li><b>v6 (apagado):</b> cada quadro era um re-desenho (IA + tween) → camisa/tanque/ponteiro derivavam entre quadros.</li>
 <li><b>v7:</b> o fundo NUNCA é re-gerado — é o poster com dois furos inpaintados por interpolação procedural.</li>
-<li>A <b>gota</b> é recortada dos próprios pixels do poster (máscara = diff poster×base) — estilo idêntico por ser o mesmo desenho.</li>
-<li>O <b>splash</b> é o único asset de IA (sprite em fundo magenta, chroma-key), isolado — não toca no resto da cena.</li>
-<li>Ponteiro, anéis, brilhos e sparkles são vetores procedurais; todo movimento é <b>periódico</b> (período 30) → loop fecha por construção.</li>
+<li>A <b>gota</b> é recortada dos próprios pixels do poster (flood-fill bloqueado no outline — NUNCA carrega a beirada do tanque; o brilho é overlay procedural).</li>
+<li><b>Veneno verde:</b> líquido da pipeta e gotas dela recoloridos (hue shift, tools/animia/recolor_v7.py); água do tanque, torneira e copinho permanecem ciano.</li>
+<li><b>Sem coroa:</b> no impacto a própria gota afunda (squash + fade) e se mistura; anéis e brilho da superfície reagem.</li>
+<li>Ponteiro, anéis, brilhos e sparkles são vetores procedurais; todo movimento é <b>periódico</b> (período 30) → loop fecha por construção. 100% procedural — zero assets de IA.</li>
 </ul></div>
 <div class="card" style="margin-top:18px"><h2>QA de consistência (tools/animia/qa_v7.py)</h2><table>{qa_rows}</table></div>
 <div class="card" style="margin-top:18px"><h2>Contact sheet — os 30 quadros</h2><img class="clip" src="../assets/anim/{id}/v7/contact.png"></div>
