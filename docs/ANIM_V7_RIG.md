@@ -39,6 +39,18 @@ gaussianas com suporte dentro do ciclo → **frame(30) ≡ frame(0) exato**
 | Spec | `animated:true, method:"rig-v7", fps:5, frames:30, duration_ms:6000, loop_perfect:true` |
 | Revisão | `src/review/v7_<id>.html` (`tools/animia/review_v7.py`) |
 
+### 3.1 Padrão de exibição (pedido do dono, set/2026)
+
+**Toda animação nova é mostrada ao dono EM TEMPO REAL, fora do jogo, ANTES de
+qualquer promoção na spec** — e o loop novo **substitui o anterior no mesmo
+caminho** (`v7/loop.webp`), nunca convivem dois. Na prática:
+
+1. render + QA 6/6;
+2. `present_file` do `v7/loop.webp` (o webp animado roda direto no viewer) **e**
+   link direto de download/preview (`https://8000-<sandbox>.e2b.app/assets/anim/<id>/v7/loop.webp`)
+   + folha `review/v7_<id>.html`;
+3. só depois do ok do dono: `animated:true` na spec (substituindo o loop anterior).
+
 ## 4. QA (`tools/animia/qa_v7.py`) — piloto 6/6
 
 | # | Lint | Resultado do piloto |
