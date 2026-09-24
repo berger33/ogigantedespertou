@@ -1,0 +1,354 @@
+{
+  "_comment": "Laboratório de Sósias (spec §43-§49). Um sósia por missão; duplicata → Puxa-Saco.",
+  "cost": 15,
+  "firstFree": true,
+  "rarities": [
+    {
+      "id": "common",
+      "name": "Comum",
+      "mult": 5,
+      "weight": 74,
+      "faces": [
+        "🐶",
+        "🐱",
+        "🐔",
+        "🐸",
+        "🦆",
+        "🐢",
+        "🦜",
+        "🐷"
+      ]
+    },
+    {
+      "id": "uncommon",
+      "name": "Incomum",
+      "mult": 10,
+      "weight": 21,
+      "faces": [
+        "👷",
+        "👨‍🍳",
+        "🚕",
+        "🧙",
+        "🕵️",
+        "🧑‍🚀",
+        "🥷",
+        "🎪"
+      ]
+    },
+    {
+      "id": "rare",
+      "name": "Raro",
+      "mult": 50,
+      "weight": 4,
+      "faces": [
+        "👑",
+        "🎩",
+        "🦅",
+        "🐲",
+        "🦄",
+        "🏆",
+        "🔮",
+        "🎻"
+      ]
+    },
+    {
+      "id": "epic",
+      "name": "Especial",
+      "mult": 100,
+      "weight": 1,
+      "faces": [
+        "🧠",
+        "🛸",
+        "🌋",
+        "🌀",
+        "☄️",
+        "🌑",
+        "⚡",
+        "🪐"
+      ]
+    }
+  ],
+  "pity": 25,
+  "catalog": [
+    {
+      "id": "CLN_01",
+      "name": "Tio do Zap",
+      "rarity": "common",
+      "producer": "p1_01",
+      "line": "Lance na bolsa via 'carteira_final_v2_REAL.docx'."
+    },
+    {
+      "id": "CLN_02",
+      "name": "Mancheteira",
+      "rarity": "common",
+      "producer": "p1_02",
+      "line": "A manchete nasce antes do fato; o fato se atrasa."
+    },
+    {
+      "id": "CLN_03",
+      "name": "Zé Escamoso",
+      "rarity": "uncommon",
+      "producer": "p1_03",
+      "line": "Café com um escamoso que fala 7 línguas — nenhuma humana."
+    },
+    {
+      "id": "CLN_04",
+      "name": "Conselheiro",
+      "rarity": "common",
+      "producer": "p1_04",
+      "line": "Título na placa: 'Conselheiro'. Leitura: só a nossa."
+    },
+    {
+      "id": "CLN_05",
+      "name": "Boateiro",
+      "rarity": "rare",
+      "producer": "p1_05",
+      "line": "Cada boato é uma semente. Regue o grupo."
+    },
+    {
+      "id": "CLN_06",
+      "name": "Diva Hipnotizada",
+      "rarity": "common",
+      "producer": "p1_06",
+      "line": "O hit já vem com a mensagem embutida."
+    },
+    {
+      "id": "CLN_07",
+      "name": "General do Lucro",
+      "rarity": "uncommon",
+      "producer": "p1_07",
+      "line": "Paz é quando ninguém mais lucra com ela."
+    },
+    {
+      "id": "CLN_08",
+      "name": "Técnica do Roteador",
+      "rarity": "rare",
+      "producer": "p1_08",
+      "line": "Sinal forte, convicção mais forte."
+    },
+    {
+      "id": "CLN_09",
+      "name": "Fantoche Diplomado",
+      "rarity": "uncommon",
+      "producer": "p1_09",
+      "line": "Trocamos o roteiro, não o elenco."
+    },
+    {
+      "id": "CLN_10",
+      "name": "Meteorologista do Caos",
+      "rarity": "epic",
+      "producer": "p1_10",
+      "line": "Chuva no bloco A, sol no bloco B."
+    },
+    {
+      "id": "CLN_11",
+      "name": "Eleitor do Meme",
+      "rarity": "common",
+      "producer": "p2_01",
+      "line": "Ele votava no meme. Agora vota na gente."
+    },
+    {
+      "id": "CLN_12",
+      "name": "Estatístico Comprado",
+      "rarity": "common",
+      "producer": "p2_02",
+      "line": "A pergunta foi feita; a resposta já veio pronta."
+    },
+    {
+      "id": "CLN_13",
+      "name": "Deputado do Meio",
+      "rarity": "uncommon",
+      "producer": "p2_03",
+      "line": "Nem esquerda, nem direita: reels."
+    },
+    {
+      "id": "CLN_14",
+      "name": "Relator Secreto",
+      "rarity": "common",
+      "producer": "p2_04",
+      "line": "O sigilo do plano virou concurso de charadas."
+    },
+    {
+      "id": "CLN_15",
+      "name": "Robô de Plenário",
+      "rarity": "rare",
+      "producer": "p2_05",
+      "line": "O adversário é bot; a derrota, viral."
+    },
+    {
+      "id": "CLN_16",
+      "name": "Cabo da Praça",
+      "rarity": "common",
+      "producer": "p2_06",
+      "line": "A verdade ao alcance do ouvido alheio."
+    },
+    {
+      "id": "CLN_17",
+      "name": "Promessa de Dupla",
+      "rarity": "uncommon",
+      "producer": "p2_07",
+      "line": "Entrada franca; convicção inclusa."
+    },
+    {
+      "id": "CLN_18",
+      "name": "Jurista do Áudio",
+      "rarity": "rare",
+      "producer": "p2_08",
+      "line": "Artigo 1º: encaminhem."
+    },
+    {
+      "id": "CLN_19",
+      "name": "Sósia Eleito",
+      "rarity": "uncommon",
+      "producer": "p2_09",
+      "line": "O original governa; o sósia cumpre horário."
+    },
+    {
+      "id": "CLN_20",
+      "name": "Proclamador Relativo",
+      "rarity": "epic",
+      "producer": "p2_10",
+      "line": "Metade vota, a outra concorda."
+    },
+    {
+      "id": "CLN_21",
+      "name": "Escavador de Lumiar",
+      "rarity": "common",
+      "producer": "p3_01",
+      "line": "A capital dos grupos, 200 m abaixo do estacionamento."
+    },
+    {
+      "id": "CLN_22",
+      "name": "Modem Subterrâneo",
+      "rarity": "common",
+      "producer": "p3_02",
+      "line": "A senha é 'lumiar'."
+    },
+    {
+      "id": "CLN_23",
+      "name": "Cartógrafo Cego",
+      "rarity": "uncommon",
+      "producer": "p3_03",
+      "line": "O mapa muda sozinho; a fé, não."
+    },
+    {
+      "id": "CLN_24",
+      "name": "Proprietário do Nada",
+      "rarity": "common",
+      "producer": "p3_04",
+      "line": "Escritura lavrada em grupo de Zap."
+    },
+    {
+      "id": "CLN_25",
+      "name": "Turista do Subsolo",
+      "rarity": "rare",
+      "producer": "p3_05",
+      "line": "Vista deslumbrante: um lençol freático."
+    },
+    {
+      "id": "CLN_26",
+      "name": "Cônsul Invisível",
+      "rarity": "common",
+      "producer": "p3_06",
+      "line": "Embaixada com bandeira que ninguém viu."
+    },
+    {
+      "id": "CLN_27",
+      "name": "Exportador Lendário",
+      "rarity": "uncommon",
+      "producer": "p3_07",
+      "line": "Rastreamento: 'em rota lendária'."
+    },
+    {
+      "id": "CLN_28",
+      "name": "Prefeito Fantasma",
+      "rarity": "rare",
+      "producer": "p3_08",
+      "line": "Prefeito da cidade que a cartografia nega."
+    },
+    {
+      "id": "CLN_29",
+      "name": "Impressor de Convicção",
+      "rarity": "uncommon",
+      "producer": "p3_09",
+      "line": "Lastro: convicção."
+    },
+    {
+      "id": "CLN_30",
+      "name": "Porteiro do Legendário",
+      "rarity": "epic",
+      "producer": "p3_10",
+      "line": "Catraca para o legendário."
+    },
+    {
+      "id": "CLN_31",
+      "name": "Fiel do Cashback",
+      "rarity": "common",
+      "producer": "p4_01",
+      "line": "Dízimo com nota fiscal e devolução."
+    },
+    {
+      "id": "CLN_32",
+      "name": "Coral Sintético",
+      "rarity": "common",
+      "producer": "p4_02",
+      "line": "O coral é gerado; o milagre, ao vivo."
+    },
+    {
+      "id": "CLN_33",
+      "name": "Relicário da Semana",
+      "rarity": "uncommon",
+      "producer": "p4_03",
+      "line": "Astro por procuração, bênção por assinatura."
+    },
+    {
+      "id": "CLN_34",
+      "name": "Engarrafador da Fonte",
+      "rarity": "common",
+      "producer": "p4_04",
+      "line": "Certificado de bênção incluso na garrafa."
+    },
+    {
+      "id": "CLN_35",
+      "name": "Remarcador do Fim",
+      "rarity": "rare",
+      "producer": "p4_05",
+      "line": "Nova data: depois da novela."
+    },
+    {
+      "id": "CLN_36",
+      "name": "Bingo Seráfico",
+      "rarity": "common",
+      "producer": "p4_06",
+      "line": "Cartela premiada com... salvação?"
+    },
+    {
+      "id": "CLN_37",
+      "name": "Restaurador do Xarope",
+      "rarity": "uncommon",
+      "producer": "p4_07",
+      "line": "O choro é real; o xarope, de farmácia."
+    },
+    {
+      "id": "CLN_38",
+      "name": "Mestre do Arrepio",
+      "rarity": "rare",
+      "producer": "p4_08",
+      "line": "Arrepio com garantia estendida."
+    },
+    {
+      "id": "CLN_39",
+      "name": "Arqueólogo do Áudio",
+      "rarity": "uncommon",
+      "producer": "p4_09",
+      "line": "Estava no áudio de 11 minutos."
+    },
+    {
+      "id": "CLN_40",
+      "name": "Franqueado Celeste",
+      "rarity": "epic",
+      "producer": "p4_10",
+      "line": "A primeira franquia pós-morte."
+    }
+  ]
+}

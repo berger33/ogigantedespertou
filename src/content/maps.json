@@ -1,0 +1,44 @@
+{
+  "maps": [
+    {
+      "id": "phase1",
+      "name": "Deep Web",
+      "icon": "🕳️",
+      "color": "#14532D",
+      "flavor": "A internet que ninguém admite frequentar.",
+      "finalNote": "dominar os sistemas de controle do clima"
+    },
+    {
+      "id": "phase2",
+      "name": "Democracia Relativa",
+      "icon": "🗳️",
+      "color": "#B3261E",
+      "flavor": "Metade vota, a outra metade concorda. (sátira fictícia — sem candidatos reais)",
+      "finalNote": "proclamar a Democracia Relativa™"
+    },
+    {
+      "id": "phase3",
+      "name": "Pindorama",
+      "icon": "🇧",
+      "color": "#39FF9C",
+      "flavor": "Conspiração feita no Brasil: tem fonte. (Fonte não verificável.)",
+      "finalNote": "magnetizar as cédulas da nação"
+    },
+    {
+      "id": "phase4",
+      "name": "Religião",
+      "icon": "🕯️",
+      "color": "#D4AF37",
+      "flavor": "Milagres com nota fiscal. (sátira de vigaristas, sem ofender a fé de ninguém)",
+      "finalNote": "projetar o arrebatamento holográfico"
+    },
+    {
+      "id": "phase5",
+      "name": "Singularidade",
+      "icon": "🤖",
+      "color": "#8B5CF6",
+      "flavor": "A máquina pensa por nós. (E sobre nós.)",
+      "finalNote": "implantar o chip em todos"
+    }
+  ]
+}

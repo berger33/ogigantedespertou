@@ -1,0 +1,6 @@
+{
+  "crossfade_rects": [[420, 75, 525, 180]],
+  "crossfade_reason": "mostrador do medidor = ponteiro em ROTAÇÃO — tradução criava ponteiros fantasmas (auditoria do dono); o arco contínuo vem do keyframe intermediário k05b",
+  "trail": 0.85,
+ "max_components": 8
+}

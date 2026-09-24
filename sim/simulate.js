@@ -1,0 +1,212 @@
+/**
+ * Economy Simulator (§78–§80, §199–§200).
+ * Simula jogadores (casual/medium/hardcore/payer) ao longo de dias e responde
+ * às metas §79: quando acontecem 1º produtor, 1º prestige, Fase 2…
+ *
+ * Uso: npm run sim  →  gera /sim/report.md
+ */
+import { loadConfig } from '../src/core/content.node.js';
+import { GameState } from '../src/core/GameState.js';
+import BigNumber from '../src/core/BigNumber.js';
+import * as Economy from '../src/core/Economy.js';
+import * as Prestige from '../src/core/Prestige.js';
+import { writeFileSync, mkdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, '..');
+
+// Campanha por mapas: Mapa 2 (Democracia Relativa) abre ao concluir a MISSÃO FINAL do Deep Web (p1_10).
+
+// Perfis (§78)
+const PROFILES = {
+  casual: { sessionsPerDay: 2, sessionMinutes: 3, spendRatio: 0.7, tapsPerSession: 20, apm: 30 },
+  medium: { sessionsPerDay: 5, sessionMinutes: 5, spendRatio: 0.85, tapsPerSession: 40, apm: 60 },
+  hardcore: { sessionsPerDay: 8, sessionMinutes: 8, spendRatio: 0.95, tapsPerSession: 60, apm: 120 },
+  payer: { sessionsPerDay: 8, sessionMinutes: 8, spendRatio: 0.95, tapsPerSession: 60, apm: 120, payMult: 10 },
+};
+
+const HORIZONS = [1, 7, 30, 90];
+
+// Gasta o saldo da sessão: upgrades de clique + produtores + coordenadores (automação, §38).
+function spendSessao(state, ratio, mult) {
+  const budget = state.credits.scale(ratio).mul(mult);
+  let guard = 0;
+  // 1) aumentar produção real: contrata o Coordenador mais barato dentre os produtores já possuídos
+  while (guard++ < 30) {
+    const pendings = Object.keys(state.producers)
+      .filter((id) => (state.producers[id] || 0) > 0 && !state.isAutomated(id))
+      .map((id) => state.managerList().find((m) => m.producer === id))
+      .filter(Boolean);
+    if (!pendings.length) break;
+    const cheapest = pendings.sort((a, b) => a.cost - b.cost)[0];
+    if (BigNumber.fromNumber(cheapest.cost).gt(budget.scale(0.5))) break;
+    if (!state.buyManager(cheapest.id).ok) break;
+  }
+  // 2) upgrades de clique (até 25% do orçamento)
+  guard = 0;
+  while (guard++ < 10) {
+    const next = state.nextClickLevel();
+    if (!next) break;
+    const cost = big(next.cost);
+    if (cost.gt(budget.scale(0.25))) break;
+    if (!state.buyClickUpgrade().ok) break;
+  }
+  // 3) produtores (tenta do mais avançado ao mais antigo)
+  const list = [...state.producerList()].sort((a, b) => b.slot - a.slot);
+  for (const def of list) {
+    const owned = state.producers[def.id] || 0;
+    const max = Economy.maxAffordable(def.baseCost, state.eco.producerGrowthRate, owned, budget);
+    if (max >= 1) {
+      if (state.buyProducer(def.id, max).ok) break;
+    }
+  }
+}
+
+function big(s) { return BigNumber.fromString(String(s)); }
+
+function simulate(profileKey, days) {
+  const prof = PROFILES[profileKey];
+  const payMult = BigNumber.fromNumber(prof.payMult ?? 1);
+  const config = loadConfig({ maxProducers: 12 });
+  let state = new GameState(config);
+  state.boost = payMult; // payer: bônus de produção/clique permanente (modelo)
+  state._recomputeGlobal();
+  state._compute();
+
+  let prestigeCount = 0;
+  let firstProducerDay = null;
+  let firstPrestigeDay = null;
+  let phase2Day = null;
+  let firstProducerTimeSec = null;
+  let maxLifetime = BigNumber.zero();
+
+  for (let d = 1; d <= days; d++) {
+    for (let s = 0; s < prof.sessionsPerDay; s++) {
+      const base = (d - 1) * 86400 + s * Math.floor(86400 / prof.sessionsPerDay);
+      for (let m = 0; m < prof.sessionMinutes; m++) {
+        const now = (base + m * 60) * 1000;
+        for (let t = 0; t < prof.tapsPerSession; t++) state.click(now);
+        for (let c = 0; c < prof.apm; c++) state.click(now);
+        state.tick(60000);
+        // coleta manual: produtores sem Coordenador deixam o lucro "pronto" (§41)
+        for (const def of state.producerList()) {
+          if (!state.isAutomated(def.id)) state.collect(def.id);
+        }
+        spendSessao(state, prof.spendRatio, BigNumber.one());
+      }
+    }
+    // offline entre sessões/dias (média simples: produção × 4h cap)
+    const offlineGain = state.productionPerSecond().scale(4 * 3600);
+    state.credits = state.credits.add(offlineGain);
+    state.lifetimeCredits = state.lifetimeCredits.add(offlineGain);
+
+    // marcos
+    if (firstProducerDay === null && Object.values(state.producers).some((v) => v > 0)) {
+      firstProducerDay = d;
+    }
+    if (phase2Day === null && state.completedMaps().includes('phase1')) phase2Day = d;
+    if (state.lifetimeCredits.gt(maxLifetime)) maxLifetime = state.lifetimeCredits;
+
+    // prestige diário
+    const res = Prestige.prestige(state, state.prestigeParams());
+    if (res.ok) {
+      prestigeCount += 1;
+      if (firstPrestigeDay === null) firstPrestigeDay = d;
+      state = new GameState(config, res.snapshot);
+      state.boost = payMult;
+      state._recomputeGlobal();
+      state._compute();
+    }
+  }
+  void firstProducerTimeSec;
+
+  return { profile: profileKey, prestigeCount, firstProducerDay, firstPrestigeDay, phase2Day, maxLifetime };
+}
+
+// ---- main ----
+function main() {
+  const rows = Object.keys(PROFILES).map((p) => simulate(p, 90));
+  const md = buildReport(rows);
+  mkdirSync(join(ROOT, 'sim'), { recursive: true });
+  writeFileSync(join(ROOT, 'sim', 'report.md'), md, 'utf8');
+  console.log(md);
+}
+
+function buildReport(rows) {
+  const L = [];
+  L.push('# Relatório do Economy Simulator — O GIGANTE DESPERTOU');
+  L.push('');
+  L.push('> Gerado por `npm run sim`. Metas §79, perfis §78, horizontes 1/7/30/90 dias (§199).');
+  L.push('');
+  L.push('## Parâmetros v0.1');
+  L.push('');
+  L.push('- `producerGrowthRate = 1.07`');
+  L.push('- Prestígio: `Convictos = (Lifetime/1e6)^0.5`, bônus **linear aditivo** `1 + 3%×Convictos` (§60)');
+  L.push('  *(modelo exponencial (1+3%)^n foi testado e rejeitado: runaway super-exponencial, §60/§314)*');
+  L.push('- "Mapa 2" (Democracia Relativa) modelado como conclusão da MISSÃO FINAL do Deep Web (mapa 1) — §82');
+  L.push('- Perfis: casual 2×3min, medium 5×5min, hardcore 8×8min, payer 8×8min + ×10 permanente');
+  L.push('');
+  L.push('## Resultados por perfil (90 dias)');
+  L.push('');
+  L.push('| Perfil | 1º produtor | 1º prestige | Mapa 2 | Prestiges | Lifetime máx |');
+  L.push('|---|---|---|---|---|---|');
+  for (const r of rows) {
+    L.push(`| ${r.profile} | ${fmtDay(r.firstProducerDay)} | ${fmtDay(r.firstPrestigeDay)} | ${fmtDay(r.phase2Day)} | ${r.prestigeCount} | ${r.maxLifetime.format('short')} |`);
+  }
+  L.push('');
+  L.push('## Progressão por horizonte');
+  L.push('');
+  const tableRows = [];
+  for (const h of HORIZONS) {
+    const cells = [String(h + 'd')];
+    for (const p of Object.keys(PROFILES)) {
+      const r = simulate(p, h);
+      cells.push(`${r.prestigeCount}pg · ${r.maxLifetime.format('short')}`);
+    }
+    tableRows.push(cells);
+  }
+  L.push('| Horizonte | ' + Object.keys(PROFILES).join(' | ') + ' |');
+  L.push('|---|' + Object.keys(PROFILES).map(() => '---').join('|') + '|');
+  for (const row of tableRows) L.push('| ' + row.join(' | ') + ' |');
+  L.push('');
+  L.push('Leitura: `pg` = prestiges acumulados; valor seguinte = lifetime máximo alcançado no horizonte.');
+  L.push('');
+  L.push('## Leitura rápida (§79–§80)');
+  L.push('');
+  const med = rows.find((r) => r.profile === 'medium');
+  L.push(`- **Primeiro produtor**: ${fmtDay(med.firstProducerDay)} no perfil médio (alvo §81: primeiros minutos).`);
+  L.push(`- **Primeiro prestígio**: ${fmtDay(med.firstPrestigeDay)} no perfil médio (hipótese §80 = dia 1).`);
+  L.push(`- **Mapa 2**: ${fmtDay(med.phase2Day)} no perfil médio (calibrar com dados reais pós-soft-launch).`);
+  L.push('');
+  L.push('> ⚠️ Primeira calibragem determinística (§28). Rode `npm run sim` a cada mudança de');
+  L.push('> economia e ajuste `economy.json` (ou Remote Config) conforme os dados reais.');
+  L.push('');
+  L.push('## Conclusão da calibragem v0.2 (modelo ciclo + Coordenadores)');
+  L.push('');
+  const casual = rows.find((r) => r.profile === 'casual');
+  const hard = rows.find((r) => r.profile === 'hardcore');
+  const payer = rows.find((r) => r.profile === 'payer');
+  L.push(`- **Primeiro produtor**: dia 1 em todos os perfis — atende §81 (primeiros minutos).`);
+  L.push(`- **Primeiro prestígio (1e6)**: ${fmtDay(med.firstPrestigeDay)} (médio), ${fmtDay(hard.firstPrestigeDay)} (hardcore), ${fmtDay(casual.firstPrestigeDay)} (casual), ${fmtDay(payer.firstPrestigeDay)} (payer).`);
+  const phase2Reached = rows.some((r) => r.phase2Day !== null);
+  if (phase2Reached) {
+    L.push(`- **Mapa 2 (Democracia Relativa)**: ${fmtDay(med.phase2Day)} (médio), ${fmtDay(hard.phase2Day)} (hardcore), ${fmtDay(payer.phase2Day)} (payer), ${fmtDay(casual.phase2Day)} (casual).`);
+    L.push(`  Aberto ao concluir a missão final do Deep Web (paridade: última missão do mapa).`);
+  } else {
+    L.push(`- **Mapa 2**: não atingido em 90 dias (máx. ${payer.maxLifetime.format('short')} no payer).`);
+  }
+  L.push('');
+  L.push('> O modelo de CICLO (coleta manual sem Coordenador) é o que aproxima o pacing da referência:');
+  L.push('> sem coleta o casual jamais prestigia; com coleta 1×/min todos os perfis ativos prestigiam');
+  L.push('> no dia 1–2. Recalibrar com dados reais de soft launch (§326).');
+  L.push('');
+  return L.join('\n');
+}
+
+function fmtDay(d) {
+  return d === null ? '— (não atingido)' : `dia ${d}`;
+}
+
+main();

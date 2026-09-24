@@ -1,0 +1,77 @@
+{
+ "id": "p5_02",
+ "version": "6.1",
+ "method": "ai-keyframes+tween-v3",
+ "duration_ms": 5000,
+ "frames": 10,
+ "drawing_ms": 500,
+ "size": [
+  640,
+  360
+ ],
+ "loop": "perfect (Q10 = Q01)",
+ "anchor": "../poster.webp",
+ "keyframes": [
+  "k02.png",
+  "k03.png",
+  "k04.png",
+  "k05.png",
+  "k06.png",
+  "k07.png",
+  "k08.png",
+  "k09.png",
+  "k10.png"
+ ],
+ "qa": "qa.json",
+ "beats": [
+  "Q01 · repouso: cientista segura a pipeta com uma gota prestes a cair (o POSTER)",
+  "Q02 · a gota estica e duas companhias se soltam (antecipação da dose)",
+  "Q03 · três gotas caem em linha (a fórmula being dosada)",
+  "Q04 · SPLASH: coroa de líquido brilha no poço (o pico da ação)",
+  "Q05 · espuma e ondulação assentam (a dose foi absorvida)  [reprovado no Q5 — regenerar]",
+  "Q06 · manômetro estoura no vermelho + torneira pinga (a máquina reage)",
+  "Q07 · o copinho da mesa TRANSBORDA brilhando (a piada: nunca é suficiente)",
+  "Q08 · poço calmo, ponteiro voltando (resolução)",
+  "Q09 · cientista relaxa os braços (assentamento)",
+  "Q10 · volta exata ao estado do Q01 (loop perfeito)"
+ ],
+ "gate2": "Candidata v6.1-auditada — ponteiro contínuo e gotas em física correta. Aguarda o dono.",
+ "qa_status": "10/10 (Q1–Q7) + Q8 suave",
+ "drawings": 51,
+ "step_ms": 98,
+ "keys": [
+  "k01",
+  "k02",
+  "k03",
+  "k04",
+  "k05",
+  "k05b",
+  "k06",
+  "k07",
+  "k08",
+  "k09",
+  "k10"
+ ],
+ "tweens_per_pair": 4,
+ "smoothness": {
+  "ok": true,
+  "max_delta": 8.71,
+  "mean_delta": 1.34,
+  "wrap_delta": 0.0
+ },
+ "keys_excluded": [],
+ "audit": {
+  "ronda": "pós-feedback do dono (2ª auditoria)",
+  "achados": [
+   "ponteiro 'bagunçado': tween traduzia elemento em ROTAÇÃO → ponteiros fantasmas e vai-e-vem",
+   "gotas 'acima de onde deveriam': motion trail duplo (A avança E B recua) duplicava elementos"
+  ],
+  "correções": [
+   "tween v3: pareamento 1:1 + caminho ÚNICO (A→B), sem trilha de retorno",
+   "elemento sem par faz fade no lugar (nunca viaja)",
+   "tween.json crossfade_rects: mostrador [420,75,525,180] — rotação vira crossfade puro",
+   "k05b (keyframe IA intermediário): ponteiro sobe em 2 estágios — arco contínuo"
+  ],
+  "resultado": "10/10 lints + Q8 (51 desenhos, média 1.34, emenda 0.0)"
+ }
+}

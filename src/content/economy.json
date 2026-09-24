@@ -1,0 +1,32 @@
+{
+  "_comment": "Parâmetros de tunagem (spec §14, §76-§80). Calibrados pelo simulador em /sim. Podem ser sobrescritos por Remote Config pós-lançamento.",
+  "clickPower": 1,
+  "viralCombo": {
+    "step": 0.1,
+    "max": 2.0,
+    "decayMs": 2500
+  },
+  "producerGrowthRate": 1.07,
+  "milestones": [
+    { "count": 10, "factor": 2 },
+    { "count": 25, "factor": 2 },
+    { "count": 50, "factor": 2 },
+    { "count": 100, "factor": 2 },
+    { "count": 250, "factor": 2 },
+    { "count": 500, "factor": 2 },
+    { "count": 1000, "factor": 2 }
+  ],
+  "buyModes": [1, 10, 25, 100, -1],
+  "offline": {
+    "capHours": 4,
+    "minEligibleSeconds": 30
+  },
+  "prestige": {
+    "threshold": "1e6",
+    "exponent": 0.5,
+    "convictBonus": 0.03
+  },
+  "autoSave": {
+    "intervalMs": 30000
+  }
+}

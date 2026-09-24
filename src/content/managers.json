@@ -1,0 +1,515 @@
+{
+  "_comment": "Coordenadores (spec §38-§42). Um por missão; custo = 5× a missão. Zé = compra-tudo (10 Convictos).",
+  "managers": [
+    {
+      "id": "MGR_01",
+      "name": "CEO Invisível",
+      "producer": "p1_01",
+      "cost": 60,
+      "icon": "🕴️",
+      "line": "Lance na bolsa via 'carteira_final_v2_REAL.docx'.",
+      "hire": "Pode me chamar de 'ninguém'.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_02",
+      "name": "Editor de Manchetes",
+      "producer": "p1_02",
+      "cost": 300,
+      "icon": "📰",
+      "line": "A manchete nasce antes do fato; o fato se atrasa.",
+      "hire": "A verdade é um rascunho.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_03",
+      "name": "Embaixador Escamoso",
+      "producer": "p1_03",
+      "cost": 3500,
+      "icon": "🦎",
+      "line": "Café com um escamoso que fala 7 línguas — nenhuma humana.",
+      "hire": "Sssaudações, mestre.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_04",
+      "name": "Assessor Fantasma",
+      "producer": "p1_04",
+      "cost": 41700,
+      "icon": "🕴️",
+      "line": "Título na placa: 'Conselheiro'. Leitura: só a nossa.",
+      "hire": "Sou só um conselheiro.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_05",
+      "name": "Cultivador de Boatos",
+      "producer": "p1_05",
+      "cost": 453400,
+      "icon": "🌱",
+      "line": "Cada boato é uma semente. Regue o grupo.",
+      "hire": "Planto de manhã, viraliza à noite.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_06",
+      "name": "DJ Hipnótico",
+      "producer": "p1_06",
+      "cost": 5200000,
+      "icon": "🎛️",
+      "line": "O hit já vem com a mensagem embutida.",
+      "hire": "O refrão convence.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_07",
+      "name": "Marechal do Lucro",
+      "producer": "p1_07",
+      "cost": 74650000,
+      "icon": "🎖️",
+      "line": "Paz é quando ninguém mais lucra com ela.",
+      "hire": "Guerra é ROI.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_08",
+      "name": "Técnico de Roteador",
+      "producer": "p1_08",
+      "cost": 895800000,
+      "icon": "🔧",
+      "line": "Sinal forte, convicção mais forte.",
+      "hire": "O sinal alcança opiniões.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_09",
+      "name": "Diretor de Elenco",
+      "producer": "p1_09",
+      "cost": 10750000000,
+      "icon": "🎭",
+      "line": "Trocamos o roteiro, não o elenco.",
+      "hire": "O figurino é a prova.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_10",
+      "name": "Engenheiro do Clima",
+      "producer": "p1_10",
+      "cost": 129000000000,
+      "icon": "🌪️",
+      "line": "Chuva no bloco A, sol no bloco B.",
+      "hire": "Chuva conforme pedido.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_11",
+      "name": "Cabo Eleitoral",
+      "producer": "p2_01",
+      "cost": 1548000000000,
+      "icon": "📣",
+      "line": "Ele votava no meme. Agora vota na gente.",
+      "hire": "Voto a voto.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_12",
+      "name": "Estatístico Comprado",
+      "producer": "p2_02",
+      "cost": 18580000000000,
+      "icon": "📊",
+      "line": "A pergunta foi feita; a resposta já veio pronta.",
+      "hire": "O gráfico sobe sozinho.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_13",
+      "name": "Líder do Bloco",
+      "producer": "p2_03",
+      "cost": 222900000000000,
+      "icon": "🧩",
+      "line": "Nem esquerda, nem direita: reels.",
+      "hire": "Posição? Depende da enquete.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_14",
+      "name": "Relator da Emenda",
+      "producer": "p2_04",
+      "cost": 2675000000000000,
+      "icon": "📜",
+      "line": "O sigilo do plano virou concurso de charadas.",
+      "hire": "O segredo é de todos.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_15",
+      "name": "Bot Influencer",
+      "producer": "p2_05",
+      "cost": 32100000000000000,
+      "icon": "🤖",
+      "line": "O adversário é bot; a derrota, viral.",
+      "hire": "Ele opina 24/7.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_16",
+      "name": "Porta-voz da Praça",
+      "producer": "p2_06",
+      "cost": 385200000000000000,
+      "icon": "📢",
+      "line": "A verdade ao alcance do ouvido alheio.",
+      "hire": "Ouvido de programa.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_17",
+      "name": "Empresário de Promessas",
+      "producer": "p2_07",
+      "cost": 4623000000000000000,
+      "icon": "🎪",
+      "line": "Entrada franca; convicção inclusa.",
+      "hire": "Show de convicções.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_18",
+      "name": "Jurista do Zap",
+      "producer": "p2_08",
+      "cost": 55450000000000000000,
+      "icon": "📱",
+      "line": "Artigo 1º: encaminhem.",
+      "hire": "Artigo é corrente.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_19",
+      "name": "Sósia Oficial",
+      "producer": "p2_09",
+      "cost": 665500000000000000000,
+      "icon": "🗃️",
+      "line": "O original governa; o sósia cumpre horário.",
+      "hire": "Autografa melhor.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_20",
+      "name": "Cetro da Democracia Relativa",
+      "producer": "p2_10",
+      "cost": 7985000000000000000000,
+      "icon": "🏛️",
+      "line": "Metade vota, a outra concorda.",
+      "hire": "Metade já entendeu.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_21",
+      "name": "Broca do Cerrado",
+      "producer": "p3_01",
+      "cost": 95850000000000000000000,
+      "icon": "⛏️",
+      "line": "Parou a 2 km. O GPS, ali do lado.",
+      "hire": "Furo primeiro, pergunto depois.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_22",
+      "name": "Negociador de E.T.",
+      "producer": "p3_02",
+      "cost": 1150000000000000000000000,
+      "icon": "📡",
+      "line": "A permuta é justa. (Ele paga em mistério.)",
+      "hire": "Sinal oculto.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_23",
+      "name": "Auditor da Curva",
+      "producer": "p3_03",
+      "cost": 13800000000000000000000000,
+      "icon": "🗺️",
+      "line": "A multa é o produto; o motorista, o mercado.",
+      "hire": "Desenho de olhos fechados.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_24",
+      "name": "Caçador de Cabra",
+      "producer": "p3_04",
+      "cost": 165700000000000000000000000,
+      "icon": "🏞️",
+      "line": "Alvo: o que suga o cabra.",
+      "hire": "Terreno com escritura emocional.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_25",
+      "name": "Mecânico da Bateria",
+      "producer": "p3_05",
+      "cost": 1988000000000000000000000000,
+      "icon": "🎟️",
+      "line": "Alcance: até a esquina.",
+      "hire": "Vista inclusa.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_26",
+      "name": "Geólogo do Túnel",
+      "producer": "p3_06",
+      "cost": 23850000000000000000000000000,
+      "icon": "🏢",
+      "line": "Prazo: 3 mil anos.",
+      "hire": "Carimbo sem país.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_27",
+      "name": "Leitor de Passos",
+      "producer": "p3_07",
+      "cost": 286200000000000000000000000000,
+      "icon": "📦",
+      "line": "Cada passo, um dado. Cada dado, uma prova.",
+      "hire": "Sedex intergaláctico.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_28",
+      "name": "Gravador de Papel",
+      "producer": "p3_08",
+      "cost": 3435000000000000000000000000000,
+      "icon": "👔",
+      "line": "O carimbo registra; a folha lembra.",
+      "hire": "População: você.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_29",
+      "name": "Guardião do Instante",
+      "producer": "p3_09",
+      "cost": 41220000000000000000000000000000,
+      "icon": "💵",
+      "line": "O dinheiro chega quando a gente quer.",
+      "hire": "Tinta que convence.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_30",
+      "name": "Imã das Cédulas",
+      "producer": "p3_10",
+      "cost": 494600000000000000000000000000000,
+      "icon": "🚪",
+      "line": "Saiu da máquina, já voltou.",
+      "hire": "Catraca espiritual.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_31",
+      "name": "Discotecário Invertido",
+      "producer": "p4_01",
+      "cost": 5935000000000000000000000000000000,
+      "icon": "⛪",
+      "line": "No replay, a música manda votar.",
+      "hire": "Dízimo que volta.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_32",
+      "name": "Desenhista de Símbolos",
+      "producer": "p4_02",
+      "cost": 71200000000000000000000000000000000,
+      "icon": "📺",
+      "line": "A cada 4 episódios, um.",
+      "hire": "Aleluia em 8K.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_33",
+      "name": "Supervisora da Linha",
+      "producer": "p4_03",
+      "cost": 854500000000000000000000000000000000,
+      "icon": "🔮",
+      "line": "O mal, em escala industrial.",
+      "hire": "Selado e carimbado.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_34",
+      "name": "Traçador da Cruz",
+      "producer": "p4_04",
+      "cost": 10260000000000000000000000000000000000,
+      "icon": "💧",
+      "line": "De cima, um avião. De dentro, fé.",
+      "hire": "Garrafa benta.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_35",
+      "name": "Diretor de Luz",
+      "producer": "p4_05",
+      "cost": 123100000000000000000000000000000000000,
+      "icon": "⏳",
+      "line": "Luz certa, ângulo certo, lágrima certa.",
+      "hire": "Novo prazo: quinta.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_36",
+      "name": "Técnico do Xarope",
+      "producer": "p4_06",
+      "cost": 1477000000000000000000000000000000000000,
+      "icon": "🎰",
+      "line": "Choro de 5 em 5.",
+      "hire": "Cartela abençoada.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_37",
+      "name": "Arqueólogo do Áudio",
+      "producer": "p4_07",
+      "cost": 17720000000000000000000000000000000000000,
+      "icon": "🖼️",
+      "line": "O mandamento está no meio da estática.",
+      "hire": "Milagre lacrado.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_38",
+      "name": "Benedizer da Torneira",
+      "producer": "p4_08",
+      "cost": 212700000000000000000000000000000000000000,
+      "icon": "🕯️",
+      "line": "Rótulo: milagrosa.",
+      "hire": "Calafrio tabelado.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_39",
+      "name": "Remarcador do Fim",
+      "producer": "p4_09",
+      "cost": 2552000000000000000000000000000000000000000,
+      "icon": "🎙️",
+      "line": "Nova data: em breve.",
+      "hire": "O mandamento estava mutado.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_40",
+      "name": "Engenheira do Céu",
+      "producer": "p4_10",
+      "cost": 30620000000000000000000000000000000000000000,
+      "icon": "☁️",
+      "line": "Nuvens de verdade, céu de LED.",
+      "hire": "Abre às nuvens.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_41",
+      "name": "Engenheiro do Feixe",
+      "producer": "p5_01",
+      "cost": 36744999999999997687143674118129319936000,
+      "icon": "📡",
+      "line": "O céu faz o clima; o clima faz o céu.",
+      "hire": "Promovido. Mais do mesmo.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_42",
+      "name": "Químico da Torneira",
+      "producer": "p5_02",
+      "cost": 44093999999999997224572408941755183923200,
+      "icon": "🚰",
+      "line": "Fórmula secretada, gosto de cloro.",
+      "hire": "Promovido. Mais do mesmo.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_43",
+      "name": "Cronometrista do Escuro",
+      "producer": "p5_03",
+      "cost": 52912799999999996669486890730106220707840,
+      "icon": "🌑",
+      "line": "Desligo o país em 40 ms.",
+      "hire": "Promovido. Mais do mesmo.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_44",
+      "name": "Operadora da Máquina",
+      "producer": "p5_04",
+      "cost": 63495359999999998421235908105385814261760,
+      "icon": "🤖",
+      "line": "Ela decide. Eu confirmo.",
+      "hire": "Promovido. Mais do mesmo.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_45",
+      "name": "Curador de Conversas",
+      "producer": "p5_05",
+      "cost": 76194431999999995687631450497204627701760,
+      "icon": "🎧",
+      "line": "O anúncio certo, na hora certa.",
+      "hire": "Promovido. Mais do mesmo.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_46",
+      "name": "Técnico do Palanque",
+      "producer": "p5_06",
+      "cost": 91433318399999992407306101367387203829760,
+      "icon": "🕴️",
+      "line": "Bateria: 99,9%. Carisma: importado.",
+      "hire": "Promovido. Mais do mesmo.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_47",
+      "name": "Piloto da Frota",
+      "producer": "p5_07",
+      "cost": 109719982079999976381657486265314548121600,
+      "icon": "🕊️",
+      "line": "Nove em linha? Coincidência.",
+      "hire": "Promovido. Mais do mesmo.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_48",
+      "name": "Antenista da Malha",
+      "producer": "p5_08",
+      "cost": 131663978495999971657988983518377457745920,
+      "icon": "📶",
+      "line": "Zumbido? É a torrinha trabalhando.",
+      "hire": "Promovido. Mais do mesmo.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_49",
+      "name": "Codenador de Pratos",
+      "producer": "p5_09",
+      "cost": 157996774195199961153883501763536250470400,
+      "icon": "🍔",
+      "line": "Escaneie, coma, pense.",
+      "hire": "Promovido. Mais do mesmo.",
+      "upgrade": "Promovido. Mais do mesmo."
+    },
+    {
+      "id": "MGR_50",
+      "name": "Implantador Chefe",
+      "producer": "p5_10",
+      "cost": 189596129034239953384660202116243500564480,
+      "icon": "💉",
+      "line": "Um pontinho na nuca e a paz.",
+      "hire": "Promovido. Mais do mesmo.",
+      "upgrade": "Promovido. Mais do mesmo."
+    }
+  ],
+  "buyAllManager": {
+    "id": "MGR_ALU",
+    "name": "Zé do Chapéu de Alumínio",
+    "cost": 10,
+    "currency": "convictos",
+    "icon": "🥫",
+    "line": "Eu já sabia que você ia clicar.",
+    "hire": "Já sabia.",
+    "upgrade": "Continuo sabendo."
+  }
+}
