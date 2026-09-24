@@ -1,0 +1,30 @@
+{
+ "Q1_loop_closure": {
+  "ok": true,
+  "meanabsdiff": 0.0
+ },
+ "Q3_fundo_cobertura": {
+  "ok": true,
+  "cobertura": 9.67
+ },
+ "Q2_fundo_intacto": {
+  "ok": true,
+  "max_diff_fora_uniao": 2
+ },
+ "Q4_flicker": {
+  "ok": true,
+  "std": 0.06
+ },
+ "Q5_step_delta": {
+  "ok": true,
+  "max": 0.26,
+  "mean": 0.15
+ },
+ "Q6_entrega": {
+  "ok": true,
+  "n_frames": 30,
+  "step_ms": 200,
+  "bytes": 304404
+ },
+ "all_ok": true
+}

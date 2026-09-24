@@ -4,14 +4,16 @@ import fs from 'node:fs';
 import { loadConfig } from '../src/core/content.node.js';
 import { GameState } from '../src/core/GameState.js';
 
-// Spec v7 (docs/ANIM_V7_RIG.md): piloto p5_02 animado pelo RIG ESTRUTURAL
-// (30 quadros @ 5 fps, 6 s, loop perfeito; fundo = poster imutável).
-// As demais 49 missões permanecem só com o frame original (poster.webp).
+// Spec v7 (docs/ANIM_V7_RIG.md): missões animadas pelo RIG ESTRUTURAL
+// (30 quadros @ 5 fps, 6 s, loop perfeito; fundo = poster imutável), uma a uma
+// com portão do dono: piloto p5_02 e p1_01. As demais permanecem só com o frame
+// original (poster.webp).
 
 const ALL_IDS = [];
 for (let m = 1; m <= 5; m++) for (let i = 1; i <= 10; i++) ALL_IDS.push(`p${m}_${String(i).padStart(2, '0')}`);
+const ANIMATED = new Set(['p5_02', 'p1_01']);
 
-test('spec v7: cobre as 50 missões; só o piloto p5_02 animado', () => {
+test('spec v7: cobre as 50 missões; animadas só as aprovadas no rig', () => {
   const cfg = loadConfig({});
   assert.equal(cfg.animations.version, 7);
   const s = new GameState(cfg);
@@ -19,8 +21,8 @@ test('spec v7: cobre as 50 missões; só o piloto p5_02 animado', () => {
     const sc = s.animationFor(id);
     assert.ok(sc, `${id} deve ter cena`);
     assert.match(sc.accent, /^#[0-9A-Fa-f]{6}$/, 'accent em hex');
-    if (id === 'p5_02') {
-      assert.equal(sc.animated, true, 'p5_02 é o piloto animado');
+    if (ANIMATED.has(id)) {
+      assert.equal(sc.animated, true, `${id} é animada no rig v7`);
       assert.equal(sc.fps, 5);
       assert.equal(sc.frames, 30);
       assert.equal(sc.duration_ms, 6000);
@@ -43,19 +45,21 @@ test('spec v7: as 50 missões têm o frame original (poster.webp RIFF válido)',
   }
 });
 
-test('spec v7: loop do piloto é WebP animado com 30 quadros @ 200 ms (RIFF/ANMF)', () => {
-  const loop = new URL('../src/assets/anim/p5_02/v7/loop.webp', import.meta.url);
-  const data = fs.readFileSync(loop);
-  assert.equal(data.subarray(0, 4).toString('ascii'), 'RIFF');
-  let i = 12, anmf = 0, durs = [];
-  while (i + 8 <= data.length) {
-    const fourcc = data.subarray(i, i + 4).toString('ascii');
-    const size = data.readUInt32LE(i + 4);
-    if (fourcc === 'ANMF') { anmf++; durs.push(data.readUIntLE(i + 8 + 12, 3)); }
-    i += 8 + size + (size & 1);
+test('spec v7: loops animados são WebP com 30 quadros @ 200 ms (RIFF/ANMF)', () => {
+  for (const id of ANIMATED) {
+    const loop = new URL(`../src/assets/anim/${id}/v7/loop.webp`, import.meta.url);
+    const data = fs.readFileSync(loop);
+    assert.equal(data.subarray(0, 4).toString('ascii'), 'RIFF');
+    let i = 12, anmf = 0, durs = [];
+    while (i + 8 <= data.length) {
+      const fourcc = data.subarray(i, i + 4).toString('ascii');
+      const size = data.readUInt32LE(i + 4);
+      if (fourcc === 'ANMF') { anmf++; durs.push(data.readUIntLE(i + 8 + 12, 3)); }
+      i += 8 + size + (size & 1);
+    }
+    assert.equal(anmf, 30, `${id}: 30 quadros`);
+    assert.ok(durs.every((d) => d === 200), `${id}: 200 ms por quadro (5 fps)`);
   }
-  assert.equal(anmf, 30, '30 quadros');
-  assert.ok(durs.every((d) => d === 200), '200 ms por quadro (5 fps)');
 });
 
 test('spec v7: nenhum resquício do método v6 (re-desenho por IA) sobrevive', () => {

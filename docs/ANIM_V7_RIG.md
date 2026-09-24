@@ -102,3 +102,15 @@ k14–17 clareando a linha do gráfico; vapor do café procedural (o original fo
 inpaintado pra fora); brilhos de digitação no teclado; pulso da luminária.
 QA 6/6, closure 0.0, cobertura 28.1%. Spec ainda intacta: promoção só após o
 dono ver o loop.gif.
+
+### 6.2 p1_02 “PLANTAR FAKE NEWS” (pronta, aguardando portão do dono)
+
+100% overlays, personagem nunca cortado. Beats: neon do jornal “A VERDADE
+ONTEM” pulsa (2 ciclos) com fagulha correndo o perímetro (garante delta por
+quadro p/ o encoder não fundir frames); luminária em antifase; 3 folhas de
+notícia voam do jornal e são plantadas nas 3 prateleiras da banca (anel de
+pouso + flash da pilha + folha absorvida); brilhos na manchete. Lições de
+encoder incorporadas: `frame(k%N)` p/ closure bit-a-bit e elemento móvel
+contínuo (sem ele o libwebp funde quadros vizinhos idênticos no lossy e o
+loop vira 28 ANMF). QA 6/6, closure 0.0, cobertura 9.7%. Spec intacta até o
+dono ver o loop.gif.

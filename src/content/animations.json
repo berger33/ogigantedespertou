@@ -1,5 +1,5 @@
 {
- "_comment": "Spec v7 — piloto p5_02 animado pelo RIG ESTRUTURAL (docs/ANIM_V7_RIG.md): 30 quadros @ 5 fps, 6 s, loop perfeito; fundo = poster imutável. Demais missões permanecem só com o frame original (poster.webp).",
+ "_comment": "Spec v7 — missões animadas uma a uma pelo RIG ESTRUTURAL (docs/ANIM_V7_RIG.md) com portão do dono: p5_02 (piloto) e p1_01. 30 quadros @ 5 fps, 6 s, loop perfeito; fundo = poster imutável. Demais missões permanecem só com o frame original (poster.webp).",
  "version": 7,
  "stage": {
   "width": 320,
@@ -10,7 +10,13 @@
    "label": "COMPRAR COM CRIPTO",
    "accent": "#B57BFF",
    "poster": "assets/anim/p1_01/poster.webp",
-   "animated": false
+   "animated": true,
+   "src": "assets/anim/p1_01/v7/loop.webp",
+   "method": "rig-v7",
+   "fps": 5,
+   "frames": 30,
+   "duration_ms": 6000,
+   "loop_perfect": true
   },
   "p1_02": {
    "label": "PLANTAR FAKE NEWS",

@@ -1,0 +1,16 @@
+{
+ "version": "7",
+ "method": "rig-estrutural",
+ "fps": 5,
+ "duration_ms": 6000,
+ "frames": 30,
+ "step_ms": 200,
+ "size": [
+  640,
+  360
+ ],
+ "loop": "perfect (frame30 == frame0, meanabsdiff=0.0)",
+ "mission": "p1_02",
+ "label": "PLANTAR FAKE NEWS",
+ "beats": "neon do jornal pulsa (2 ciclos); luminária em antifase; 3 folhas plantadas na banca c/ pouso+flash; brilhos na manchete"
+}
