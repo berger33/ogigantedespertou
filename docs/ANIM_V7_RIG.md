@@ -18,8 +18,10 @@ cima. Não há nenhuma imagem re-desenhada por quadro — logo, não há deriva 
 | Camada | Origem | Movimento |
 |---|---|---|
 | Fundo (base) | poster + 2 furos inpaintados por interpolação horizontal das faixas vizinhas (procedural) | **nenhum — imutável nos 30 quadros** |
-| Gota principal | recortada dos **próprios pixels do poster** (flood-fill bloqueado no outline — a água do tanque tem a mesma cor, mas fica fora; a silhueta paramétrica e o outline limitam a máscara) | forma no bico → desce → **afunda e se mistura** (squash + fade + anéis; sem coroa) |
-| Gotinha da torneira | recortada do poster (sprite próprio, ciano = água do tanque) | 1 queda por ciclo + glint no copinho |
+| Pipeta + mãos | sprite recortado do poster (polígono featherizado); furo inpaintado por trecho/linha + 2ª passada no halo de glow | **inclina 0→2,5° e volta** — o homem despeja; a gota cai no pico do tilt |
+| Gota principal | recortada dos **próprios pixels do poster**; flood com barreira no outline **nítido do poster original** (`v7/outline_ref.png`, gravado pelo recolor) + silhueta paramétrica — a água do tanque (mesma cor) e a beirada NUNCA entram no sprite; outline do sprite = anel da própria máscara com cor constante | cai no pico do tilt → **afunda e se mistura** (squash + fade + anéis; sem coroa) |
+| Gotinha da torneira | recortada do poster (sprite próprio, ciano = água do tanque) | forma → cai → **se incorpora à água do copinho** (squash + fade + anéis + glint) |
+| Relógio/manômetro | **NÃO mexe** (pedido do dono) — fica o do poster | — |
 | Anéis/brilhos/sparkles/glint | vetores procedurais (gaussianas, estrelas) | funções periódicas de k |
 | Ponteiro do manômetro | tampa o original e redesenha (vetor) | balança + coice no splash, periódico |
 | Gotinha da torneira | mesmo sprite da gota do poster em escala .38 | 1 queda por ciclo + glint no copinho |

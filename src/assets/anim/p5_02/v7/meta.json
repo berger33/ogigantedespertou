@@ -11,14 +11,14 @@
   360
  ],
  "loop": "perfect (frame30 == frame0, meanabsdiff=0.0000)",
- "anchor": "poster.webp (fundo imutável, veneno verde)",
+ "anchor": "poster.webp (veneno verde; relógio intocado)",
  "ai_assets": [],
- "drop_sprite": "recortada dos pixels do poster (máscara colorida limitada à silhueta — sem beirada do tanque)",
  "beats": [
-  "k00–02 · gota de veneno no ponto do poster, cai no líquido",
-  "k03–04 · gota afunda e se mistura (squash + fade) + anéis",
-  "k05–19 · brilho da superfície reage; ponteiro coiceia e volta",
-  "k20–29 · gota se forma no bico da pipeta e desce até o poster",
-  "torneira: gotinha de água cai no copinho 1× por ciclo + glint"
+  "k00–04 · homem inclina a pipeta (0→4°)",
+  "k05–08 · no pico do tilt a gota de veneno cai no tanque",
+  "k09–10 · gota afunda e se mistura (squash+fade) + anéis",
+  "k10–15 · pipeta volta à posição original (loop fecha)",
+  "k20–29 · torneira: gotinha forma; k28–02 cai no copinho;",
+  "k03–04 · gotinha SE INCORPORA à água do copo (squash+fade+anéis)"
  ]
 }
