@@ -1,0 +1,22 @@
+{
+ "version": "7",
+ "method": "rig-estrutural",
+ "fps": 5,
+ "duration_ms": 6000,
+ "frames": 30,
+ "step_ms": 200,
+ "size": [
+  640,
+  360
+ ],
+ "loop": "perfect (frame30 == frame0, meanabsdiff=0.0)",
+ "id": "p1_01",
+ "label": "COMPRAR COM CRIPTO",
+ "anchor": "poster.webp (personagem intocado)",
+ "beats": [
+  "k00–09 · digita: flicker da tela, sparkles no teclado, ticker rolando",
+  "k10–14 · ENTER: moeda de cripto voa do laptop até o gráfico",
+  "k14–17 · pump flash + anel no impacto; linha brilha",
+  "k18–29 · glow assenta; vapor do café sobe contínuo; lâmpada pulsa"
+ ]
+}
