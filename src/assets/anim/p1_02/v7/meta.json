@@ -12,5 +12,6 @@
  "loop": "perfect (frame30 == frame0, meanabsdiff=0.0)",
  "mission": "p1_02",
  "label": "PLANTAR FAKE NEWS",
- "beats": "neon do jornal pulsa (2 ciclos); luminária em antifase; 3 folhas plantadas na banca c/ pouso+flash; brilhos na manchete"
+ "arte": "gerada no estilo do jogo (estufa de fake news)",
+ "beats": "volante 360°/loop; folha imprime, destaca e voa pra pilha; planta balança; gotas do regador; ondas da antena; lâmpadas alternadas; neon pulsa"
 }

@@ -82,6 +82,19 @@ recortada limpa, recolored e colada de volta sobre o furo inpaintado — o halo
 vira overlay procedural no rig (nunca baked, para não carregar pixels da
 beirada). Idempotente.
 
+### 5.2 Arte nova gerada (exceção a pedido do dono, p1_02)
+
+O banimento é a IA **re-desenhar quadros/plates** — a deriva de consistência.
+Quando o dono pediu “faça uma imagem criativa para a missão”, gerou-se **um
+único poster novo** no estilo do jogo (referenciando o poster original) e a
+animação continua 100% procedural/recortada por cima dele. Regras que fizeram
+funcionar: (a) elementos móveis desenhados separáveis (volante, folha, planta);
+(b) recorte+rotação em canvas cheio com pivô fixo (`Image.rotate(center=…)`),
+nunca recentralizar sprite; (c) vãos reconstruídos sem IA: vão do volante por
+amostras por linha + sombra interna; parede atrás da planta por **plano
+ajustado** (mínimos quadrados c+ax+by nas amostras de borda) — lerp simples
+mancha; (d) máscara de cor p/ o sprite da planta, fechada morfologicamente.
+
 ## 6. Rollout das demais missões
 
 Mesmo rig, missão a missão: medir geometria no poster (bicos, superfícies,
@@ -103,14 +116,17 @@ inpaintado pra fora); brilhos de digitação no teclado; pulso da luminária.
 QA 6/6, closure 0.0, cobertura 28.1%. Spec ainda intacta: promoção só após o
 dono ver o loop.gif.
 
-### 6.2 p1_02 “PLANTAR FAKE NEWS” (pronta, aguardando portão do dono)
+### 6.2 p1_02 “PLANTAR FAKE NEWS” (arte 2, aguardando portão do dono)
 
-100% overlays, personagem nunca cortado. Beats: neon do jornal “A VERDADE
-ONTEM” pulsa (2 ciclos) com fagulha correndo o perímetro (garante delta por
-quadro p/ o encoder não fundir frames); luminária em antifase; 3 folhas de
-notícia voam do jornal e são plantadas nas 3 prateleiras da banca (anel de
-pouso + flash da pilha + folha absorvida); brilhos na manchete. Lições de
-encoder incorporadas: `frame(k%N)` p/ closure bit-a-bit e elemento móvel
-contínuo (sem ele o libwebp funde quadros vizinhos idênticos no lossy e o
-loop vira 28 ANMF). QA 6/6, closure 0.0, cobertura 9.7%. Spec intacta até o
-dono ver o loop.gif.
+A arte original era estática demais; o dono pediu imagem criativa no estilo
+do jogo. Poster novo (estufa de fake news): rotativa com volante de 4 raios,
+planta-jornal “A VERDADE ONTEM” no vaso, cientista regando, pilha de jornais,
+antena e lâmpadas. Beats interpolados: volante gira 360°/loop (12°/quadro,
+raios recortados sobre vão reconstruído); folha imprime na slot (desliza,
+destaca, voa pra pilha, nova nasce — loop fecha idêntico); planta balança ±2°
+com pivô no solo; 2 gotas do regador em antifase; ondas de rádio da antena;
+lâmpadas vermelho/verde alternadas; neon da planta pulsa; brilhos na
+manchete. Personagem nunca cortado. Lições de encoder: `frame(k%N)` p/
+closure bit-a-bit e delta visível por quadro (sem ele o libwebp funde
+vizinhos no lossy → 28 ANMF). QA 6/6, closure 0.0, cobertura 25.6%. Spec
+intacta até o dono ver o loop.gif.

@@ -5,7 +5,7 @@
  },
  "Q3_fundo_cobertura": {
   "ok": true,
-  "cobertura": 9.67
+  "cobertura": 25.62
  },
  "Q2_fundo_intacto": {
   "ok": true,
@@ -13,18 +13,18 @@
  },
  "Q4_flicker": {
   "ok": true,
-  "std": 0.06
+  "std": 0.28
  },
  "Q5_step_delta": {
   "ok": true,
-  "max": 0.26,
-  "mean": 0.15
+  "max": 4.89,
+  "mean": 3.95
  },
  "Q6_entrega": {
   "ok": true,
   "n_frames": 30,
   "step_ms": 200,
-  "bytes": 304404
+  "bytes": 578946
  },
  "all_ok": true
 }
