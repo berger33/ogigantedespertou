@@ -22,7 +22,13 @@
    "label": "PLANTAR FAKE NEWS",
    "accent": "#39FF9C",
    "poster": "assets/anim/p1_02/poster.webp",
-   "animated": false
+   "animated": true,
+   "src": "assets/anim/p1_02/v7/loop.webp",
+   "method": "rig-v7",
+   "fps": 5,
+   "frames": 30,
+   "duration_ms": 6000,
+   "loop_perfect": true
   },
   "p1_03": {
    "label": "AMIGOS REPTILIANOS",

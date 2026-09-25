@@ -128,5 +128,16 @@ com pivô no solo; 2 gotas do regador em antifase; ondas de rádio da antena;
 lâmpadas vermelho/verde alternadas; neon da planta pulsa; brilhos na
 manchete. Personagem nunca cortado. Lições de encoder: `frame(k%N)` p/
 closure bit-a-bit e delta visível por quadro (sem ele o libwebp funde
-vizinhos no lossy → 28 ANMF). QA 6/6, closure 0.0, cobertura 25.6%. Spec
-intacta até o dono ver o loop.gif.
+vizinhos no lossy → 28 ANMF). QA 6/6, closure 0.0, cobertura 25.6%. Aprovado
+e promovido na spec (set/2026).
+
+### 6.3 p1_03 “AMIGOS REPTILIANOS” (pronta, aguardando portão do dono)
+
+Arte original já era rica → rig 100% overlays, **nada inpaintado** (fundo
+intocado). Beats: puffs de vapor sobem das 3 canecas (sobre o vapor baked);
+olhos do papel de parede piscam escalonados (pálpebra = cor média da parede
+nos dois lados do olho + cílio); winks neon pulsam em sequência; luzes da
+cidade tremeluzem na janela; luminária pulsa (2 ciclos); brilho+anel de
+“tim-tim” no choque das canecas (k10); varredura de reflexo nas lentes dos
+óculos do reptiliano (k16–20, clipped às lentes). QA 6/6, closure 0.0,
+cobertura 4.7%. Spec intacta até o dono ver o loop.gif.

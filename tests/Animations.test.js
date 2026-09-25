@@ -11,7 +11,7 @@ import { GameState } from '../src/core/GameState.js';
 
 const ALL_IDS = [];
 for (let m = 1; m <= 5; m++) for (let i = 1; i <= 10; i++) ALL_IDS.push(`p${m}_${String(i).padStart(2, '0')}`);
-const ANIMATED = new Set(['p5_02', 'p1_01']);
+const ANIMATED = new Set(['p5_02', 'p1_01', 'p1_02']);
 
 test('spec v7: cobre as 50 missões; animadas só as aprovadas no rig', () => {
   const cfg = loadConfig({});
